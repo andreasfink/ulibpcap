@@ -3,7 +3,7 @@
 //  dump-sccp
 //
 //  Created by Andreas Fink on 19.07.16.
-//  Copyright © 2016 Andreas Fink. All rights reserved.
+//  Copyright © 2017 Andreas Fink (andreas@fink.org). All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

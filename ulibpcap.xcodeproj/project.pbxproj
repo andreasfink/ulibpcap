@@ -22,6 +22,15 @@
 		A65781D81CF54D3C00211137 /* libpcap.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781D71CF54D3C00211137 /* libpcap.dylib */; };
 		A65781DC1CF54D8E00211137 /* UMPCAPFile.h in Headers */ = {isa = PBXBuildFile; fileRef = A65781DA1CF54D8E00211137 /* UMPCAPFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A65781DD1CF54D8E00211137 /* UMPCAPFile.m in Sources */ = {isa = PBXBuildFile; fileRef = A65781DB1CF54D8E00211137 /* UMPCAPFile.m */; };
+		A688023A20443995007192F2 /* UMPCAPPseudoConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = A688023820443995007192F2 /* UMPCAPPseudoConnection.h */; };
+		A688023B20443995007192F2 /* UMPCAPPseudoConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A688023920443995007192F2 /* UMPCAPPseudoConnection.m */; };
+		A688024320445EBB007192F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A688024220445EBB007192F2 /* main.m */; };
+		A68802472044606A007192F2 /* ulib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A60E406F1D3E9CC900211137 /* ulib.framework */; };
+		A688024B204461B5007192F2 /* UMPCAPPseudoConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A688023920443995007192F2 /* UMPCAPPseudoConnection.m */; };
+		A688024C204461B8007192F2 /* UMPCAPFile.m in Sources */ = {isa = PBXBuildFile; fileRef = A65781DB1CF54D8E00211137 /* UMPCAPFile.m */; };
+		A688024D204461BD007192F2 /* UMPCAPPseudoConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A688023920443995007192F2 /* UMPCAPPseudoConnection.m */; };
+		A688024E204461BE007192F2 /* UMPCAPPseudoConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A688023920443995007192F2 /* UMPCAPPseudoConnection.m */; };
+		A688024F204461DD007192F2 /* libpcap.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781D71CF54D3C00211137 /* libpcap.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +62,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		A688023E20445EBB007192F2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +89,10 @@
 		A65781D71CF54D3C00211137 /* libpcap.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpcap.dylib; path = /usr/lib/libpcap.dylib; sourceTree = "<absolute>"; };
 		A65781DA1CF54D8E00211137 /* UMPCAPFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMPCAPFile.h; sourceTree = "<group>"; };
 		A65781DB1CF54D8E00211137 /* UMPCAPFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMPCAPFile.m; sourceTree = "<group>"; };
+		A688023820443995007192F2 /* UMPCAPPseudoConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMPCAPPseudoConnection.h; sourceTree = "<group>"; };
+		A688023920443995007192F2 /* UMPCAPPseudoConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UMPCAPPseudoConnection.m; sourceTree = "<group>"; };
+		A688024020445EBB007192F2 /* pcap-test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "pcap-test"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A688024220445EBB007192F2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +131,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A688023D20445EBB007192F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A68802472044606A007192F2 /* ulib.framework in Frameworks */,
+				A688024F204461DD007192F2 /* libpcap.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -136,6 +167,7 @@
 				A65781D91CF54D4300211137 /* Libraries */,
 				A60E40671D3E99D000211137 /* dump-mtp3 */,
 				A60E40761D3E9D0C00211137 /* dump-sccp */,
+				A688024120445EBB007192F2 /* pcap-test */,
 				A65781D61CF54CFE00211137 /* Frameworks */,
 				A65781C81CF54A3600211137 /* ulibpcapTests */,
 				A65781BB1CF54A3600211137 /* Products */,
@@ -149,6 +181,7 @@
 				A65781C41CF54A3600211137 /* ulibpcapTests.xctest */,
 				A60E40661D3E99CF00211137 /* dump-mtp3 */,
 				A60E40751D3E9D0C00211137 /* dump-sccp */,
+				A688024020445EBB007192F2 /* pcap-test */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -159,6 +192,8 @@
 				A65781BD1CF54A3600211137 /* ulibpcap.h */,
 				A65781DA1CF54D8E00211137 /* UMPCAPFile.h */,
 				A65781DB1CF54D8E00211137 /* UMPCAPFile.m */,
+				A688023820443995007192F2 /* UMPCAPPseudoConnection.h */,
+				A688023920443995007192F2 /* UMPCAPPseudoConnection.m */,
 				A65781BF1CF54A3600211137 /* Info.plist */,
 			);
 			path = ulibpcap;
@@ -191,6 +226,14 @@
 			path = ulibpcap;
 			sourceTree = "<group>";
 		};
+		A688024120445EBB007192F2 /* pcap-test */ = {
+			isa = PBXGroup;
+			children = (
+				A688024220445EBB007192F2 /* main.m */,
+			);
+			path = "pcap-test";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -199,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A65781DC1CF54D8E00211137 /* UMPCAPFile.h in Headers */,
+				A688023A20443995007192F2 /* UMPCAPPseudoConnection.h in Headers */,
 				A65781BE1CF54A3600211137 /* ulibpcap.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,6 +320,23 @@
 			productReference = A65781C41CF54A3600211137 /* ulibpcapTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		A688023F20445EBB007192F2 /* pcap-test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A688024620445EBB007192F2 /* Build configuration list for PBXNativeTarget "pcap-test" */;
+			buildPhases = (
+				A688023C20445EBB007192F2 /* Sources */,
+				A688023D20445EBB007192F2 /* Frameworks */,
+				A688023E20445EBB007192F2 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "pcap-test";
+			productName = "pcap-test";
+			productReference = A688024020445EBB007192F2 /* pcap-test */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -298,6 +359,11 @@
 					A65781C31CF54A3600211137 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
+					A688023F20445EBB007192F2 = {
+						CreatedOnToolsVersion = 9.2;
+						DevelopmentTeam = 2GSNWPNR77;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = A65781B41CF54A3600211137 /* Build configuration list for PBXProject "ulibpcap" */;
@@ -316,6 +382,7 @@
 				A65781C31CF54A3600211137 /* ulibpcapTests */,
 				A60E40651D3E99CF00211137 /* dump-mtp3 */,
 				A60E40741D3E9D0C00211137 /* dump-sccp */,
+				A688023F20445EBB007192F2 /* pcap-test */,
 			);
 		};
 /* End PBXProject section */
@@ -344,6 +411,7 @@
 			files = (
 				A60E40691D3E99D000211137 /* main.m in Sources */,
 				A60E406D1D3E9A4600211137 /* UMPCAPFile.m in Sources */,
+				A688024D204461BD007192F2 /* UMPCAPPseudoConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +421,7 @@
 			files = (
 				A60E40781D3E9D0C00211137 /* main.m in Sources */,
 				A60E407E1D3E9D6700211137 /* UMPCAPFile.m in Sources */,
+				A688024E204461BE007192F2 /* UMPCAPPseudoConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,6 +430,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A65781DD1CF54D8E00211137 /* UMPCAPFile.m in Sources */,
+				A688023B20443995007192F2 /* UMPCAPPseudoConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +439,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				A65781CA1CF54A3600211137 /* ulibpcapTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A688023C20445EBB007192F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A688024C204461B8007192F2 /* UMPCAPFile.m in Sources */,
+				A688024320445EBB007192F2 /* main.m in Sources */,
+				A688024B204461B5007192F2 /* UMPCAPPseudoConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,7 +561,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -530,7 +610,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -616,6 +696,48 @@
 			};
 			name = Release;
 		};
+		A688024420445EBB007192F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A688024520445EBB007192F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -660,6 +782,15 @@
 			buildConfigurations = (
 				A65781D21CF54A3600211137 /* Debug */,
 				A65781D31CF54A3600211137 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A688024620445EBB007192F2 /* Build configuration list for PBXNativeTarget "pcap-test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A688024420445EBB007192F2 /* Debug */,
+				A688024520445EBB007192F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

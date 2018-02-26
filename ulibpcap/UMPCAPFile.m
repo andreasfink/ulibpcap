@@ -7,6 +7,7 @@
 //
 
 #import "UMPCAPFile.h"
+#import "UMPCAPPseudoConnection.h"
 
 #include <pcap/pcap.h>
 
@@ -43,14 +44,29 @@
 
 -(BOOL) openForSccp
 {
+    _mode = UMPCAP_Mode_SCCP;
     return [self openForDLT:DLT_SCCP];
 }
 
 -(BOOL) openForMtp3
 {
+    _mode = UMPCAP_Mode_MTP3;
     return [self openForDLT:DLT_MTP3];
 }
 
+-(BOOL) openForPseudoConnection
+{
+ 
+    _mode = UMPCAP_Mode_PseudoConnection;
+    return [self openForDLT:DLT_EN10MB];
+}
+
+-(BOOL) openForEthernet
+{
+    
+    _mode = UMPCAP_Mode_Ethernet;
+    return [self openForDLT:DLT_EN10MB];
+}
 
 - (void) close
 {
@@ -75,6 +91,46 @@
     struct   pcap_pkthdr pcap_hdr;
     struct	timezone tzp;
     gettimeofday(&pcap_hdr.ts, &tzp);
+    pcap_hdr.caplen = (bpf_u_int32)[pdu length];
+    pcap_hdr.len = pcap_hdr.caplen;
+    pcap_dump((u_char *)dumper, &pcap_hdr, [pdu bytes]);
+}
+
+- (void)writePdu:(NSData *)pdu withPseudoHeader:(UMPCAPPseudoConnection *)con inbound:(BOOL)inbound
+{
+    if(dumper==NULL)
+    {
+        NSLog(@"trying to write to closed UMPCAPFile");
+        return;
+    }
+    struct   pcap_pkthdr pcap_hdr;
+    struct    timezone tzp;
+    gettimeofday(&pcap_hdr.ts, &tzp);
+    
+    switch(_mode)
+    {
+        case UMPCAP_Mode_PseudoConnection:
+        {
+            switch (con.protocol)
+            {
+                case UMPCAPPseudoConnection_ip_protocol_tcp:
+                    pdu = [con tcpPacket:pdu inbound:inbound];
+                    break;
+                case UMPCAPPseudoConnection_ip_protocol_udp:
+                    pdu = [con udpPacket:pdu inbound:inbound];
+                    break;
+                default:
+                    pdu = [con ipv4Packet:pdu inbound:inbound];
+                    break;
+            }
+            break;
+        }
+        case UMPCAP_Mode_Ethernet:
+            pdu = [con ethernetPacket:pdu inbound:inbound];
+            break;
+        default:
+            break;
+    }
     pcap_hdr.caplen = (bpf_u_int32)[pdu length];
     pcap_hdr.len = pcap_hdr.caplen;
     pcap_dump((u_char *)dumper, &pcap_hdr, [pdu bytes]);

@@ -10,3 +10,5 @@
 #import <pcap/pcap.h>
 
 #import "UMPCAPFile.h"
+#import "UMPCAPPseudoConnection.h"
+

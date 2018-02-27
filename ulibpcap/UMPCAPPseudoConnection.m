@@ -19,8 +19,8 @@ static uint16_t  ip_header_checksum(const void *dataptr, int len);
     self = [super init];
     if(self)
     {
-        uint8_t srcAddr[] = { 0xFE,0x00,0x00,0x00,0x00,0x00 };
-        uint8_t dstAddr[] = { 0xFE,0x00,0x00,0x00,0x00,0xFF };
+        uint8_t srcAddr[] = { 0x70,0xB3,0xD5,0x23,0xB0,0x00 };
+        uint8_t dstAddr[] = { 0x70,0xB3,0xD5,0x23,0xB0,0x01 };
         uint8_t etherType[] = { 0x08, 0x00 };
         _localMacAddress = [NSData dataWithBytes:srcAddr length:sizeof(srcAddr)];
         _remoteMacAddress = [NSData dataWithBytes:dstAddr length:sizeof(dstAddr)];

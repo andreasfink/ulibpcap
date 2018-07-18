@@ -16,16 +16,21 @@ static uint16_t  ip_header_checksum(const void *dataptr, int len);
 
 -(UMPCAPPseudoConnection *)init
 {
+    return [self initForLinkNumber:0];
+}
+
+-(UMPCAPPseudoConnection *)initForLinkNumber:(int)link
+{
     self = [super init];
     if(self)
     {
         uint8_t srcAddr[] = { 0x70,0xB3,0xD5,0x23,0xB0,0x00 };
-        uint8_t dstAddr[] = { 0x70,0xB3,0xD5,0x23,0xB0,0x01 };
+        uint8_t x = link % 254 + 1;
+        uint8_t dstAddr[] = { 0x70,0xB3,0xD5,0x23,0xB0,x };
         uint8_t etherType[] = { 0x08, 0x00 };
         _localMacAddress = [NSData dataWithBytes:srcAddr length:sizeof(srcAddr)];
         _remoteMacAddress = [NSData dataWithBytes:dstAddr length:sizeof(dstAddr)];
         _etherType = [NSData dataWithBytes:etherType length:sizeof(etherType)];
-        
         _localIP = @"127.0.0.1";
         _remoteIP = @"127.0.0.2";
         _localPort = 80;
@@ -34,10 +39,34 @@ static uint16_t  ip_header_checksum(const void *dataptr, int len);
         _sequenceCounter = 0;
         _tcpSeqNumber = 100;
         _tcpAckNumber = 99;
+        _linkNumber = link;
     }
     return self;
 }
 
+- (NSData *)mtp2PacketWithPseudoHeader:(NSData *)payload inbound:(BOOL)inbound
+{
+    return [UMPCAPPseudoConnection mtp2PacketWithPseudoHeader:payload
+                                                      inbound:inbound
+                                                         link:_linkNumber
+                                                      annex_a:UMPCAP_MTP2_ANNEX_A_USED_UNKNOWN];
+}
+
++ (NSData *)mtp2PacketWithPseudoHeader:(NSData *)payload
+                               inbound:(BOOL)inbound
+                                  link:(int)link
+                               annex_a:(UMPCAP_MTP2_AnnexA)annex_a
+{
+    uint8_t header[4];
+    header[0] = inbound ? 0 : 1;
+    header[1] = annex_a;
+    header[2] = link & 0xFF;
+    header[3] = (link & 0xFF00)>> 8;
+
+    NSMutableData *data = [NSMutableData dataWithBytes:&header length:sizeof(header)];
+    [data appendData:payload];
+    return data;
+}
 
 - (NSData *)ethernetPacket:(NSData *)payload inbound:(BOOL)inbound
 {
@@ -76,7 +105,6 @@ static uint16_t  ip_header_checksum(const void *dataptr, int len);
 */
 - (NSData *)ipv4Packet:(NSData *)ipPayload inbound:(BOOL)inbound
 {
-    
     NSString *sourceIP;
     NSString *destinationIP;
     if(inbound)
@@ -473,3 +501,4 @@ static uint16_t  ip_header_checksum(const void *dataptr, int len)
     }
     return 0xFFFF ^ acc;
 }
+

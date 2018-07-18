@@ -10,6 +10,7 @@
 #import "UMPCAPPseudoConnection.h"
 
 #include <pcap/pcap.h>
+struct pcap_pkthdr *hdr;
 
 @implementation UMPCAPFile
 @synthesize filename;
@@ -54,6 +55,13 @@
     return [self openForDLT:DLT_MTP3];
 }
 
+-(BOOL) openForMtp2
+{
+    _mode = UMPCAP_Mode_MTP2;
+    return [self openForDLT:DLT_MTP2_WITH_PHDR];
+}
+
+
 -(BOOL) openForPseudoConnection
 {
  
@@ -80,6 +88,11 @@
 {
     pcap_dump_flush(dumper);
 }
+
+
+/* Packet "pseudo-header" for MTP2 files. */
+
+
 
 - (void)writePdu:(NSData *)pdu
 {

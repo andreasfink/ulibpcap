@@ -15,7 +15,9 @@ typedef enum UMPCAP_Mode
     UMPCAP_Mode_PseudoConnection = 1,
     UMPCAP_Mode_SCCP = 2,
     UMPCAP_Mode_MTP3 = 3,
+    UMPCAP_Mode_MTP2 = 4, /* includes pseudo header */
 } UMPCAP_Mode;
+
 
 @class UMPCAPPseudoConnection;
 
@@ -33,6 +35,7 @@ typedef enum UMPCAP_Mode
 - (BOOL) openForDLT:(int)dlt; /* returns success */
 - (BOOL) openForSccp; /* returns success */
 - (BOOL) openForMtp3;
+- (BOOL) openForMtp2;
 - (BOOL) openForEthernet;
 - (BOOL) openForPseudoConnection;
 - (void) close;

@@ -140,19 +140,15 @@ int main(int argc, const char * argv[])
                     else if([firstPart isEqualToString:@"OPC"])
                     {
                         sscanf(secondPart.UTF8String,"%06X",&opc);
-                        NSLog(@"OPC 0x%@=%d",secondPart,opc);
 
                     }
                     else if([firstPart isEqualToString:@"DPC"])
                     {
                         sscanf(secondPart.UTF8String,"%06X",&dpc);
-                        NSLog(@"DPC 0x%@=%d",secondPart,dpc);
                     }
                     else if([firstPart isEqualToString:@"Hex SigMsg"])
                     {
                         pdu  = [[secondPart substringFromIndex:33] unhexedData];
-                        NSLog(@"PDUC %@=%@",secondPart,pdu);
-
                         write=YES;
                     }
 

@@ -17,37 +17,40 @@ MFILES = $(wildcard @PROJECT_NAME@/*.m) $(wildcard @PROJECT_NAME@/*/*.m)
 HFILES =  $(wildcard @PROJECT_NAME@/*.h) $(wildcard @PROJECT_NAME@/*/*.h)
 MOFILES  = $(MFILES:.m=.m.o)
 OFILES = $(MOFILES)
+STATIC_LIBS=-lpcap
 
 INCLUDEDIRS=-I @PROJECT_NAME@
 
-all: lib@PROJECT_NAME@.so lib@PROJECT_NAME@.a build/dump-huawei build/dump-mtp3 build/dump-sccp
+all: lib@PROJECT_NAME@.so build/dump-huawei build/dump-mtp3 build/dump-sccp
 
 lib@PROJECT_NAME@.so: ${OFILES}
 	${CC} -shared -o ${LIB}  ${LDFLAGS} ${OFILES} ${LIBS} ${STATIC_LIBS}
 
-lib@PROJECT_NAME@.a: ${OFILES}
-	${CC} -o ${LIB}  ${LDFLAGS} ${OFILES} ${LIBS} ${STATIC_LIBS}
 
 install: ${LIB} build/dump-huawei build/dump-mtp3 build/dump-sccp
 	-mkdir -p ${DESTDIR}/usr/local/lib/pkgconfig
+	-mkdir -p ${DESTDIR}/usr/local/bin
 	-install -b -g root -o root -m 644 ${LIB} ${DESTDIR}/usr/local/lib/
 	-install -b -g root -o root -m 644 ${PKGCONFIGFILE} ${DESTDIR}/usr/local/lib/pkgconfig/
+	-install -b -g root -o root -m 755 build/dump-mtp3 ${DESTDIR}/usr/local/bin/dump-mtp3
+	-install -b -g root -o root -m 755 build/dump-huawei ${DESTDIR}/usr/local/bin/dump-huawei
+	-install -b -g root -o root -m 755 build/dump-sccp ${DESTDIR}/usr/local/bin/dump-sccp
 	-mkdir -p ${DESTDIR}/usr/local/include/@PROJECT_NAME@
 	cp $(HFILES) ${DESTDIR}/usr/local/include/@PROJECT_NAME@
 	ldconfig
 
 
-build/dump-huawei: dump-huawei/main.m.o lib@PROJECT_NAME@.a
+build/dump-huawei: dump-huawei/main.m.o lib@PROJECT_NAME@.so
 	mkdir -p build
-	${CC} -o build/dump-huawei  ${LDFLAGS} dump-huawei/main.m.o lib@PROJECT_NAME@.a
+	${CC} -o build/dump-huawei  ${LDFLAGS} dump-huawei/main.m.o -L. -l@PROJECT_NAME@
 
 build/dump-mtp3: dump-mtp3/main.m.o lib@PROJECT_NAME@.so
 	mkdir -p build
-	${CC} -o build/dump-mtp3  ${LDFLAGS} dump-mtp3/main.m.o lib@PROJECT_NAME@.a
+	${CC} -o build/dump-mtp3  ${LDFLAGS} dump-mtp3/main.m.o -L. -l@PROJECT_NAME@
 
 build/dump-sccp: dump-sccp/main.m.o lib@PROJECT_NAME@.so
 	mkdir -p build
-	${CC} -o build/dump-sccp  ${LDFLAGS} dump-sccp/main.m.o lib@PROJECT_NAME@.a
+	${CC} -o build/dump-sccp  ${LDFLAGS} dump-sccp/main.m.o -L. -l@PROJECT_NAME@
 
 clean:
 	rm -f $(LIB) $(OFILES) build/*

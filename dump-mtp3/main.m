@@ -16,7 +16,7 @@ int main(int argc, const char * argv[])
     {
         if(argc < 3)
         {
-            fprintf(stderr,"Usage: dump-mtp3 filename  mpu-hex-bytes mpu-hex-bytes ...\n");
+            fprintf(stderr,"Usage: dump-mtp3 filename  pdu-hex-bytes pdu-hex-bytes ...\n");
             exit(-1);
         }
         UMPCAPFile *pf = [[UMPCAPFile alloc]init];

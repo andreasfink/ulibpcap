@@ -101,12 +101,59 @@ struct pcap_pkthdr *hdr;
         NSLog(@"trying to write to closed UMPCAPFile");
         return;
     }
-    struct   pcap_pkthdr pcap_hdr;
+    struct  pcap_pkthdr pcap_hdr;
     struct	timezone tzp;
     gettimeofday(&pcap_hdr.ts, &tzp);
     pcap_hdr.caplen = (bpf_u_int32)[pdu length];
     pcap_hdr.len = pcap_hdr.caplen;
     pcap_dump((u_char *)dumper, &pcap_hdr, [pdu bytes]);
+}
+
+- (void)writeItuMtp3Pdu:(NSData *)pdu
+            timestamp:(struct timeval *)timestamp
+                  si:(int)si
+                  ni:(int)ni
+                 sls:(int)sls
+                 opc:(int)opc
+                 dpc:(int)dpc
+{
+    if(dumper==NULL)
+    {
+        NSLog(@"trying to write to closed UMPCAPFile");
+        return;
+    }
+    struct  pcap_pkthdr pcap_hdr;
+
+
+    char buf[5];
+    int len;
+    if(pdu.length >= 62)
+    {
+        len=63;
+    }
+    else
+    {
+        len = (int)pdu.length;
+    }
+
+    unsigned long label;
+    label = dpc & 0x3FFFF;
+    label = label | ((opc & 0x3FFF) << 14);
+    label = label | ((sls & 0x0F) << 28);
+    buf[0] = (si & 0x0F) | (( ni & 0x03) << 6);
+
+    buf[1] = label & 0xFF;
+    buf[2] = (label>>8) & 0xFF;
+    buf[3] = (label>>16) & 0xFF;
+    buf[4] = (label>>24) & 0xFF;
+
+    NSMutableData *data2 =[[NSMutableData alloc]initWithBytes:buf length:sizeof(buf)];
+    [data2 appendData:pdu];
+
+    pcap_hdr.ts = *timestamp;
+    pcap_hdr.caplen = (bpf_u_int32)[data2 length];
+    pcap_hdr.len = pcap_hdr.caplen;
+    pcap_dump((u_char *)dumper, &pcap_hdr, [data2 bytes]);
 }
 
 - (void)writePdu:(NSData *)pdu withPseudoHeader:(UMPCAPPseudoConnection *)con inbound:(BOOL)inbound

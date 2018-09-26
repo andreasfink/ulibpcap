@@ -8,16 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		A60E40691D3E99D000211137 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A60E40681D3E99D000211137 /* main.m */; };
-		A60E406D1D3E9A4600211137 /* UMPCAPFile.m in Sources */ = {isa = PBXBuildFile; fileRef = A65781DB1CF54D8E00211137 /* UMPCAPFile.m */; };
-		A60E406E1D3E9A7800211137 /* libpcap.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781D71CF54D3C00211137 /* libpcap.dylib */; };
 		A60E40781D3E9D0C00211137 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A60E40771D3E9D0C00211137 /* main.m */; };
-		A60E407D1D3E9D4400211137 /* libpcap.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781D71CF54D3C00211137 /* libpcap.dylib */; };
-		A60E407E1D3E9D6700211137 /* UMPCAPFile.m in Sources */ = {isa = PBXBuildFile; fileRef = A65781DB1CF54D8E00211137 /* UMPCAPFile.m */; };
 		A624F4122150D62F0075788B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A624F4112150D62F0075788B /* main.m */; };
 		A624F4172150E1F50075788B /* ulib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781D41CF54CF700211137 /* ulib.framework */; };
-		A624F4182150E6880075788B /* ulibpcap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781BA1CF54A3600211137 /* ulibpcap.framework */; };
-		A624F4192150E6890075788B /* ulibpcap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781BA1CF54A3600211137 /* ulibpcap.framework */; };
 		A624F41A2150E68B0075788B /* ulibpcap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781BA1CF54A3600211137 /* ulibpcap.framework */; };
+		A62E0808215A130700D205F0 /* ulibpcap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781BA1CF54A3600211137 /* ulibpcap.framework */; };
 		A65781BE1CF54A3600211137 /* ulibpcap.h in Headers */ = {isa = PBXBuildFile; fileRef = A65781BD1CF54A3600211137 /* ulibpcap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A65781C51CF54A3600211137 /* ulibpcap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781BA1CF54A3600211137 /* ulibpcap.framework */; };
 		A65781CA1CF54A3600211137 /* ulibpcapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A65781C91CF54A3600211137 /* ulibpcapTests.m */; };
@@ -28,10 +23,6 @@
 		A688023A20443995007192F2 /* UMPCAPPseudoConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = A688023820443995007192F2 /* UMPCAPPseudoConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A688023B20443995007192F2 /* UMPCAPPseudoConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A688023920443995007192F2 /* UMPCAPPseudoConnection.m */; };
 		A688024320445EBB007192F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A688024220445EBB007192F2 /* main.m */; };
-		A688024B204461B5007192F2 /* UMPCAPPseudoConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A688023920443995007192F2 /* UMPCAPPseudoConnection.m */; };
-		A688024C204461B8007192F2 /* UMPCAPFile.m in Sources */ = {isa = PBXBuildFile; fileRef = A65781DB1CF54D8E00211137 /* UMPCAPFile.m */; };
-		A688024D204461BD007192F2 /* UMPCAPPseudoConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A688023920443995007192F2 /* UMPCAPPseudoConnection.m */; };
-		A688024E204461BE007192F2 /* UMPCAPPseudoConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A688023920443995007192F2 /* UMPCAPPseudoConnection.m */; };
 		A688024F204461DD007192F2 /* libpcap.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781D71CF54D3C00211137 /* libpcap.dylib */; };
 /* End PBXBuildFile section */
 
@@ -112,8 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A624F4182150E6880075788B /* ulibpcap.framework in Frameworks */,
-				A60E406E1D3E9A7800211137 /* libpcap.dylib in Frameworks */,
+				A62E0808215A130700D205F0 /* ulibpcap.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,8 +111,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A624F4192150E6890075788B /* ulibpcap.framework in Frameworks */,
-				A60E407D1D3E9D4400211137 /* libpcap.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,8 +454,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A60E40691D3E99D000211137 /* main.m in Sources */,
-				A60E406D1D3E9A4600211137 /* UMPCAPFile.m in Sources */,
-				A688024D204461BD007192F2 /* UMPCAPPseudoConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,8 +462,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A60E40781D3E9D0C00211137 /* main.m in Sources */,
-				A60E407E1D3E9D6700211137 /* UMPCAPFile.m in Sources */,
-				A688024E204461BE007192F2 /* UMPCAPPseudoConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,9 +494,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A688024C204461B8007192F2 /* UMPCAPFile.m in Sources */,
 				A688024320445EBB007192F2 /* main.m in Sources */,
-				A688024B204461B5007192F2 /* UMPCAPPseudoConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

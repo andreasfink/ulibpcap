@@ -148,8 +148,11 @@ int main(int argc, const char * argv[])
                     }
                     else if([firstPart isEqualToString:@"Hex SigMsg"])
                     {
-                        pdu  = [[secondPart substringFromIndex:33] unhexedData];
-                        write=YES;
+                        if([secondPart length]>33)
+                        {
+                            pdu  = [[secondPart substringFromIndex:33] unhexedData];
+                            write=YES;
+                        }
                     }
 
                 }

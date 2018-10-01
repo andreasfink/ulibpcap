@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "UMPCAPFile.h"
 
+int scan_pointcode(NSString *str, int *format);
 
 int main(int argc, const char * argv[])
 {
@@ -58,6 +59,7 @@ int main(int argc, const char * argv[])
         int sls_slc=0;
         int opc=0;
         int dpc=0;
+        int format=1;
         NSData *pdu=NULL;
         BOOL write = NO;
 
@@ -139,18 +141,19 @@ int main(int argc, const char * argv[])
                     }
                     else if([firstPart isEqualToString:@"OPC"])
                     {
-                        sscanf(secondPart.UTF8String,"%06X",&opc);
+                        opc = scan_pointcode(secondPart,&format);
 
                     }
                     else if([firstPart isEqualToString:@"DPC"])
                     {
-                        sscanf(secondPart.UTF8String,"%06X",&dpc);
+                        dpc = scan_pointcode(secondPart,&format);
+                        //sscanf(secondPart.UTF8String,"%06X",&dpc);
                     }
                     else if([firstPart isEqualToString:@"Hex SigMsg"])
                     {
                         if([secondPart length]>33)
                         {
-                            pdu  = [[secondPart substringFromIndex:33] unhexedData];
+                            pdu  = [[secondPart substringFromIndex:36] unhexedData];
                             write=YES;
                         }
                     }
@@ -190,4 +193,24 @@ int main(int argc, const char * argv[])
         [pf close];
     }
     return 0;
+}
+
+
+int scan_pointcode(NSString *str, int *format)
+{
+    int pc=0;
+    char str1[256];
+    char str2[256];
+    /* format example:   H'0032e7 (13031, 6-92-7)  */
+    if([str hasPrefix:@"H'"])
+    {
+        sscanf(str.UTF8String,"H'%s (%d,%s)",str1,&pc,str2);
+        *format=2;
+    }
+    else
+    {
+        sscanf(str.UTF8String,"%06X",&pc);
+        *format=1;
+    }
+    return pc;
 }

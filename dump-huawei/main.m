@@ -103,6 +103,26 @@ int main(int argc, const char * argv[])
                         {
                             sio=3;
                         }
+                        else if([secondPart isEqualToStringCaseInsensitive:@"<SCCP"])
+                        {
+                            sio=3;
+                        }
+                        else if([secondPart isEqualToStringCaseInsensitive:@">SCCP"])
+                        {
+                            sio=3;
+                        }
+                        else if([secondPart isEqualToStringCaseInsensitive:@"isup"])
+                        {
+                            sio=5;
+                        }
+                        else if([secondPart isEqualToStringCaseInsensitive:@">ISUP"])
+                        {
+                            sio=5;
+                        }
+                        else if([secondPart isEqualToStringCaseInsensitive:@"<ISUP"])
+                        {
+                            sio=5;
+                        }
                    }
                     else if([firstPart isEqualToString:@"NI"])
                     {
@@ -153,7 +173,7 @@ int main(int argc, const char * argv[])
                     {
                         if([secondPart length]>33)
                         {
-                            pdu  = [[secondPart substringFromIndex:36] unhexedData];
+                            pdu  = [[secondPart substringFromIndex:33] unhexedData];
                             write=YES;
                         }
                     }

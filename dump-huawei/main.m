@@ -45,7 +45,7 @@ int main(int argc, const char * argv[])
             fprintf(stderr,"couldnt open file %s\n",inputFileName.UTF8String);
             exit(-1);
         }
-        NSArray *lines = [allLines componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+        NSArray *lines = [allLines componentsSeparatedByCharactersInSet:[UMObject newlineCharacterSet]];
         if(lines.count ==0)
         {
             fprintf(stderr,"couldnt read file %s\n",inputFileName.UTF8String);

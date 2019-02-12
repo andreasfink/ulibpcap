@@ -1987,7 +1987,10 @@ if [ "$CXX" == "" ]
 then
 	CXX=clang++
 fi
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8d017976c2651339300b2d076744243a362e8444
 case "$host" in
   *apple-darwin*)
 	ARCH="-arch x86_64"
@@ -2027,7 +2030,11 @@ case "$host" in
     SHARED_FLAGS="-shared"
     ;;
   *-freebsd*)
+<<<<<<< HEAD
 	CFLAGS="$CFLAGS -std=c99 -fPIC -DLINUX -D_XOPEN_SOURCE=700 -D_POSIX_SOURCE"
+=======
+	CFLAGS="$CFLAGS -std=c99 -fPIC -DFREEBSD"
+>>>>>>> 8d017976c2651339300b2d076744243a362e8444
 	FREEBSD_VERSION=`uname -r`
 	CFLAGS="$CFLAGS  -Wno-trigraphs  -Wno-missing-field-initializers -Wmissing-prototypes -Wno-implicit-atomic-properties"
 	CFLAGS="$CFLAGS -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label"
@@ -2050,7 +2057,11 @@ case "$host" in
 		fi
 	fi
 
+<<<<<<< HEAD
 	CFLAGS="$CFLAGS `$GNUSTEP_CONFIG-objc-flags`"
+=======
+	CFLAGS="$CFLAGS `$GNUSTEP_CONFIG --objc-flags`"
+>>>>>>> 8d017976c2651339300b2d076744243a362e8444
 	LDFLAGS="$LDFLAGS `/usr/local/bin/gnustep-config --base-libs --objc-libs`"
 	CFLAGS="$CFLAGS -DHAVE_OPENSSL=1"
 	CFLAGS="$CFLAGS `pkg-config --cflags libssl libcrypto`"
@@ -3163,6 +3174,8 @@ ac_config_files="$ac_config_files Makefile.osx"
 
 ac_config_files="$ac_config_files Makefile.linux"
 
+ac_config_files="$ac_config_files Makefile.freebsd"
+
 ac_config_files="$ac_config_files ulibpcap.pc"
 
 cat >confcache <<\_ACEOF
@@ -3858,6 +3871,7 @@ do
     "${CONFIG_HEADER}") CONFIG_HEADERS="$CONFIG_HEADERS ${CONFIG_HEADER}" ;;
     "Makefile.osx") CONFIG_FILES="$CONFIG_FILES Makefile.osx" ;;
     "Makefile.linux") CONFIG_FILES="$CONFIG_FILES Makefile.linux" ;;
+    "Makefile.freebsd") CONFIG_FILES="$CONFIG_FILES Makefile.freebsd" ;;
     "ulibpcap.pc") CONFIG_FILES="$CONFIG_FILES ulibpcap.pc" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
@@ -4497,10 +4511,16 @@ case "$host" in
   *-linux-*)
     cp Makefile.linux Makefile
     ;;
+<<<<<<< HEAD
   *-freebsd*)
     cp Makefile.freebsd Makefile
     ;;
 
+=======
+  *-linux-*)
+    cp Makefile.freebsd Makefile
+    ;;
+>>>>>>> 8d017976c2651339300b2d076744243a362e8444
 esac
 
 

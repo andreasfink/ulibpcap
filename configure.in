@@ -67,7 +67,10 @@ if [[ "$CXX" == "" ]]
 then 
 	CXX=clang++
 fi
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 8d017976c2651339300b2d076744243a362e8444
 case "$host" in
   *apple-darwin*) 
 	ARCH="-arch x86_64"
@@ -107,7 +110,11 @@ case "$host" in
     SHARED_FLAGS="-shared"
     ;;
   *-freebsd*)
+<<<<<<< HEAD
 	CFLAGS="$CFLAGS -std=c99 -fPIC -DLINUX -D_XOPEN_SOURCE=700 -D_POSIX_SOURCE"
+=======
+	CFLAGS="$CFLAGS -std=c99 -fPIC -DFREEBSD"
+>>>>>>> 8d017976c2651339300b2d076744243a362e8444
 	FREEBSD_VERSION=`uname -r`
 	CFLAGS="$CFLAGS  -Wno-trigraphs  -Wno-missing-field-initializers -Wmissing-prototypes -Wno-implicit-atomic-properties"
 	CFLAGS="$CFLAGS -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label"
@@ -130,7 +137,11 @@ case "$host" in
 		fi
 	fi
 	
+<<<<<<< HEAD
 	CFLAGS="$CFLAGS `$GNUSTEP_CONFIG-objc-flags`"
+=======
+	CFLAGS="$CFLAGS `$GNUSTEP_CONFIG --objc-flags`"
+>>>>>>> 8d017976c2651339300b2d076744243a362e8444
 	LDFLAGS="$LDFLAGS `/usr/local/bin/gnustep-config --base-libs --objc-libs`"
 	CFLAGS="$CFLAGS -DHAVE_OPENSSL=1"
 	CFLAGS="$CFLAGS `pkg-config --cflags libssl libcrypto`"
@@ -204,6 +215,7 @@ AC_SUBST(PROJECT_NAME)
 AC_CONFIG_SECTION([Generating output files]) 
 AC_CONFIG_FILES([Makefile.osx])
 AC_CONFIG_FILES([Makefile.linux])
+AC_CONFIG_FILES([Makefile.freebsd])
 AC_CONFIG_FILES([ulibpcap.pc])
 AC_OUTPUT
 #
@@ -225,10 +237,16 @@ case "$host" in
   *-linux-*)
     cp Makefile.linux Makefile
     ;;
+<<<<<<< HEAD
   *-freebsd*)
     cp Makefile.freebsd Makefile
     ;;
 
+=======
+  *-linux-*)
+    cp Makefile.freebsd Makefile
+    ;;
+>>>>>>> 8d017976c2651339300b2d076744243a362e8444
 esac
 
 dnl LICENSE notice

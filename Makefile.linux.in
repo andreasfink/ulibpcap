@@ -42,18 +42,22 @@ install: ${LIB} build/dump-huawei build/dump-mtp3 build/dump-sccp
 
 build/dump-huawei: dump-huawei/main.m.o lib@PROJECT_NAME@.so
 	mkdir -p build
-	${CC} -o build/dump-huawei  ${LDFLAGS} dump-huawei/main.m.o -L. -l@PROJECT_NAME@
+	${CC} -o build/dump-huawei  -L. -l@PROJECT_NAME@ ${LDFLAGS} dump-huawei/main.m.o
 
 build/dump-mtp3: dump-mtp3/main.m.o lib@PROJECT_NAME@.so
 	mkdir -p build
-	${CC} -o build/dump-mtp3  ${LDFLAGS} dump-mtp3/main.m.o -L. -l@PROJECT_NAME@
+	${CC} -o build/dump-mtp3  -L. -l@PROJECT_NAME@ ${LDFLAGS} dump-mtp3/main.m.o
 
 build/dump-sccp: dump-sccp/main.m.o lib@PROJECT_NAME@.so
 	mkdir -p build
-	${CC} -o build/dump-sccp  ${LDFLAGS} dump-sccp/main.m.o -L. -l@PROJECT_NAME@
+	${CC} -o build/dump-sccp  -L. -l@PROJECT_NAME@ ${LDFLAGS} dump-sccp/main.m.o
 
 clean:
 	rm -f $(LIB) $(OFILES) build/*
+	rm -f dump-huawei/main.m.o
+	rm -f dump-mtp3/main.m.o
+	rm -f dump-sccp/main.m.o
+
 
 .SUFFIXES: .m.o .o .m .c
 

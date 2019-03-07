@@ -126,6 +126,7 @@ struct pcap_pkthdr *hdr;
 
 
     char buf[5];
+    /*
     int len;
     if(pdu.length >= 62)
     {
@@ -135,7 +136,7 @@ struct pcap_pkthdr *hdr;
     {
         len = (int)pdu.length;
     }
-
+    */
     unsigned long label;
     label = dpc & 0x3FFFF;
     label = label | ((opc & 0x3FFF) << 14);

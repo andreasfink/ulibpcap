@@ -290,6 +290,7 @@
 				A60E40621D3E99CF00211137 /* Sources */,
 				A60E40631D3E99CF00211137 /* Frameworks */,
 				A60E40641D3E99CF00211137 /* CopyFiles */,
+				A67E7A8C22C61B9800B34DA3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -307,6 +308,7 @@
 				A60E40711D3E9D0C00211137 /* Sources */,
 				A60E40721D3E9D0C00211137 /* Frameworks */,
 				A60E40731D3E9D0C00211137 /* CopyFiles */,
+				A67E7A8D22C61BA900B34DA3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -324,6 +326,7 @@
 				A624F40B2150D62F0075788B /* Sources */,
 				A624F40C2150D62F0075788B /* Frameworks */,
 				A624F40D2150D62F0075788B /* CopyFiles */,
+				A67E7A8E22C61BB600B34DA3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -460,6 +463,60 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A67E7A8C22C61B9800B34DA3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\n\nEXE=dump-mtp3\nmkdir -p /usr/local/bin\nif [ -f \"/usr/local/bin/$EXE\" ]\nthen\n    rm -f \"/usr/local/bin/$EXE\"\nfi\nif [ -L \"/usr/local/bin/$EXE\" ]\nthen\n    rm -f \"/usr/local/bin/$EXE\"\nfi\nln -s /Library/Application\\ Support/FinkTelecomServices/bin/$EXE /usr/local/bin/$EXE\n";
+		};
+		A67E7A8D22C61BA900B34DA3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\n\nEXE=dump-sccp\nmkdir -p /usr/local/bin\nif [ -f \"/usr/local/bin/$EXE\" ]\nthen\n    rm -f \"/usr/local/bin/$EXE\"\nfi\nif [ -L \"/usr/local/bin/$EXE\" ]\nthen\n    rm -f \"/usr/local/bin/$EXE\"\nfi\nln -s /Library/Application\\ Support/FinkTelecomServices/bin/$EXE /usr/local/bin/$EXE\n";
+		};
+		A67E7A8E22C61BB600B34DA3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\n\nEXE=dump-huawei\nmkdir -p /usr/local/bin\nif [ -f \"/usr/local/bin/$EXE\" ]\nthen\n    rm -f \"/usr/local/bin/$EXE\"\nfi\nif [ -L \"/usr/local/bin/$EXE\" ]\nthen\n    rm -f \"/usr/local/bin/$EXE\"\nfi\nln -s /Library/Application\\ Support/FinkTelecomServices/bin/$EXE /usr/local/bin/$EXE\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A60E40621D3E99CF00211137 /* Sources */ = {

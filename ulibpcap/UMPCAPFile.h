@@ -23,9 +23,9 @@ typedef enum UMPCAP_Mode
 
 @interface UMPCAPFile : UMObject
 {
-    NSString        *filename;
-    pcap_t          *handle;
-    pcap_dumper_t   *dumper;
+    NSString        *_filename;
+    pcap_t          *_handle;
+    pcap_dumper_t   *_dumper;
     UMPCAP_Mode     _mode;
 }
 

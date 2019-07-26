@@ -13,7 +13,6 @@
 struct pcap_pkthdr *hdr;
 
 @implementation UMPCAPFile
-@synthesize filename;
 
 - (UMPCAPFile *)init
 {
@@ -23,20 +22,20 @@ struct pcap_pkthdr *hdr;
         NSString *uuidStr = [UMUUID UUID];
         NSString *prefix = @"pcap";
         
-        filename = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-%@", prefix, uuidStr]];
+        _filename = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-%@", prefix, uuidStr]];
     }
     return self;
 }
 
 - (BOOL)openForDLT:(int)dlt
 {
-    handle = pcap_open_dead(dlt, 1 << 16);
-    if(handle==NULL)
+    _handle = pcap_open_dead(dlt, 1 << 16);
+    if(_handle==NULL)
     {
         return NO;
     }
-    dumper = pcap_dump_open(handle, filename.UTF8String);
-    if(dumper == NULL)
+    _dumper = pcap_dump_open(_handle, _filename.UTF8String);
+    if(_dumper == NULL)
     {
         return NO;
     }
@@ -78,15 +77,15 @@ struct pcap_pkthdr *hdr;
 
 - (void) close
 {
-    pcap_dump_close(dumper);
-    pcap_close(handle);
-    dumper=NULL;
-    handle=NULL;
+    pcap_dump_close(_dumper);
+    pcap_close(_handle);
+    _dumper=NULL;
+    _handle=NULL;
 }
 
 - (void)flush
 {
-    pcap_dump_flush(dumper);
+    pcap_dump_flush(_dumper);
 }
 
 
@@ -96,7 +95,7 @@ struct pcap_pkthdr *hdr;
 
 - (void)writePdu:(NSData *)pdu
 {
-    if(dumper==NULL)
+    if(_dumper==NULL)
     {
         NSLog(@"trying to write to closed UMPCAPFile");
         return;
@@ -106,7 +105,7 @@ struct pcap_pkthdr *hdr;
     gettimeofday(&pcap_hdr.ts, &tzp);
     pcap_hdr.caplen = (bpf_u_int32)[pdu length];
     pcap_hdr.len = pcap_hdr.caplen;
-    pcap_dump((u_char *)dumper, &pcap_hdr, [pdu bytes]);
+    pcap_dump((u_char *)_dumper, &pcap_hdr, [pdu bytes]);
 }
 
 - (void)writeItuMtp3Pdu:(NSData *)pdu
@@ -117,7 +116,7 @@ struct pcap_pkthdr *hdr;
 					opc:(int)opc
 					dpc:(int)dpc
 {
-    if(dumper==NULL)
+    if(_dumper==NULL)
     {
         NSLog(@"trying to write to closed UMPCAPFile");
         return;
@@ -154,12 +153,12 @@ struct pcap_pkthdr *hdr;
     pcap_hdr.ts = *timestamp;
     pcap_hdr.caplen = (bpf_u_int32)[data2 length];
     pcap_hdr.len = pcap_hdr.caplen;
-    pcap_dump((u_char *)dumper, &pcap_hdr, [data2 bytes]);
+    pcap_dump((u_char *)_dumper, &pcap_hdr, [data2 bytes]);
 }
 
 - (void)writePdu:(NSData *)pdu withPseudoHeader:(UMPCAPPseudoConnection *)con inbound:(BOOL)inbound
 {
-    if(dumper==NULL)
+    if(_dumper==NULL)
     {
         NSLog(@"trying to write to closed UMPCAPFile");
         return;
@@ -194,20 +193,20 @@ struct pcap_pkthdr *hdr;
     }
     pcap_hdr.caplen = (bpf_u_int32)[pdu length];
     pcap_hdr.len = pcap_hdr.caplen;
-    pcap_dump((u_char *)dumper, &pcap_hdr, [pdu bytes]);
+    pcap_dump((u_char *)_dumper, &pcap_hdr, [pdu bytes]);
 }
 
 - (NSData *)dataAndClose
 {
-    if(dumper)
+    if(_dumper)
     {
-        pcap_dump_flush(dumper);
-        pcap_dump_close(dumper);
-        pcap_close(handle);
-        dumper=NULL;
-        handle=NULL;
+        pcap_dump_flush(_dumper);
+        pcap_dump_close(_dumper);
+        pcap_close(_handle);
+        _dumper=NULL;
+        _handle=NULL;
     }
-    NSData *d = [NSData dataWithContentsOfFile:filename];
+    NSData *d = [NSData dataWithContentsOfFile:_filename];
     return d;
 }
 

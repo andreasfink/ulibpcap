@@ -10,7 +10,8 @@ CFLAGS=@CFLAGS@ -D_POSIX_SOURCE
 LDFLAGS=@LDFLAGS@
 PROJECT_NAME=@PROJECT_NAME@
 
-LIB=lib@PROJECT_NAME@.so
+LIB=lib@PROJECT_NAME@.@SHARED_LIBRARY_EXTENSION@
+SLIB=lib@PROJECT_NAME@.a
 PKGCONFIGFILE=@PROJECT_NAME@.pc
 
 MFILES = $(wildcard @PROJECT_NAME@/*.m) $(wildcard @PROJECT_NAME@/*/*.m)
@@ -23,14 +24,22 @@ INCLUDEDIRS=-I @PROJECT_NAME@
 
 all: lib@PROJECT_NAME@.so build/dump-huawei build/dump-mtp3 build/dump-sccp
 
-lib@PROJECT_NAME@.so: ${OFILES}
+
+${LIB}: ${OFILES}
 	${CC} -shared -o ${LIB}  ${LDFLAGS} ${OFILES} ${LIBS} ${STATIC_LIBS}
 
+${SLIB}: ${OFILES}
+	ar rcs ${SLIB} ${OFILES}
+	ranlib ${SLIB}
 
 install: ${LIB} build/dump-huawei build/dump-mtp3 build/dump-sccp
 	-mkdir -p ${DESTDIR}/usr/local/lib/pkgconfig
 	-mkdir -p ${DESTDIR}/usr/local/bin
-	-install -b -g root -o root -m 644 ${LIB} ${DESTDIR}/usr/local/lib/
+	install -b -g root -o root -m 644 "${LIB}" "${DESTDIR}/usr/local/lib/${LIB}.${MAJORVER}.${MINORVER}.${REVISION}"
+	install -b -g root -o root -m 644 "${SLIB}" "${DESTDIR}/usr/local/lib/${SLIB}"
+	ln -s "${LIB}.${MAJORVER}.${MINORVER}.${REVISION}" "${DESTDIR}/usr/local/lib/${LIB}.${MAJORVER}.${MINORVER}"
+	ln -s "${LIB}.${MAJORVER}.${MINORVER}"             "${DESTDIR}/usr/local/lib/${LIB}.${MAJORVER}"
+	ln -s "${LIB}.${MAJORVER}"                         "${DESTDIR}/usr/local/lib/${LIB}"
 	-install -b -g root -o root -m 644 ${PKGCONFIGFILE} ${DESTDIR}/usr/local/lib/pkgconfig/
 	-install -b -g root -o root -m 755 build/dump-mtp3 ${DESTDIR}/usr/local/bin/dump-mtp3
 	-install -b -g root -o root -m 755 build/dump-huawei ${DESTDIR}/usr/local/bin/dump-huawei
@@ -38,7 +47,6 @@ install: ${LIB} build/dump-huawei build/dump-mtp3 build/dump-sccp
 	-mkdir -p ${DESTDIR}/usr/local/include/@PROJECT_NAME@
 	cp $(HFILES) ${DESTDIR}/usr/local/include/@PROJECT_NAME@
 	ldconfig
-
 
 build/dump-huawei: dump-huawei/main.m.o lib@PROJECT_NAME@.so
 	mkdir -p build

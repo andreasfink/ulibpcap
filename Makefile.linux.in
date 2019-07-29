@@ -19,6 +19,10 @@ HFILES =  $(wildcard @PROJECT_NAME@/*.h) $(wildcard @PROJECT_NAME@/*/*.h)
 MOFILES  = $(MFILES:.m=.m.o)
 OFILES = $(MOFILES)
 STATIC_LIBS=-lpcap
+MAJORVER=@MAJORVER@
+MINORVER=@MINORVER@
+REVISION=@REVISION@
+VERSION=@VERSION@
 
 INCLUDEDIRS=-I @PROJECT_NAME@
 
@@ -32,9 +36,13 @@ ${SLIB}: ${OFILES}
 	ar rcs ${SLIB} ${OFILES}
 	ranlib ${SLIB}
 
-install: ${LIB} build/dump-huawei build/dump-mtp3 build/dump-sccp
+install: ${LIB} ${SLIB} build/dump-huawei build/dump-mtp3 build/dump-sccp
 	-mkdir -p ${DESTDIR}/usr/local/lib/pkgconfig
 	-mkdir -p ${DESTDIR}/usr/local/bin
+	rm -f "${DESTDIR}/usr/local/lib/${LIB}.${MAJORVER}.${MINORVER}.${REVISION}"
+	rm -f "${DESTDIR}/usr/local/lib/${LIB}.${MAJORVER}.${MINORVER}"
+	rm -f "${DESTDIR}/usr/local/lib/${LIB}.${MAJORVER}"
+	rm -f "${DESTDIR}/usr/local/lib/${LIB}"
 	install -b -g root -o root -m 644 "${LIB}" "${DESTDIR}/usr/local/lib/${LIB}.${MAJORVER}.${MINORVER}.${REVISION}"
 	install -b -g root -o root -m 644 "${SLIB}" "${DESTDIR}/usr/local/lib/${SLIB}"
 	ln -s "${LIB}.${MAJORVER}.${MINORVER}.${REVISION}" "${DESTDIR}/usr/local/lib/${LIB}.${MAJORVER}.${MINORVER}"

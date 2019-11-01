@@ -12,6 +12,7 @@ config.status
 stamp-h1
 autom4te.cache
 Classes/ulib_config.h
+version.h
 
 
 #########################

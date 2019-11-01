@@ -31,7 +31,6 @@ AC_SUBST(PROJECT_NAME)
 AC_SUBST(AUTHOR)
 AC_SUBST(CONFIG_DEFINE)
 AC_SUBST(CONFIG_HEADER)
-AC_SUBST(VERSION)
 
 dnl Set user who runs ./configure
 CUSER=`id -un`
@@ -213,6 +212,7 @@ AC_CONFIG_FILES([Makefile.osx])
 AC_CONFIG_FILES([Makefile.linux])
 AC_CONFIG_FILES([Makefile.freebsd])
 AC_CONFIG_FILES([ulibpcap.pc])
+AC_CONFIG_FILES([version.h])
 AC_OUTPUT
 #
 # we prefer clang over gcc

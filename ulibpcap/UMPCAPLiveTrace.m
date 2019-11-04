@@ -8,6 +8,7 @@
 
 #import "UMPCAPLiveTrace.h"
 #import "UMPCAPLiveTracePacket.h"
+#import <CoreFoundation/CoreFoundation.h>
 
 static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_char *packet);
 

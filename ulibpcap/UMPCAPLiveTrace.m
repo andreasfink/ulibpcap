@@ -235,15 +235,6 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header,
 {
     UMPCAPLiveTrace *obj = (__bridge UMPCAPLiveTrace *)(CFTypeRef)args;
     
-    struct pcap_pkthdr {
-        struct timeval ts;    /* time stamp */
-        bpf_u_int32 caplen;    /* length of portion present */
-        bpf_u_int32 len;    /* length this packet (off wire) */
-    #ifdef __APPLE__
-        char comment[256];
-    #endif
-    };
-    
     NSTimeInterval t = header->ts.tv_sec + (header->ts.tv_usec/1000000.0);
     UMPCAPLiveTracePacket *pkt = [[UMPCAPLiveTracePacket alloc]init];
     pkt.timestamp = [[NSDate alloc]initWithTimeIntervalSinceReferenceDate:t];

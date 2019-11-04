@@ -11,4 +11,5 @@
 
 #import "UMPCAPFile.h"
 #import "UMPCAPPseudoConnection.h"
-
+#import "UMPCAPLiveTrace.h"
+#import "UMPCAPLiveTracePacket.h"

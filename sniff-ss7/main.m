@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <ulibpcap/ulibpcap.h>
+#ifdef __APPLE__
+#import "/Library/Application Support/FinkTelecomServices/frameworks/uliblicense/uliblicense.h"
+#else
+#import <uliblicense/uliblicense.h>
+#endif
 #import "../version.h"
 
 int main(int argc, const char * argv[])

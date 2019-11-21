@@ -8,7 +8,7 @@
 
 #import <ulib/ulib.h>
 #import <pcap/pcap.h>
-
+#import "UMPCAPLiveTraceDelegateProtocol.h"
 
 typedef enum UMPCAP_LiveTraceError
 {
@@ -17,14 +17,17 @@ typedef enum UMPCAP_LiveTraceError
     UMPCAP_LiveTraceError_can_not_open = 2,
     UMPCAP_LiveTraceError_unsupported_datalink_type = 3,
     UMPCAP_LiveTraceError_unsupported_capturing_rule = 4,
+    UMPCAP_LiveTraceError_not_open = 5,
 
 } UMPCAP_LiveTraceError;
 
 
 @interface UMPCAPLiveTrace : UMBackgrounder
 {
+    BOOL            _readingFromFile;
     NSString        *_defaultDevice;
     NSString        *_deviceName;
+    NSString        *_fileName;
     pcap_t          *_handle;
     int             _snaplen;
     int             _promisc;
@@ -37,16 +40,20 @@ typedef enum UMPCAP_LiveTraceError
     BOOL            _isRunning;
     
     NSMutableArray  *_itemsReceived;
+
+    id<UMPCAPLiveTraceDelegateProtocol> _delegate;
 }
 
 @property(readwrite,strong,atomic)  NSString *deviceName;
 @property(readwrite,strong,atomic)  NSString *capturingRule;
 @property(readonly,strong,atomic)   NSString *lastError;
+@property(readwrite,strong,atomic)   id<UMPCAPLiveTraceDelegateProtocol> delegate;
+@property(readonly,assign,atomic)  BOOL  isRunning;
 
 - (UMPCAPLiveTrace *)initWithName:(NSString *)name;
-
-- (UMPCAP_LiveTraceError)openDevice;
-- (UMPCAP_LiveTraceError)closeDevice;
+- (UMPCAP_LiveTraceError)openDevice:(NSString *)devicename;
+- (UMPCAP_LiveTraceError)openFile:(NSString *)filename;
+- (UMPCAP_LiveTraceError)close;
 - (UMPCAP_LiveTraceError)start;
 - (UMPCAP_LiveTraceError)stop;
 

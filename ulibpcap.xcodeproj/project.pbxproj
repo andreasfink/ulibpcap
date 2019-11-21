@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A605335A2386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = A60533582386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h */; };
+		A605335E2386B8AE00BB335C /* PacketHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A605335D2386B8AE00BB335C /* PacketHandler.m */; };
 		A60E40691D3E99D000211137 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A60E40681D3E99D000211137 /* main.m */; };
 		A60E40781D3E9D0C00211137 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A60E40771D3E9D0C00211137 /* main.m */; };
 		A624F4122150D62F0075788B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A624F4112150D62F0075788B /* main.m */; };
@@ -105,6 +107,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A60533582386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMPCAPLiveTraceDelegateProtocol.h; sourceTree = "<group>"; };
+		A605335C2386B8AE00BB335C /* PacketHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PacketHandler.h; sourceTree = "<group>"; };
+		A605335D2386B8AE00BB335C /* PacketHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PacketHandler.m; sourceTree = "<group>"; };
 		A60E40661D3E99CF00211137 /* dump-mtp3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "dump-mtp3"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A60E40681D3E99D000211137 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A60E40751D3E9D0C00211137 /* dump-sccp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "dump-sccp"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -272,6 +277,7 @@
 				A6B3968C236BA7C400C8D33D /* UMPCAPLiveTrace.m */,
 				A6B3968F236BBAC500C8D33D /* UMPCAPLiveTracePacket.h */,
 				A6B39690236BBAC500C8D33D /* UMPCAPLiveTracePacket.m */,
+				A60533582386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h */,
 			);
 			path = ulibpcap;
 			sourceTree = "<group>";
@@ -315,6 +321,8 @@
 			isa = PBXGroup;
 			children = (
 				A6B39699236BBFBE00C8D33D /* main.m */,
+				A605335C2386B8AE00BB335C /* PacketHandler.h */,
+				A605335D2386B8AE00BB335C /* PacketHandler.m */,
 			);
 			path = "sniff-ss7";
 			sourceTree = "<group>";
@@ -327,6 +335,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6B3968D236BA7C400C8D33D /* UMPCAPLiveTrace.h in Headers */,
+				A605335A2386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h in Headers */,
 				A65781DC1CF54D8E00211137 /* UMPCAPFile.h in Headers */,
 				A688023A20443995007192F2 /* UMPCAPPseudoConnection.h in Headers */,
 				A65781BE1CF54A3600211137 /* ulibpcap.h in Headers */,
@@ -659,6 +668,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A605335E2386B8AE00BB335C /* PacketHandler.m in Sources */,
 				A6B3969A236BBFBE00C8D33D /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

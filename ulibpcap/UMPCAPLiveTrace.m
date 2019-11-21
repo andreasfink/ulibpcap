@@ -39,6 +39,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     return self;
 }
 
+
 - (UMPCAP_LiveTraceError)genericInitialisation
 {
     _snaplen = BUFSIZ;
@@ -60,11 +61,19 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     return UMPCAP_LiveTraceError_none;
 }
 
-- (UMPCAP_LiveTraceError)openDevice
+- (UMPCAP_LiveTraceError)openDevice:(NSString *)deviceName
 {
     [_lock lock];
     @try
     {
+        if(deviceName==NULL)
+        {
+            _deviceName = _defaultDevice;
+        }
+        else
+        {
+            _deviceName = deviceName;
+        }
         char errbuf[PCAP_ERRBUF_SIZE];
         _handle = pcap_open_live(_deviceName.UTF8String, _snaplen,_promisc, _to_ms,errbuf);
         if (_handle == NULL)
@@ -103,7 +112,44 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     }
 }
 
-- (UMPCAP_LiveTraceError)closeDevice
+- (UMPCAP_LiveTraceError)openFile:(NSString *)filename;
+{
+    [_lock lock];
+    @try
+    {
+        _fileName = filename;
+        _readingFromFile = YES;
+
+        char errbuf[PCAP_ERRBUF_SIZE] ;
+        memset(errbuf,0x00,PCAP_ERRBUF_SIZE);
+
+        FILE *f = fopen(_fileName.UTF8String,"r+");
+        if(f == NULL)
+        {
+            return UMPCAP_LiveTraceError_can_not_open;
+        }
+        _handle = pcap_fopen_offline(f,errbuf);
+        if(_handle == NULL)
+        {
+            NSLog(@"pcap_fopen_offline returns error %s",errbuf);
+            return UMPCAP_LiveTraceError_can_not_open;
+        }
+        else
+        {
+            _isOpen = YES;
+        }
+    }
+    @catch (NSException *e)
+    {
+        NSLog(@"Exception %@",e);
+    }
+    @finally
+    {
+        [_lock unlock];
+    }
+}
+
+- (UMPCAP_LiveTraceError)close
 {
     if(_isOpen)
     {
@@ -166,11 +212,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     {
         if(_isOpen==NO)
         {
-            e = [self openDevice];
-            if(e!=UMPCAP_LiveTraceError_none)
-            {
-                return e;
-            }
+            return UMPCAP_LiveTraceError_not_open;
         }
         _isRunning = YES;
         [self startBackgroundTask];
@@ -200,7 +242,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
         }
         if(_isOpen==NO)
         {
-            [self closeDevice];
+            [self close];
         }
     }
     @catch(NSException *ex)
@@ -221,7 +263,6 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     int cnt = 1;
     u_char *arg = (u_char *)(__bridge CFTypeRef)self;
     pcap_loop(_handle, cnt, got_packet, arg);
-
     return 0;
 }
 
@@ -230,14 +271,18 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
 
 typedef void (*pcap_handler)(u_char *, const struct pcap_pkthdr *, const u_char *);
 
-void got_packet(u_char *args, const struct pcap_pkthdr *header,
-    const u_char *packet)
+void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
 {
     UMPCAPLiveTrace *obj = (__bridge UMPCAPLiveTrace *)(CFTypeRef)args;
     
     NSTimeInterval t = header->ts.tv_sec + (header->ts.tv_usec/1000000.0);
     UMPCAPLiveTracePacket *pkt = [[UMPCAPLiveTracePacket alloc]init];
-    pkt.timestamp = [[NSDate alloc]initWithTimeIntervalSinceReferenceDate:t];
-    pkt.caplen = header->caplen;
-    pkt.len = header->len;
+    pkt.timestamp   = [[NSDate alloc]initWithTimeIntervalSinceReferenceDate:t];
+    pkt.caplen      = header->caplen;
+    pkt.len         = header->len;
+#ifdef __APPLE__
+    pkt.comment     = @(header->comment);
+#endif
+    pkt.data        = [NSData dataWithBytes:packet length:header->caplen];
+    [obj.delegate handlePacket:pkt];
 }

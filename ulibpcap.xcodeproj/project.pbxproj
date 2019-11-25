@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A605335A2386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = A60533582386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A605335E2386B8AE00BB335C /* PacketHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A605335D2386B8AE00BB335C /* PacketHandler.m */; };
 		A60E40691D3E99D000211137 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A60E40681D3E99D000211137 /* main.m */; };
 		A60E40781D3E9D0C00211137 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A60E40771D3E9D0C00211137 /* main.m */; };
 		A624F4122150D62F0075788B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A624F4112150D62F0075788B /* main.m */; };
@@ -36,20 +35,10 @@
 		A6B3968E236BA7C400C8D33D /* UMPCAPLiveTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B3968C236BA7C400C8D33D /* UMPCAPLiveTrace.m */; };
 		A6B39691236BBAC500C8D33D /* UMPCAPLiveTracePacket.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B3968F236BBAC500C8D33D /* UMPCAPLiveTracePacket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6B39692236BBAC500C8D33D /* UMPCAPLiveTracePacket.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B39690236BBAC500C8D33D /* UMPCAPLiveTracePacket.m */; };
-		A6B3969A236BBFBE00C8D33D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B39699236BBFBE00C8D33D /* main.m */; };
-		A6B3969E236BC0E500C8D33D /* ulib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A67989FB22BB6EC70019806C /* ulib.framework */; };
-		A6B396A1236BC0F000C8D33D /* ulibpcap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781BA1CF54A3600211137 /* ulibpcap.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		A65781C61CF54A3600211137 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A65781B11CF54A3600211137 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A65781B91CF54A3600211137;
-			remoteInfo = ulibpcap;
-		};
-		A6B396A3236BC0F000C8D33D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A65781B11CF54A3600211137 /* Project object */;
 			proxyType = 1;
@@ -95,21 +84,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
-		A6B39695236BBFBE00C8D33D /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A60533582386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMPCAPLiveTraceDelegateProtocol.h; sourceTree = "<group>"; };
-		A605335C2386B8AE00BB335C /* PacketHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PacketHandler.h; sourceTree = "<group>"; };
-		A605335D2386B8AE00BB335C /* PacketHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PacketHandler.m; sourceTree = "<group>"; };
 		A60E40661D3E99CF00211137 /* dump-mtp3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "dump-mtp3"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A60E40681D3E99D000211137 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A60E40751D3E9D0C00211137 /* dump-sccp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "dump-sccp"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,8 +114,6 @@
 		A6B3968C236BA7C400C8D33D /* UMPCAPLiveTrace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UMPCAPLiveTrace.m; sourceTree = "<group>"; };
 		A6B3968F236BBAC500C8D33D /* UMPCAPLiveTracePacket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMPCAPLiveTracePacket.h; sourceTree = "<group>"; };
 		A6B39690236BBAC500C8D33D /* UMPCAPLiveTracePacket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UMPCAPLiveTracePacket.m; sourceTree = "<group>"; };
-		A6B39697236BBFBE00C8D33D /* sniff-ss7 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "sniff-ss7"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A6B39699236BBFBE00C8D33D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,15 +172,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A6B39694236BBFBE00C8D33D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A6B396A1236BC0F000C8D33D /* ulibpcap.framework in Frameworks */,
-				A6B3969E236BC0E500C8D33D /* ulib.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -243,7 +210,6 @@
 				A60E40761D3E9D0C00211137 /* dump-sccp */,
 				A688024120445EBB007192F2 /* pcap-test */,
 				A624F4102150D62F0075788B /* dump-huawei */,
-				A6B39698236BBFBE00C8D33D /* sniff-ss7 */,
 				A65781D61CF54CFE00211137 /* Frameworks */,
 				A65781C81CF54A3600211137 /* ulibpcapTests */,
 				A65781BB1CF54A3600211137 /* Products */,
@@ -259,7 +225,6 @@
 				A60E40751D3E9D0C00211137 /* dump-sccp */,
 				A688024020445EBB007192F2 /* pcap-test */,
 				A624F40F2150D62F0075788B /* dump-huawei */,
-				A6B39697236BBFBE00C8D33D /* sniff-ss7 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -315,16 +280,6 @@
 				A688024220445EBB007192F2 /* main.m */,
 			);
 			path = "pcap-test";
-			sourceTree = "<group>";
-		};
-		A6B39698236BBFBE00C8D33D /* sniff-ss7 */ = {
-			isa = PBXGroup;
-			children = (
-				A6B39699236BBFBE00C8D33D /* main.m */,
-				A605335C2386B8AE00BB335C /* PacketHandler.h */,
-				A605335D2386B8AE00BB335C /* PacketHandler.m */,
-			);
-			path = "sniff-ss7";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -453,24 +408,6 @@
 			productReference = A688024020445EBB007192F2 /* pcap-test */;
 			productType = "com.apple.product-type.tool";
 		};
-		A6B39696236BBFBE00C8D33D /* sniff-ss7 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A6B3969B236BBFBE00C8D33D /* Build configuration list for PBXNativeTarget "sniff-ss7" */;
-			buildPhases = (
-				A6B39693236BBFBE00C8D33D /* Sources */,
-				A6B39694236BBFBE00C8D33D /* Frameworks */,
-				A6B39695236BBFBE00C8D33D /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A6B396A4236BC0F000C8D33D /* PBXTargetDependency */,
-			);
-			name = "sniff-ss7";
-			productName = "sniff-ss7";
-			productReference = A6B39697236BBFBE00C8D33D /* sniff-ss7 */;
-			productType = "com.apple.product-type.tool";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -510,11 +447,6 @@
 						DevelopmentTeam = 2GSNWPNR77;
 						ProvisioningStyle = Automatic;
 					};
-					A6B39696236BBFBE00C8D33D = {
-						CreatedOnToolsVersion = 11.1;
-						DevelopmentTeam = 2GSNWPNR77;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = A65781B41CF54A3600211137 /* Build configuration list for PBXProject "ulibpcap" */;
@@ -536,7 +468,6 @@
 				A60E40741D3E9D0C00211137 /* dump-sccp */,
 				A688023F20445EBB007192F2 /* pcap-test */,
 				A624F40E2150D62F0075788B /* dump-huawei */,
-				A6B39696236BBFBE00C8D33D /* sniff-ss7 */,
 			);
 		};
 /* End PBXProject section */
@@ -664,15 +595,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A6B39693236BBFBE00C8D33D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A605335E2386B8AE00BB335C /* PacketHandler.m in Sources */,
-				A6B3969A236BBFBE00C8D33D /* main.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -680,11 +602,6 @@
 			isa = PBXTargetDependency;
 			target = A65781B91CF54A3600211137 /* ulibpcap */;
 			targetProxy = A65781C61CF54A3600211137 /* PBXContainerItemProxy */;
-		};
-		A6B396A4236BC0F000C8D33D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A65781B91CF54A3600211137 /* ulibpcap */;
-			targetProxy = A6B396A3236BC0F000C8D33D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1081,54 +998,6 @@
 			};
 			name = Release;
 		};
-		A6B3969C236BBFBE00C8D33D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2GSNWPNR77;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/FinkTelecomServices/frameworks",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "me.fink.ulibpcap.sniff-ss7";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		A6B3969D236BBFBE00C8D33D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 2GSNWPNR77;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/FinkTelecomServices/frameworks",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "me.fink.ulibpcap.sniff-ss7";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1191,15 +1060,6 @@
 			buildConfigurations = (
 				A688024420445EBB007192F2 /* Debug */,
 				A688024520445EBB007192F2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A6B3969B236BBFBE00C8D33D /* Build configuration list for PBXNativeTarget "sniff-ss7" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A6B3969C236BBFBE00C8D33D /* Debug */,
-				A6B3969D236BBFBE00C8D33D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

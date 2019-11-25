@@ -9,6 +9,9 @@
 #import "UMPCAPLiveTrace.h"
 #import "UMPCAPLiveTracePacket.h"
 #import <CoreFoundation/CoreFoundation.h>
+#include <netinet/if_ether.h> /* includes net/ethernet.h */
+#include <netinet/ip.h>
+
 
 static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_char *packet);
 
@@ -34,7 +37,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
         {
             NSLog(@"%@",_lastError);
         }
-        _lock =[[UMMutex alloc]init];
+        _lock =[[UMMutex alloc]initWithName:@"UMPCAPLiveTrace_mutex"];
     }
     return self;
 }
@@ -260,10 +263,10 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
 {
     _itemsReceived = [[NSMutableArray alloc]init];
     
-    int cnt = 1;
+    int cnt = 100;
     u_char *arg = (u_char *)(__bridge CFTypeRef)self;
     pcap_loop(_handle, cnt, got_packet, arg);
-    return 0;
+    return 1;
 }
 
 
@@ -274,15 +277,92 @@ typedef void (*pcap_handler)(u_char *, const struct pcap_pkthdr *, const u_char 
 void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
 {
     UMPCAPLiveTrace *obj = (__bridge UMPCAPLiveTrace *)(CFTypeRef)args;
-    
     NSTimeInterval t = header->ts.tv_sec + (header->ts.tv_usec/1000000.0);
     UMPCAPLiveTracePacket *pkt = [[UMPCAPLiveTracePacket alloc]init];
+
+    /* lets start with the ether header... */
+    struct ether_header *eptr = (struct ether_header *) packet;
+
+    pkt.eth_packet_type = ntohs (eptr->ether_type);
+    NSString *s = @"";
+    int version=0;
+    switch(pkt.eth_packet_type)
+    {
+        case ETHERTYPE_PUP:
+            s = @" PUP";
+            break;
+        case ETHERTYPE_IP :
+            s = @" IP";
+            version=4;
+            break;
+        case ETHERTYPE_ARP:
+            s = @" ARP";
+            break;
+        case ETHERTYPE_REVARP:
+            s = @" REVARP";
+            break;
+        case ETHERTYPE_VLAN:
+            s = @" VLAN";
+            break;
+        case ETHERTYPE_IPV6:
+            s = @" IPV6";
+            version=6;
+            break;
+        case ETHERTYPE_PAE:
+            s = @" PAE";
+            break;
+        case ETHERTYPE_RSN_PREAUTH:
+            s = @" RSN_PREAUTH";
+            break;
+        case ETHERTYPE_PTP:
+            s = @" PTP";
+            break;
+        case ETHERTYPE_LOOPBACK:
+            s = @" LOOPBACK";
+            break;
+        case ETHERTYPE_IEEE802154:
+            s=@" IEEE802154";
+            break;
+        default:
+            s=@"";
+    }
+    NSLog(@"Ethertype: 0x%04x%@",pkt.eth_packet_type,s);
+
+    if(version==0)
+    {
+        return;
+    }
     pkt.timestamp   = [[NSDate alloc]initWithTimeIntervalSinceReferenceDate:t];
     pkt.caplen      = header->caplen;
     pkt.len         = header->len;
 #ifdef __APPLE__
     pkt.comment     = @(header->comment);
 #endif
-    pkt.data        = [NSData dataWithBytes:packet length:header->caplen];
-    [obj.delegate handlePacket:pkt];
+
+    uint8_t *ptr = eptr->ether_dhost;
+    pkt.source_ethernet_address = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",ptr[0],ptr[1],ptr[2],ptr[3],ptr[4],ptr[5]];
+    ptr = eptr->ether_shost;
+    pkt.destination_ethernet_address = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",ptr[0],ptr[1],ptr[2],ptr[3],ptr[4],ptr[5]];
+
+    pkt.data            = [NSData dataWithBytes:(void *)packet + sizeof(struct ether_header) length:header->caplen-sizeof(struct ether_header)];
+    if(pkt.data.length > sizeof(struct ip))
+    {
+        const struct ip *ip_pkt = pkt.data.bytes;
+        pkt.ip_version = ip_pkt->ip_v;
+        if(ip_pkt->ip_v == 4)
+        {
+            pkt.ip_tos  = ip_pkt->ip_tos;
+            pkt.ip_len  = ip_pkt->ip_len;
+            pkt.ip_id   = ip_pkt->ip_id;
+            pkt.ip_off  = ip_pkt->ip_off;
+            pkt.ip_ttl  = ip_pkt->ip_ttl;
+            pkt.ip_p  = ip_pkt->ip_p;
+            pkt.ip_sum  = ip_pkt->ip_sum;
+            uint8_t *p = (uint8_t *)&ip_pkt->ip_src;
+            pkt.ip_src = [NSString stringWithFormat:@"%d.%d.%d.%d",p[0],p[1],p[2],p[3]];
+            p = (uint8_t *) &ip_pkt->ip_dst;
+            pkt.ip_dst = [NSString stringWithFormat:@"%d.%d.%d.%d",p[0],p[1],p[2],p[3]];
+            [obj.delegate handlePacket:pkt];
+        }
+    }
 }

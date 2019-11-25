@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A605335A2386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = A60533582386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h */; };
+		A605335A2386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = A60533582386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A605335E2386B8AE00BB335C /* PacketHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A605335D2386B8AE00BB335C /* PacketHandler.m */; };
 		A60E40691D3E99D000211137 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A60E40681D3E99D000211137 /* main.m */; };
 		A60E40781D3E9D0C00211137 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A60E40771D3E9D0C00211137 /* main.m */; };
@@ -267,12 +267,12 @@
 		A65781BC1CF54A3600211137 /* ulibpcap */ = {
 			isa = PBXGroup;
 			children = (
+				A65781BF1CF54A3600211137 /* Info.plist */,
 				A65781BD1CF54A3600211137 /* ulibpcap.h */,
 				A65781DA1CF54D8E00211137 /* UMPCAPFile.h */,
 				A65781DB1CF54D8E00211137 /* UMPCAPFile.m */,
 				A688023820443995007192F2 /* UMPCAPPseudoConnection.h */,
 				A688023920443995007192F2 /* UMPCAPPseudoConnection.m */,
-				A65781BF1CF54A3600211137 /* Info.plist */,
 				A6B3968B236BA7C400C8D33D /* UMPCAPLiveTrace.h */,
 				A6B3968C236BA7C400C8D33D /* UMPCAPLiveTrace.m */,
 				A6B3968F236BBAC500C8D33D /* UMPCAPLiveTracePacket.h */,

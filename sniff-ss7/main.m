@@ -51,18 +51,21 @@ int main(int argc, const char * argv[])
                                                @"name"  : @"device",
                                                @"short" : @"-d",
                                                @"long"  : @"--device",
+                                               @"argument" : @"devicename",
                                                @"help"  : @"the device to sniff on",
                                            },
                                            @{
                                                @"name"  : @"file",
                                                @"short" : @"-F",
                                                @"long"  : @"--file",
+                                               @"argument" : @"filename",
                                                @"help"  : @"the pcap file to read from",
                                            },
                                            @{
                                                @"name"  : @"filter",
                                                @"short" : @"-f",
                                                @"long"  : @"--filter",
+                                               @"argument" : @"filter rule",
                                                @"help"  : @"the capture filter rule",
                                            },
                                            @{
@@ -98,8 +101,7 @@ int main(int argc, const char * argv[])
             verbose = YES;
         }
 
-
-        NSArray *a = params[@"filename"];
+        NSArray *a = params[@"file"];
         if(a.count  > 0)
         {
             for(NSString *filename in a)

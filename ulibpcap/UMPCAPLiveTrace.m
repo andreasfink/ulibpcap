@@ -263,10 +263,14 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
 {
     _itemsReceived = [[NSMutableArray alloc]init];
     
-    int cnt = 100;
     u_char *arg = (u_char *)(__bridge CFTypeRef)self;
-    pcap_loop(_handle, cnt, got_packet, arg);
-    return 1;
+    int cnt = pcap_dispatch(_handle, 1000, got_packet, arg);
+    if((cnt==0) && (_readingFromFile==YES))
+    {
+        _isRunning = NO;
+        return -1;
+    }
+    return cnt;
 }
 
 
@@ -344,13 +348,14 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
     ptr = eptr->ether_shost;
     pkt.destination_ethernet_address = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",ptr[0],ptr[1],ptr[2],ptr[3],ptr[4],ptr[5]];
 
-    pkt.data            = [NSData dataWithBytes:(void *)packet + sizeof(struct ether_header) length:header->caplen-sizeof(struct ether_header)];
     if(pkt.data.length > sizeof(struct ip))
     {
         const struct ip *ip_pkt = pkt.data.bytes;
         pkt.ip_version = ip_pkt->ip_v;
         if(ip_pkt->ip_v == 4)
         {
+            pkt.data            = [NSData dataWithBytes:(void *)packet + sizeof(struct ether_header)+ sizeof(struct ip) length:header->caplen-sizeof(struct ether_header) - sizeof(struct ip)];
+
             pkt.ip_tos  = ip_pkt->ip_tos;
             pkt.ip_len  = ip_pkt->ip_len;
             pkt.ip_id   = ip_pkt->ip_id;

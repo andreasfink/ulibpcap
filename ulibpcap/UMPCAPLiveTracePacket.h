@@ -20,8 +20,6 @@
     NSString        *_source_ethernet_address;
     NSString        *_destination_ethernet_address;
     NSData          *_data;
-
-
     u_char  _ip_tos;                 /* type of service */
     u_short _ip_len;                 /* total length */
     u_short _ip_id;                  /* identification */
@@ -31,6 +29,8 @@
     u_short _ip_sum;                 /* checksum */
     NSString *_ip_src;
     NSString *_ip_dst;
+    int             _source_port;
+    int             _destination_port;
 
 }
 
@@ -52,6 +52,8 @@
 @property(readwrite,atomic,assign) u_short ip_sum;                 /* checksum */
 @property(readwrite,atomic,strong) NSString *ip_src;
 @property(readwrite,atomic,strong) NSString *ip_dst;
+@property(readwrite,atomic,assign) int             source_port;
+@property(readwrite,atomic,assign) int             destination_port;
 
 
 @end

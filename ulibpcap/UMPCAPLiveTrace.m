@@ -290,48 +290,62 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
     pkt.eth_packet_type = ntohs (eptr->ether_type);
     NSString *s = @"";
     int version=0;
-    switch(pkt.eth_packet_type)
+    if(obj.verbose)
     {
-        case ETHERTYPE_PUP:
-            s = @" PUP";
-            break;
-        case ETHERTYPE_IP :
-            s = @" IP";
-            version=4;
-            break;
-        case ETHERTYPE_ARP:
-            s = @" ARP";
-            break;
-        case ETHERTYPE_REVARP:
-            s = @" REVARP";
-            break;
-        case ETHERTYPE_VLAN:
-            s = @" VLAN";
-            break;
-        case ETHERTYPE_IPV6:
-            s = @" IPV6";
-            version=6;
-            break;
-        case ETHERTYPE_PAE:
-            s = @" PAE";
-            break;
-        case ETHERTYPE_RSN_PREAUTH:
-            s = @" RSN_PREAUTH";
-            break;
-        case ETHERTYPE_PTP:
-            s = @" PTP";
-            break;
-        case ETHERTYPE_LOOPBACK:
-            s = @" LOOPBACK";
-            break;
-        case ETHERTYPE_IEEE802154:
-            s=@" IEEE802154";
-            break;
-        default:
-            s=@"";
+        switch(pkt.eth_packet_type)
+        {
+            case ETHERTYPE_PUP:
+                s = @" PUP";
+                break;
+            case ETHERTYPE_IP :
+                s = @" IP";
+                version=4;
+                break;
+            case ETHERTYPE_ARP:
+                s = @" ARP";
+                break;
+            case ETHERTYPE_REVARP:
+                s = @" REVARP";
+                break;
+            case ETHERTYPE_VLAN:
+                s = @" VLAN";
+                break;
+            case ETHERTYPE_IPV6:
+                s = @" IPV6";
+                version=6;
+                break;
+            case ETHERTYPE_PAE:
+                s = @" PAE";
+                break;
+            case ETHERTYPE_RSN_PREAUTH:
+                s = @" RSN_PREAUTH";
+                break;
+            case ETHERTYPE_PTP:
+                s = @" PTP";
+                break;
+            case ETHERTYPE_LOOPBACK:
+                s = @" LOOPBACK";
+                break;
+            case ETHERTYPE_IEEE802154:
+                s=@" IEEE802154";
+                break;
+            default:
+                s=@"";
+        }
+        NSLog(@"Ethertype: 0x%04x%@",pkt.eth_packet_type,s);
     }
-    NSLog(@"Ethertype: 0x%04x%@",pkt.eth_packet_type,s);
-
+    else
+    {
+        switch(pkt.eth_packet_type)
+        {
+            case ETHERTYPE_IP :
+                version=4;
+                break;
+            case ETHERTYPE_IPV6:
+                version=6;
+                break;
+        }
+    }
     if(version==0)
     {
         return;
@@ -348,9 +362,11 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
     ptr = eptr->ether_shost;
     pkt.destination_ethernet_address = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",ptr[0],ptr[1],ptr[2],ptr[3],ptr[4],ptr[5]];
 
-    if(pkt.data.length > sizeof(struct ip))
+    uint8_t *ip_ptr = (void *)eptr + sizeof(struct ether_header);
+
+    if(header->caplen-sizeof(struct ether_header) > sizeof(struct ip))
     {
-        const struct ip *ip_pkt = pkt.data.bytes;
+        const struct ip *ip_pkt = (const struct ip *)ip_ptr;
         pkt.ip_version = ip_pkt->ip_v;
         if(ip_pkt->ip_v == 4)
         {

@@ -9,6 +9,13 @@
 #import <ulib/ulib.h>
 #import <pcap/pcap.h>
 
+typedef enum  UMPCAPLiveTracePacketDirection
+{
+    UMPCAPLiveTracePacketDirection_Unknown = 0,
+    UMPCAPLiveTracePacketDirection_ATOB = 1,
+    UMPCAPLiveTracePacketDirection_BTOA = 2,
+} UMPCAPLiveTracePacketDirection;
+
 @interface UMPCAPLiveTracePacket : UMObject
 {
     NSDate          *_timestamp;    /* time stamp */
@@ -31,7 +38,7 @@
     NSString *_ip_dst;
     int             _source_port;
     int             _destination_port;
-
+    UMPCAPLiveTracePacketDirection            _direction;
 }
 
 @property(readwrite,atomic,strong)  NSDate         *timestamp;
@@ -54,6 +61,7 @@
 @property(readwrite,atomic,strong) NSString *ip_dst;
 @property(readwrite,atomic,assign) int             source_port;
 @property(readwrite,atomic,assign) int             destination_port;
+@property(readwrite,atomic,assign) UMPCAPLiveTracePacketDirection             direction;
 
 
 @end

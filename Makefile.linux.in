@@ -36,7 +36,7 @@ ${SLIB}: ${OFILES}
 	ar rcs ${SLIB} ${OFILES}
 	ranlib ${SLIB}
 
-install: ${LIB} ${SLIB} build/dump-huawei build/dump-mtp3 build/dump-sccp build/sniff-ss7
+install: ${LIB} ${SLIB} build/dump-huawei build/dump-mtp3 build/dump-sccp 
 	-mkdir -p ${DESTDIR}/usr/local/lib/pkgconfig
 	-mkdir -p ${DESTDIR}/usr/local/bin
 	rm -f "${DESTDIR}/usr/local/lib/${LIB}.${MAJORVER}.${MINORVER}.${REVISION}"
@@ -52,7 +52,6 @@ install: ${LIB} ${SLIB} build/dump-huawei build/dump-mtp3 build/dump-sccp build/
 	-install -b -g root -o root -m 755 build/dump-mtp3 ${DESTDIR}/usr/local/bin/dump-mtp3
 	-install -b -g root -o root -m 755 build/dump-huawei ${DESTDIR}/usr/local/bin/dump-huawei
 	-install -b -g root -o root -m 755 build/dump-sccp ${DESTDIR}/usr/local/bin/dump-sccp
-	-install -b -g root -o root -m 755 build/dump-sccp ${DESTDIR}/usr/local/bin/sniff-ss7
 	-mkdir -p ${DESTDIR}/usr/local/include/@PROJECT_NAME@
 	cp $(HFILES) ${DESTDIR}/usr/local/include/@PROJECT_NAME@
 	ldconfig
@@ -69,16 +68,12 @@ build/dump-sccp: dump-sccp/main.m.o lib@PROJECT_NAME@.so
 	mkdir -p build
 	${CC} -o build/dump-sccp  -L. -l@PROJECT_NAME@ ${LDFLAGS} dump-sccp/main.m.o
 
-build/sniff-ss7: sniff-ss7/main.m.o lib@PROJECT_NAME@.so
-	mkdir -p build
-	${CC} -o build/sniff-ss7  -L. -l@PROJECT_NAME@ ${LDFLAGS} sniff-ss7/main.m.o
 
 clean:
 	rm -f $(LIB) $(OFILES) build/*
 	rm -f dump-huawei/main.m.o
 	rm -f dump-mtp3/main.m.o
 	rm -f dump-sccp/main.m.o
-	rm -f sniff-ss7/main.m.o
 
 
 .SUFFIXES: .m.o .o .m .c

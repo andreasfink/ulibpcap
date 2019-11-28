@@ -282,7 +282,9 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 {
     UMPCAPLiveTrace *obj = (__bridge UMPCAPLiveTrace *)(CFTypeRef)args;
     NSTimeInterval t = header->ts.tv_sec + (header->ts.tv_usec/1000000.0);
+
     UMPCAPLiveTracePacket *pkt = [[UMPCAPLiveTracePacket alloc]init];
+    pkt.timestamp = [NSDate dateWithTimeIntervalSince1970:t];
 
     /* lets start with the ether header... */
     struct ether_header *eptr = (struct ether_header *) packet;
@@ -358,7 +360,6 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
     {
         return;
     }
-    pkt.timestamp   = [[NSDate alloc]initWithTimeIntervalSinceReferenceDate:t];
     pkt.caplen      = header->caplen;
     pkt.len         = header->len;
 #ifdef __APPLE__

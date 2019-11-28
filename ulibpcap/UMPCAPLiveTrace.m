@@ -314,21 +314,29 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
                 s = @" IPV6";
                 version=6;
                 break;
+#ifdef ETHERTYPE_PAE
             case ETHERTYPE_PAE:
                 s = @" PAE";
                 break;
+#endif
+#ifdef ETHERTYPE_RSN_PREAUTH
             case ETHERTYPE_RSN_PREAUTH:
                 s = @" RSN_PREAUTH";
                 break;
+#endif
+#ifdef ETHERTYPE_PTP
             case ETHERTYPE_PTP:
                 s = @" PTP";
                 break;
+#endif
             case ETHERTYPE_LOOPBACK:
                 s = @" LOOPBACK";
                 break;
+#ifdef ETHERTYPE_IEEE802154
             case ETHERTYPE_IEEE802154:
                 s=@" IEEE802154";
                 break;
+#endif
             default:
                 s=@"";
         }

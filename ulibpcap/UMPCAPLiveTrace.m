@@ -66,90 +66,107 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
 
 - (UMPCAP_LiveTraceError)openDevice:(NSString *)deviceName
 {
+    UMPCAP_LiveTraceError err = UMPCAP_LiveTraceError_none;
     [_lock lock];
-    @try
+    if(deviceName==NULL)
     {
-        if(deviceName==NULL)
+        _deviceName = _defaultDevice;
+    }
+    else
+    {
+        _deviceName = deviceName;
+    }
+    char errbuf[PCAP_ERRBUF_SIZE];
+    if(_verbose)
+    {
+        NSLog(@"opening device %@ ",_deviceName);
+    }
+    _handle = pcap_open_live(_deviceName.UTF8String, _snaplen,_promisc, _to_ms,errbuf);
+    if (_handle == NULL)
+    {
+        _lastError = [NSString stringWithFormat:@"Couldn't open device %@: %s", _deviceName, errbuf];
+        if(_verbose)
         {
-            _deviceName = _defaultDevice;
+            NSLog(@"Error: %@ ",_lastError);
+        }
+        err =  UMPCAP_LiveTraceError_can_not_open;
+    }
+
+    else if (pcap_datalink(_handle) != DLT_EN10MB)
+    {
+        _lastError = [NSString stringWithFormat:@"Device %@ doesn't provide Ethernet headers - not supported", _deviceName];
+        if(_verbose)
+        {
+            NSLog(@"Error: %@ ",_lastError);
+        }
+        err = UMPCAP_LiveTraceError_unsupported_datalink_type;
+    }
+    else
+    {
+        bpf_u_int32 netmask = 0;
+        memset(&_fp,0,sizeof(_fp));
+        if(pcap_compile(_handle, &_fp, _capturingRule.UTF8String, 1,netmask) != 0)
+        {
+            _lastError = [NSString stringWithFormat:@"Can not compile capture rule %@:\n%s", _capturingRule,pcap_geterr(_handle)];
+            if(_verbose)
+            {
+                NSLog(@"Error: %@ ",_lastError);
+            }
+            err = UMPCAP_LiveTraceError_unsupported_capturing_rule;
+        }
+        else if(pcap_setfilter(_handle, &_fp) !=0)
+        {
+            _lastError = [NSString stringWithFormat:@"Can not install capture filter %@:\n%s", _capturingRule,pcap_geterr(_handle)];
+            if(_verbose)
+            {
+                NSLog(@"Error: %@ ",_lastError);
+            }
+            err = UMPCAP_LiveTraceError_unsupported_capturing_rule;
         }
         else
         {
-            _deviceName = deviceName;
+            _isOpen = YES;
+            if(_verbose)
+            {
+                NSLog(@"device successfully opened");
+            }
         }
-        char errbuf[PCAP_ERRBUF_SIZE];
-        _handle = pcap_open_live(_deviceName.UTF8String, _snaplen,_promisc, _to_ms,errbuf);
-        if (_handle == NULL)
-        {
-            _lastError = [NSString stringWithFormat:@"Couldn't open device %@: %s", _deviceName, errbuf];
-            return  UMPCAP_LiveTraceError_can_not_open;
-        }
-        
-        if (pcap_datalink(_handle) != DLT_EN10MB)
-        {
-            _lastError = [NSString stringWithFormat:@"Device %@ doesn't provide Ethernet headers - not supported", _deviceName];
-            return UMPCAP_LiveTraceError_unsupported_datalink_type;
-        }
-
-        bpf_u_int32 netmask = 0;
-        memset(&_fp,0,sizeof(_fp));
-        if(pcap_compile(_handle, &_fp, _capturingRule.UTF8String, 1,netmask) == -1)
-        {
-            _lastError = [NSString stringWithFormat:@"Can not compile capture rule %@ ", _capturingRule];
-            return UMPCAP_LiveTraceError_unsupported_capturing_rule;
-        }
-        if(pcap_setfilter(_handle, &_fp) ==-1)
-        {
-            _lastError = [NSString stringWithFormat:@"Can not install capture filter %@ ", _capturingRule];
-            return UMPCAP_LiveTraceError_unsupported_capturing_rule;
-        }
-        _isOpen = YES;
     }
-    @catch (NSException *e)
-    {
-        NSLog(@"Exception %@",e);
-    }
-    @finally
-    {
-            [_lock unlock];
-    }
+    [_lock unlock];
+    return err;
 }
 
 - (UMPCAP_LiveTraceError)openFile:(NSString *)filename;
 {
+    UMPCAP_LiveTraceError err = UMPCAP_LiveTraceError_none;
+
     [_lock lock];
-    @try
+    _fileName = filename;
+    _readingFromFile = YES;
+
+    char errbuf[PCAP_ERRBUF_SIZE] ;
+    memset(errbuf,0x00,PCAP_ERRBUF_SIZE);
+
+    FILE *f = fopen(_fileName.UTF8String,"r+");
+    if(f == NULL)
     {
-        _fileName = filename;
-        _readingFromFile = YES;
-
-        char errbuf[PCAP_ERRBUF_SIZE] ;
-        memset(errbuf,0x00,PCAP_ERRBUF_SIZE);
-
-        FILE *f = fopen(_fileName.UTF8String,"r+");
-        if(f == NULL)
-        {
-            return UMPCAP_LiveTraceError_can_not_open;
-        }
+        err = UMPCAP_LiveTraceError_can_not_open;
+    }
+    else
+    {
         _handle = pcap_fopen_offline(f,errbuf);
         if(_handle == NULL)
         {
             NSLog(@"pcap_fopen_offline returns error %s",errbuf);
-            return UMPCAP_LiveTraceError_can_not_open;
+            err =  UMPCAP_LiveTraceError_can_not_open;
         }
         else
         {
             _isOpen = YES;
         }
     }
-    @catch (NSException *e)
-    {
-        NSLog(@"Exception %@",e);
-    }
-    @finally
-    {
-        [_lock unlock];
-    }
+    [_lock unlock];
+    return err;
 }
 
 - (UMPCAP_LiveTraceError)close

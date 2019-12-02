@@ -297,119 +297,122 @@ typedef void (*pcap_handler)(u_char *, const struct pcap_pkthdr *, const u_char 
 
 void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
 {
-    UMPCAPLiveTrace *obj = (__bridge UMPCAPLiveTrace *)(CFTypeRef)args;
-    NSTimeInterval t = header->ts.tv_sec + (header->ts.tv_usec/1000000.0);
-
-    UMPCAPLiveTracePacket *pkt = [[UMPCAPLiveTracePacket alloc]init];
-    pkt.timestamp = [NSDate dateWithTimeIntervalSince1970:t];
-
-    /* lets start with the ether header... */
-    struct ether_header *eptr = (struct ether_header *) packet;
-
-    pkt.eth_packet_type = ntohs (eptr->ether_type);
-    NSString *s = @"";
-    int version=0;
-    if(obj.verbose)
+    @autoreleasepool
     {
-        switch(pkt.eth_packet_type)
+        UMPCAPLiveTrace *obj = (__bridge UMPCAPLiveTrace *)(CFTypeRef)args;
+        NSTimeInterval t = header->ts.tv_sec + (header->ts.tv_usec/1000000.0);
+
+        UMPCAPLiveTracePacket *pkt = [[UMPCAPLiveTracePacket alloc]init];
+        pkt.timestamp = [NSDate dateWithTimeIntervalSince1970:t];
+
+        /* lets start with the ether header... */
+        struct ether_header *eptr = (struct ether_header *) packet;
+
+        pkt.eth_packet_type = ntohs (eptr->ether_type);
+        NSString *s = @"";
+        int version=0;
+        if(obj.verbose)
         {
-            case ETHERTYPE_PUP:
-                s = @" PUP";
-                break;
-            case ETHERTYPE_IP :
-                s = @" IP";
-                version=4;
-                break;
-            case ETHERTYPE_ARP:
-                s = @" ARP";
-                break;
-            case ETHERTYPE_REVARP:
-                s = @" REVARP";
-                break;
-            case ETHERTYPE_VLAN:
-                s = @" VLAN";
-                break;
-            case ETHERTYPE_IPV6:
-                s = @" IPV6";
-                version=6;
-                break;
-#ifdef ETHERTYPE_PAE
-            case ETHERTYPE_PAE:
-                s = @" PAE";
-                break;
-#endif
-#ifdef ETHERTYPE_RSN_PREAUTH
-            case ETHERTYPE_RSN_PREAUTH:
-                s = @" RSN_PREAUTH";
-                break;
-#endif
-#ifdef ETHERTYPE_PTP
-            case ETHERTYPE_PTP:
-                s = @" PTP";
-                break;
-#endif
-            case ETHERTYPE_LOOPBACK:
-                s = @" LOOPBACK";
-                break;
-#ifdef ETHERTYPE_IEEE802154
-            case ETHERTYPE_IEEE802154:
-                s=@" IEEE802154";
-                break;
-#endif
-            default:
-                s=@"";
+            switch(pkt.eth_packet_type)
+            {
+                case ETHERTYPE_PUP:
+                    s = @" PUP";
+                    break;
+                case ETHERTYPE_IP :
+                    s = @" IP";
+                    version=4;
+                    break;
+                case ETHERTYPE_ARP:
+                    s = @" ARP";
+                    break;
+                case ETHERTYPE_REVARP:
+                    s = @" REVARP";
+                    break;
+                case ETHERTYPE_VLAN:
+                    s = @" VLAN";
+                    break;
+                case ETHERTYPE_IPV6:
+                    s = @" IPV6";
+                    version=6;
+                    break;
+    #ifdef ETHERTYPE_PAE
+                case ETHERTYPE_PAE:
+                    s = @" PAE";
+                    break;
+    #endif
+    #ifdef ETHERTYPE_RSN_PREAUTH
+                case ETHERTYPE_RSN_PREAUTH:
+                    s = @" RSN_PREAUTH";
+                    break;
+    #endif
+    #ifdef ETHERTYPE_PTP
+                case ETHERTYPE_PTP:
+                    s = @" PTP";
+                    break;
+    #endif
+                case ETHERTYPE_LOOPBACK:
+                    s = @" LOOPBACK";
+                    break;
+    #ifdef ETHERTYPE_IEEE802154
+                case ETHERTYPE_IEEE802154:
+                    s=@" IEEE802154";
+                    break;
+    #endif
+                default:
+                    s=@"";
+            }
+            NSLog(@"Ethertype: 0x%04x%@",pkt.eth_packet_type,s);
         }
-        NSLog(@"Ethertype: 0x%04x%@",pkt.eth_packet_type,s);
-    }
-    else
-    {
-        switch(pkt.eth_packet_type)
+        else
         {
-            case ETHERTYPE_IP :
-                version=4;
-                break;
-            case ETHERTYPE_IPV6:
-                version=6;
-                break;
+            switch(pkt.eth_packet_type)
+            {
+                case ETHERTYPE_IP :
+                    version=4;
+                    break;
+                case ETHERTYPE_IPV6:
+                    version=6;
+                    break;
+            }
         }
-    }
-    if(version==0)
-    {
-        return;
-    }
-    pkt.caplen      = header->caplen;
-    pkt.len         = header->len;
-#ifdef __APPLE__
-    pkt.comment     = @(header->comment);
-#endif
-
-    uint8_t *ptr = eptr->ether_dhost;
-    pkt.source_ethernet_address = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",ptr[0],ptr[1],ptr[2],ptr[3],ptr[4],ptr[5]];
-    ptr = eptr->ether_shost;
-    pkt.destination_ethernet_address = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",ptr[0],ptr[1],ptr[2],ptr[3],ptr[4],ptr[5]];
-
-    uint8_t *ip_ptr = (void *)eptr + sizeof(struct ether_header);
-
-    if(header->caplen-sizeof(struct ether_header) > sizeof(struct ip))
-    {
-        const struct ip *ip_pkt = (const struct ip *)ip_ptr;
-        pkt.ip_version = ip_pkt->ip_v;
-        if(ip_pkt->ip_v == 4)
+        if(version==0)
         {
-            pkt.data            = [NSData dataWithBytes:(void *)packet + sizeof(struct ether_header)+ sizeof(struct ip) length:header->caplen-sizeof(struct ether_header) - sizeof(struct ip)];
+            return;
+        }
+        pkt.caplen      = header->caplen;
+        pkt.len         = header->len;
+    #ifdef __APPLE__
+        pkt.comment     = @(header->comment);
+    #endif
 
-            pkt.ip_tos  = ip_pkt->ip_tos;
-            pkt.ip_len  = ip_pkt->ip_len;
-            pkt.ip_id   = ip_pkt->ip_id;
-            pkt.ip_off  = ip_pkt->ip_off;
-            pkt.ip_ttl  = ip_pkt->ip_ttl;
-            pkt.ip_p  = ip_pkt->ip_p;
-            pkt.ip_sum  = ip_pkt->ip_sum;
-            uint8_t *p = (uint8_t *)&ip_pkt->ip_src;
-            pkt.ip_src = [NSString stringWithFormat:@"%d.%d.%d.%d",p[0],p[1],p[2],p[3]];
-            p = (uint8_t *) &ip_pkt->ip_dst;
-            pkt.ip_dst = [NSString stringWithFormat:@"%d.%d.%d.%d",p[0],p[1],p[2],p[3]];
-            [obj.delegate handlePacket:pkt];
+        uint8_t *ptr = eptr->ether_dhost;
+        pkt.source_ethernet_address = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",ptr[0],ptr[1],ptr[2],ptr[3],ptr[4],ptr[5]];
+        ptr = eptr->ether_shost;
+        pkt.destination_ethernet_address = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",ptr[0],ptr[1],ptr[2],ptr[3],ptr[4],ptr[5]];
+
+        uint8_t *ip_ptr = (void *)eptr + sizeof(struct ether_header);
+
+        if(header->caplen-sizeof(struct ether_header) > sizeof(struct ip))
+        {
+            const struct ip *ip_pkt = (const struct ip *)ip_ptr;
+            pkt.ip_version = ip_pkt->ip_v;
+            if(ip_pkt->ip_v == 4)
+            {
+                pkt.data            = [NSData dataWithBytes:(void *)packet + sizeof(struct ether_header)+ sizeof(struct ip) length:header->caplen-sizeof(struct ether_header) - sizeof(struct ip)];
+
+                pkt.ip_tos  = ip_pkt->ip_tos;
+                pkt.ip_len  = ip_pkt->ip_len;
+                pkt.ip_id   = ip_pkt->ip_id;
+                pkt.ip_off  = ip_pkt->ip_off;
+                pkt.ip_ttl  = ip_pkt->ip_ttl;
+                pkt.ip_p  = ip_pkt->ip_p;
+                pkt.ip_sum  = ip_pkt->ip_sum;
+                uint8_t *p = (uint8_t *)&ip_pkt->ip_src;
+                pkt.ip_src = [NSString stringWithFormat:@"%d.%d.%d.%d",p[0],p[1],p[2],p[3]];
+                p = (uint8_t *) &ip_pkt->ip_dst;
+                pkt.ip_dst = [NSString stringWithFormat:@"%d.%d.%d.%d",p[0],p[1],p[2],p[3]];
+                [obj.delegate handlePacket:pkt];
+            }
         }
     }
 }

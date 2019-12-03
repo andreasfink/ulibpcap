@@ -42,6 +42,7 @@ typedef enum UMPCAP_LiveTraceError
     NSMutableArray  *_itemsReceived;
 
     id<UMPCAPLiveTraceDelegateProtocol> _delegate;
+    UMPCAPLiveTracePacket *_lastPacket;
 }
 
 @property(readwrite,strong,atomic)  NSString *deviceName;
@@ -50,6 +51,7 @@ typedef enum UMPCAP_LiveTraceError
 @property(readwrite,strong,atomic)   id<UMPCAPLiveTraceDelegateProtocol> delegate;
 @property(readonly,assign,atomic)  BOOL  isRunning;
 @property(readwrite,assign,atomic)  BOOL  verbose;
+@property(readwrite,strong,atomic)  UMPCAPLiveTracePacket  *lastPacket;
 
 - (UMPCAPLiveTrace *)initWithName:(NSString *)name;
 - (UMPCAP_LiveTraceError)openDevice:(NSString *)devicename;

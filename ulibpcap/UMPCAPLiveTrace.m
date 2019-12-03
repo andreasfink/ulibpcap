@@ -281,7 +281,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     _itemsReceived = [[NSMutableArray alloc]init];
     
     u_char *arg = (u_char *)(__bridge CFTypeRef)self;
-    int cnt = pcap_dispatch(_handle, 1000, got_packet, arg);
+    int cnt = pcap_loop(_handle, 100, got_packet, arg);
     if((cnt==0) && (_readingFromFile==YES))
     {
         _isRunning = NO;
@@ -299,12 +299,12 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 {
     @autoreleasepool
     {
+
         UMPCAPLiveTrace *obj = (__bridge UMPCAPLiveTrace *)(CFTypeRef)args;
         NSTimeInterval t = header->ts.tv_sec + (header->ts.tv_usec/1000000.0);
 
         UMPCAPLiveTracePacket *pkt = [[UMPCAPLiveTracePacket alloc]init];
         pkt.timestamp = [NSDate dateWithTimeIntervalSince1970:t];
-
         /* lets start with the ether header... */
         struct ether_header *eptr = (struct ether_header *) packet;
 
@@ -411,7 +411,39 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
                 pkt.ip_src = [NSString stringWithFormat:@"%d.%d.%d.%d",p[0],p[1],p[2],p[3]];
                 p = (uint8_t *) &ip_pkt->ip_dst;
                 pkt.ip_dst = [NSString stringWithFormat:@"%d.%d.%d.%d",p[0],p[1],p[2],p[3]];
-                [obj.delegate handlePacket:pkt];
+                BOOL isDupe = NO;
+                if([pkt.timestamp isEqualToDate:obj.lastPacket.timestamp] || 1)
+                {
+                    if([obj.lastPacket.data isEqualToData:pkt.data])
+                    {
+                        if([obj.lastPacket.ip_src isEqualToString:pkt.ip_src])
+                        {
+                            if([obj.lastPacket.ip_dst isEqualToString:pkt.ip_dst])
+                            {
+                                if([obj.lastPacket.source_ethernet_address isEqualToString:pkt.source_ethernet_address])
+                                {
+                                    if([obj.lastPacket.destination_ethernet_address isEqualToString:pkt.destination_ethernet_address])
+                                    {
+                                        isDupe=YES;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if(isDupe==NO)
+                {
+                    NSLog(@"data %@",pkt.data.hexString);
+                    [obj.delegate handlePacket:pkt];
+                }
+                else
+                {
+                    if(obj.verbose)
+                    {
+                        NSLog(@"ignoring duplicate");
+                    }
+                }
+                obj.lastPacket = pkt;
             }
         }
     }

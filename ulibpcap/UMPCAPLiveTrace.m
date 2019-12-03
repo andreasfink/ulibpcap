@@ -281,7 +281,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     _itemsReceived = [[NSMutableArray alloc]init];
     
     u_char *arg = (u_char *)(__bridge CFTypeRef)self;
-    int cnt = pcap_loop(_handle, 100, got_packet, arg);
+    int cnt = pcap_dispatch(_handle, 100, got_packet, arg);
     if((cnt==0) && (_readingFromFile==YES))
     {
         _isRunning = NO;

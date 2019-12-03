@@ -433,7 +433,6 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
                 }
                 if(isDupe==NO)
                 {
-                    NSLog(@"data %@",pkt.data.hexString);
                     [obj.delegate handlePacket:pkt];
                 }
                 else

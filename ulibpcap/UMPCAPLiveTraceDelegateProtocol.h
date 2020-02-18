@@ -13,7 +13,8 @@
 
 @protocol  UMPCAPLiveTraceDelegateProtocol<NSObject>
 
-- (void)handlePacket:(UMPCAPLiveTracePacket *)pkt;
+- (void)handleEthernetPacket:(UMPCAPLiveTracePacket *)pkt;
+- (void)handleMtp3Packet:(UMPCAPLiveTracePacket *)pkt;
 
 @end
 

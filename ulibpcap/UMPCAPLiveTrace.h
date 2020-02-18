@@ -29,6 +29,7 @@ typedef enum UMPCAP_LiveTraceError
     NSString        *_deviceName;
     NSString        *_fileName;
     pcap_t          *_handle;
+    int             _frameType;
     int             _snaplen;
     int             _promisc;
     int             _to_ms;
@@ -52,6 +53,7 @@ typedef enum UMPCAP_LiveTraceError
 @property(readonly,assign,atomic)  BOOL  isRunning;
 @property(readwrite,assign,atomic)  BOOL  verbose;
 @property(readwrite,strong,atomic)  UMPCAPLiveTracePacket  *lastPacket;
+@property(readwrite,assign,atomic)  int   frameType;
 
 - (UMPCAPLiveTrace *)initWithName:(NSString *)name;
 - (UMPCAP_LiveTraceError)openDevice:(NSString *)devicename;

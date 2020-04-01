@@ -48,14 +48,27 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     _snaplen = BUFSIZ;
     _promisc = 1;
     _to_ms = 1000;
-
-    char errbuf[PCAP_ERRBUF_SIZE];
+    _defaultDevice=NULL;
+    
+    char errbuf[PCAP_ERRBUF_SIZE+1];
+    
+#if 0
     char *dev = pcap_lookupdev(errbuf);
     if(dev)
     {
         _defaultDevice = @(dev);
     }
-    else
+#else
+    pcap_if_t *alldevsp = NULL;
+    pcap_findalldevs(&alldevsp, errbuf);
+    if(alldevsp)
+    {
+        _defaultDevice = @(alldevsp->name);
+    }
+    pcap_freealldevs(alldevsp);
+#endif
+    
+    if(_defaultDevice==NULL)
     {
         _lastError = [NSString stringWithFormat:@"Couldn't find default device: %s\n",
             errbuf];

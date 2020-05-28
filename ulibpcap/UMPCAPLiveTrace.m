@@ -291,15 +291,18 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
 
 - (int)work /* should return positive value for work items done, 0 for no work done  and -1 for termination */
 {
-    _itemsReceived = [[NSMutableArray alloc]init];
-    
-    _frameType = pcap_datalink(_handle);
-    u_char *arg = (u_char *)(__bridge CFTypeRef)self;
-    int cnt = pcap_dispatch(_handle, 100, got_packet, arg);
-    if((cnt==0) && (_readingFromFile==YES))
+    int cnt;
+    @autoreleasepool
     {
-        _isRunning = NO;
-        return -1;
+        _itemsReceived = [[NSMutableArray alloc]init];
+        _frameType = pcap_datalink(_handle);
+        u_char *arg = (u_char *)(__bridge CFTypeRef)self;
+        cnt = pcap_dispatch(_handle, 100, got_packet, arg);
+        if((cnt==0) && (_readingFromFile==YES))
+        {
+            _isRunning = NO;
+            return -1;
+        }
     }
     return cnt;
 }

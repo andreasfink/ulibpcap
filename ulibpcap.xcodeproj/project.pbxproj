@@ -94,6 +94,7 @@
 		A60E40771D3E9D0C00211137 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A624F40F2150D62F0075788B /* dump-huawei */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "dump-huawei"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A624F4112150D62F0075788B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A634105924B723310044A2B6 /* VERSION */ = {isa = PBXFileReference; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
 		A65781BA1CF54A3600211137 /* ulibpcap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ulibpcap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A65781BD1CF54A3600211137 /* ulibpcap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ulibpcap.h; sourceTree = "<group>"; };
 		A65781BF1CF54A3600211137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -202,6 +203,7 @@
 		A65781B01CF54A3600211137 = {
 			isa = PBXGroup;
 			children = (
+				A634105924B723310044A2B6 /* VERSION */,
 				A66A4249217493CC0083526C /* Makefile.linux.in */,
 				A66A4248217493CB0083526C /* Makefile.osx.in */,
 				A65781BC1CF54A3600211137 /* ulibpcap */,

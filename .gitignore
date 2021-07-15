@@ -16,6 +16,8 @@ Classes/ulib_config.h
 version.h
 BUILDNR
 make_buildnr.sh
+buildnumber.c
+buildnumber.h
 
 
 #########################

@@ -16,6 +16,7 @@
 #include <net/if.h>
 #include <netinet/ip.h>
 #include <netinet/udp.h>
+#include <sys/ioctl.h>
 #ifdef __LINUX__
 #include <netinet/ether.h>
 #include <linux/if_packet.h>

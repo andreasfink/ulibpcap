@@ -128,493 +128,204 @@
 #else
     const char *name = _interfaceName.UTF8String;
     setsockopt(_sockfd, SOL_SOCKET, SO_BINDTODEVICE, name, strlen(name));
-    
     struct ifreq ifr;
     memset(&ifr, 0, sizeof(struct ifreq));
     snprintf(ifr.ifr_name, sizeof(ifr.ifr_name), "%s",name);
     ioctl(_sockfd, SIOCGIFINDEX, &ifr);
     _interfaceIndex = ifr.ifr_ifru.ifru_ivalue;
-    
 #endif
     return UMPCAPMirrorPort_error_none;
 }
 
-- (void)writeFromMacAddress:(NSString *)srcMac
-               toMacAddress:(NSString *)dstMac
-               ethernetType:(int)ethType
-                       dscp:(int)dscp
-                      flags:(int)flags
-                        ttl:(int)ttl
-                   protocol:(int)protocol
-              sourceAddress:(NSString *)srcIp
-         destinationAddress:(NSString *)dstIp
-                 sourcePort:(int)srcPort
-            destinationPort:(int)dstPort
+- (NSData *)ethernetPacket:(NSData *)payload
+          sourceMacAddress:(NSData *)srcMacAddr
+     destinationMacAddress:(NSData *)dstMacAddr
+              ethernetType:(uint16_t)ethType
 {
+    if((srcMacAddr.length !=6) || (dstMacAddr.length !=6))
+        return NULL;
+    NSMutableData *ethPacket = [[NSMutableData alloc]init];
+    [ethPacket appendData:dstMacAddr];
+    [ethPacket appendData:srcMacAddr];
+    uint8_t h[2];
+    h[0] = (ethType >> 8) & 0xFF;
+    h[1] = (ethType >> 0) & 0xFF;
+    [ethPacket appendBytes:h length:2];
+    [ethPacket appendData:payload];
 }
 
-#if 0
-
-    - (NSData *)mtp2PacketWithPseudoHeader:(NSData *)payload inbound:(BOOL)inbound
+     c 5
+    if(srcMacAddr == NULL)
     {
-        return [UMPCAPPseudoConnection mtp2PacketWithPseudoHeader:payload
-                                                          inbound:inbound
-                                                             link:_linkNumber
-                                                          annex_a:UMPCAP_MTP2_ANNEX_A_USED_UNKNOWN];
+        srcMacAddr = _localMacAddress;
+    }
+}
+
+- (NSData *)ipv4Packet:(NSData *)data
+                  dscp:(uint8_t)dscp
+                 flags:(uint8_t)flags
+                   ttl:(uint8_t)ttl
+              protocol:(uint8_t)protocol
+         sourceAddress:(NSString *)srcIp
+    destinationAddress:(NSString *)dstIp
+                 ident:(int)ident
+              fragment:(int)fragment
+{
+    uint8_t    header[20]; /* = length without options */
+    memset(&header[0],0x00,sizeof(header));
+    uint16_t totalLength = 20 * data.length;
+    header[0] = 0x44; /*  , header version = 4, header length = 5*4 20 bytes */
+    header[1] = dscp;
+    header[2] = (totalLength >> 8) & 0xFF;
+    header[3] = (totalLength >> 0) & 0xFF;
+    header[4] = (ident >> 8) & 0xFF;
+    header[5] = (ident >> 0) & 0xFF;
+    header[6] = ((flags & 0x7) << 5) | ((fragment >> 5) & 0xFF);
+    header[7] = (fragment >> 0) & 0xFF;
+    header[8] = (ttl >> 0) & 0xFF;
+    header[9] = (protocol >> 0) & 0xFF;
+    header[10] = 0; /* header checksum */
+    header[11] = 0; /* header checksum */
+    NSArray *a = [srcIp componentsSeparatedByString:@"."];
+    NSArray *b = [dstIp componentsSeparatedByString:@"."];
+    if((a.count != 4) && (b.count != 4))
+    {
+        return NULL;
     }
 
-    + (NSData *)mtp2PacketWithPseudoHeader:(NSData *)payload
-                                   inbound:(BOOL)inbound
-                                      link:(int)link
-                                   annex_a:(UMPCAP_MTP2_AnnexA)annex_a
-    {
-        uint8_t header[4];
-        header[0] = inbound ? 0 : 1;
-        header[1] = annex_a;
-        header[2] = link & 0xFF;
-        header[3] = (link & 0xFF00)>> 8;
+    header[12] = (uint8_t)atoi(((NSString *)a[0]).UTF8String);
+    header[13] = (uint8_t)atoi(((NSString *)a[1]).UTF8String);
+    header[14] = (uint8_t)atoi(((NSString *)a[2]).UTF8String);
+    header[15] = (uint8_t)atoi(((NSString *)a[3]).UTF8String);
+    header[16] = (uint8_t)atoi(((NSString *)b[0]).UTF8String);
+    header[17] = (uint8_t)atoi(((NSString *)b[1]).UTF8String);
+    header[18] = (uint8_t)atoi(((NSString *)b[2]).UTF8String);
+    header[19] = (uint8_t)atoi(((NSString *)b[3]).UTF8String);
+    
+    int chk = [UMPCAPPseudoConnection ip_header_checksum:header len:sizeof(header)];
+    header[10] = (chk >> 8) & 0xFF; /* header checksum */
+    header[11] = (chk >> 0) & 0xFF; /* header checksum */
 
-        NSMutableData *data = [NSMutableData dataWithBytes:&header length:sizeof(header)];
-        [data appendData:payload];
-        return data;
+
+    NSMutableData *d = [[NSMutableData alloc]init];
+    [d appendBytes:&header[0] length:sizeof(header)];
+    [d appendData:data];
+    return d;
+}
+
+- (NSData *)tcpPacket:(NSData *)tcpPayload
+           sourcePort:(uint16_t)sourcePort
+      destinationPort:(uint16_t)destinationPort
+       sequenceNumber:(uint32_t)seq
+            ackNumber:(uint32_t)ack
+                flags:(uint16_t)flags
+           windowSize:(uint16_t)windowSize
+        urgentPointer:(uint16_t)urgentPointer
+{
+    uint8_t h[20];
+    h[0] = (sourcePort >> 8) & 0xFF;
+    h[1] = (sourcePort >> 0) & 0xFF;
+    h[2] = (destinationPort >> 8) & 0xFF;
+    h[3] = (destinationPort >> 0) & 0xFF;
+    
+    h[4] = (seq >> 24) & 0xFF;
+    h[5] = (seq >> 16) & 0xFF;
+    h[6] = (seq >> 8) & 0xFF;
+    h[7] = (seq >> 0) & 0xFF;
+
+    h[8] = (ack >> 24) & 0xFF;
+    h[9] = (ack >> 16) & 0xFF;
+    h[10] = (ack >> 8) & 0xFF;
+    h[11] = (ack >> 0) & 0xFF;
+    h[12] = ((sizeof(h) / 4) << 4) |  ((flags >>8) & 0x0F);
+    h[13] = ((flags >>0) & 0xFF);
+    h[14] = ((windowSize >>8) & 0xFF);
+    h[15] = ((windowSize >>0) & 0xFF);
+    h[16] = 0;
+    h[17] = 0;
+    h[18] = ((urgentPointer >>8) & 0xFF);
+    h[19] = ((urgentPointer >>0) & 0xFF);
+    int tcpChecksum = [UMPCAPMirrorPort layer4_checksum:tcpPayload headerPtr:&h[0] headerLen:sizeof(h)];
+    h[16] = ((tcpChecksum >>8) & 0xFF);
+    h[17] = ((tcpChecksum >>0) & 0xFF);
+    NSMutableData *tcpPacket = [[NSMutableData alloc]initWithBytes:h length:sizeof(h)];
+    [tcpPacket appendData:tcpPayload];
+    return tcpPacket;
+}
+
+- (NSData *)udpPacket:(NSData *)udpPayload
+           sourcePort:(uint16_t)sourcePort
+      destinationPort:(uint16_t)destinationPort
+           sequenceNumber:(uint32_t)seq
+            ackNumber:(uint32_t)ack
+                flags:(uint16_t)flags
+           windowSize:(uint16_t)windowSize
+           urgentPointer:(uint16_t)urgentPointer
+{
+
+    uint8_t h[8];
+    int length = (int)udpPayload.length + 8;
+    h[0] = (sourcePort >> 8) & 0xFF;
+    h[1] = (sourcePort >> 0) & 0xFF;
+    h[2] = (destinationPort >> 8) & 0xFF;
+    h[3] = (destinationPort >> 0) & 0xFF;
+    h[4] = (length >> 8) & 0xFF;
+    h[5] = (length >> 0) & 0xFF;
+    h[6] = 0;
+    h[7] = 0;
+    int udpChecksum = [UMPCAPMirrorPort layer4_checksum:udpPayload headerPtr:&h[0] headerLen:sizeof(h)];
+    h[6] = (udpChecksum >> 8) & 0xFF;
+    h[7] = (udpChecksum >> 0) & 0xFF;
+    NSMutableData *udpPacket = [[NSMutableData alloc]initWithBytes:h length:sizeof(h)];
+    [udpPacket appendData:udpPayload];
+    return udpPacket;
+}
+
++ (uint16_t)  layer4_checksum:(NSData *)payload headerPtr:(uint8_t *)h headerLen:(int)headerLen
+{
+    uint32_t acc = 0;
+    uint16_t src;
+
+    int i;
+    for(i=0;i<headerLen;i += 2)
+    {
+        acc += (h[i] << 8)  | (h[i+1]);
     }
 
-    - (NSData *)ethernetPacket:(NSData *)payload inbound:(BOOL)inbound
+    for(i=0;i<headerLen;i += 2)
     {
-        NSMutableData *header = [[NSMutableData alloc]init];
-        if(inbound)
-        {
-            [header appendData:_localMacAddress];
-            [header appendData:_remoteMacAddress];
-        }
-        else
-        {
-            [header appendData:_remoteMacAddress];
-            [header appendData:_localMacAddress];
-        }
-        [header appendData:_etherType];
-        [header appendData:payload];
-        return header;
+        acc += (h[i] << 8)  | (h[i+1]);
     }
 
-    /* from https://www.ietf.org/rfc/rfc791.txt
-    0                   1                   2                   3
-    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    |Version|  IHL  |Type of Service|          Total Length         |
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    |         Identification        |Flags|      Fragment Offset    |
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    |  Time to Live |    Protocol   |         Header Checksum       |
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    |                       Source Address                          |
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    |                    Destination Address                        |
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    |                    Options                    |    Padding    |
-    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    */
-    - (NSData *)ipv4Packet:(NSData *)ipPayload inbound:(BOOL)inbound
+    /* dataptr may be at odd or even addresses */
+
+    const uint8_t *octetptr = payload.bytes;
+    int len = (int)payload.length;
+    while (len > 1)
     {
-        NSString *sourceIP;
-        NSString *destinationIP;
-        if(inbound)
-        {
-            sourceIP = _remoteIP;
-            destinationIP = _localIP;
-        }
-        else
-        {
-            sourceIP = _localIP;
-            destinationIP = _remoteIP;
-        }
-        
-        int payloadLen = (int)ipPayload.length;
-        int packetLen = payloadLen + 20;
-        int identification = 0;
-        int flags = 0x02; /* flags "dont fragment" */
-        int fragmentOffset = 0;
-        uint8_t h[20];
-        
-        h[0] = 0x45; /*version 4 , header length 5 */
-        h[1] = 0x00; /* differentiated services  / type of service */
-        h[2] = (packetLen >> 8) & 0xFF;
-        h[3] = (packetLen >> 0) & 0xFF;
-        h[4] = (identification >>8) & 0xFF;
-        h[5] = (identification >>0) & 0xFF;
-        h[6] = ((flags <<6) & 0xFF) | (((fragmentOffset & 0x3F) >> 8) & 0xFF);
-        h[7] = (fragmentOffset & 0xFF); /* fragment offset */
-        h[8] = 64; /* time to live */
-        h[9] = _protocol;
-        h[10] = 0; /* header checksum to be calculated later */
-        h[11] = 0; /* header checksum to be calculated later */
-        
-        int a = 0;
-        int b = 0;
-        int c = 0;
-        int d = 0;
-        
-        if(sourceIP)
-        {
-            sscanf(sourceIP.UTF8String,"%d.%d.%d.%d",&a,&b,&c,&d);
-        }
-        h[12] = a;
-        h[13] = b;
-        h[14] = c;
-        h[15] = d;
-        
-        a = 255;
-        b = 255;
-        c = 255;
-        d = 255;
-        
-        if(destinationIP)
-        {
-            sscanf(destinationIP.UTF8String,"%d.%d.%d.%d",&a,&b,&c,&d);
-        }
-        h[16] = a;
-        h[17] = b;
-        h[18] = c;
-        h[19] = d;
-        
-
-        /*
-         The checksum field is the 16 bit one's complement of the one's
-         complement sum of all 16 bit words in the header.  For purposes of
-         computing the checksum, the value of the checksum field is zero.
-         */
-        int chk = ip_header_checksum(h,sizeof(h));
-
-
-        h[10] = (chk >> 8) & 0xFF; /* header checksum */
-        h[11] = (chk >> 0) & 0xFF; /* header checksum */
-        
-        _sequenceCounter++;
-        
-        NSMutableData *ipPacket = [[NSMutableData alloc]initWithBytes:h length:sizeof(h)];
-        [ipPacket appendData:ipPayload];
-        NSData *packet =  [self ethernetPacket:ipPacket inbound:inbound];
-        return packet;
+        /* declare first octet as most significant
+         thus assume network order, ignoring host order */
+        src = (*octetptr) << 8;
+        octetptr++;
+        /* declare second octet as least significant */
+        src |= (*octetptr);
+        octetptr++;
+        acc += src;
+        len -= 2;
     }
-
-
-
-    /*
-     from https://www.ietf.org/rfc/rfc793.txt
-     
-     0                   1                   2                   3
-     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |          Source Port          |       Destination Port        |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                        Sequence Number                        |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                    Acknowledgment Number                      |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |  Data |           |U|A|P|R|S|F|                               |
-     | Offset| Reserved  |R|C|S|S|Y|I|            Window             |
-     |       |           |G|K|H|T|N|N|                               |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |           Checksum            |         Urgent Pointer        |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                    Options                    |    Padding    |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                             data                              |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     */
-
-
-    - (NSData *)tcpPacket:(NSData *)tcpPayload inbound:(BOOL)inbound
+    if (len > 0)
     {
-        uint16_t sourcePort;
-        uint16_t destinationPort;
-        uint8_t h[20];
-        if(inbound)
-        {
-            sourcePort = _remotePort;
-            destinationPort = _localPort;
-        }
-        else
-        {
-            sourcePort = _localPort;
-            destinationPort = _remotePort;
-        }
-        int flags = 0x018; /* flags PSH, ACK */
-        int windowSize = 500;
-        int urgentPointer=0;
-    ;
-        h[0] = (sourcePort >> 8) & 0xFF;
-        h[1] = (sourcePort >> 0) & 0xFF;
-        h[2] = (destinationPort >> 8) & 0xFF;
-        h[3] = (destinationPort >> 0) & 0xFF;
-        
-        h[4] = (_tcpSeqNumber >> 24) & 0xFF;
-        h[5] = (_tcpSeqNumber >> 16) & 0xFF;
-        h[6] = (_tcpSeqNumber >> 8) & 0xFF;
-        h[7] = (_tcpSeqNumber >> 0) & 0xFF;
-
-        h[8] = (_tcpAckNumber >> 24) & 0xFF;
-        h[9] = (_tcpAckNumber >> 16) & 0xFF;
-        h[10] = (_tcpAckNumber >> 8) & 0xFF;
-        h[11] = (_tcpAckNumber >> 0) & 0xFF;
-        h[12] = ((sizeof(h) / 4) << 4) |  ((flags >>8) & 0x0F);
-        h[13] = ((flags >>0) & 0xFF);
-        h[14] = ((windowSize >>8) & 0xFF);
-        h[15] = ((windowSize >>0) & 0xFF);
-        h[16] = 0;
-        h[17] = 0;
-        h[18] = ((urgentPointer >>8) & 0xFF);
-        h[19] = ((urgentPointer >>0) & 0xFF);
-
-
-        int tcpChecksum = [self layer4_checksum:tcpPayload headerPtr:&h[0] headerLen:sizeof(h) inbound:inbound];
-        h[16] = ((tcpChecksum >>8) & 0xFF);
-        h[17] = ((tcpChecksum >>0) & 0xFF);
-
-        _tcpSeqNumber++;
-        _tcpAckNumber++;
-        NSMutableData *tcpPacket = [[NSMutableData alloc]initWithBytes:h length:sizeof(h)];
-        [tcpPacket appendData:tcpPayload];
-        NSData *packet =  [self ipv4Packet:tcpPacket inbound:inbound];
-        return packet;
+        /* accumulate remaining octet */
+        src = (*octetptr) << 8;
+        acc += src;
     }
-
-    - (NSData *)udpPacket:(NSData *)udpPayload inbound:(BOOL)inbound
+    /* add deferred carry bits */
+    acc = (acc >> 16) + (acc & 0x0000ffffUL);
+    if ((acc & 0xffff0000UL) != 0)
     {
-        uint16_t sourcePort;
-        uint16_t destinationPort;
-        uint8_t h[8];
-        int length = (int)udpPayload.length + 8;
-        if(inbound)
-        {
-            sourcePort = _remotePort;
-            destinationPort = _localPort;
-        }
-        else
-        {
-            sourcePort = _localPort;
-            destinationPort = _remotePort;
-        }
-
-        h[0] = (sourcePort >> 8) & 0xFF;
-        h[1] = (sourcePort >> 0) & 0xFF;
-        h[2] = (destinationPort >> 8) & 0xFF;
-        h[3] = (destinationPort >> 0) & 0xFF;
-        
-        h[4] = (length >> 8) & 0xFF;
-        h[5] = (length >> 0) & 0xFF;
-
-        h[6] = 0;
-        h[7] = 0;
-
-        int udpChecksum =  [self layer4_checksum:udpPayload headerPtr:&h[0] headerLen:sizeof(h) inbound:inbound];
-
-        h[6] = (udpChecksum >> 8) & 0xFF;
-        h[7] = (udpChecksum >> 0) & 0xFF;
-
-        NSMutableData *udpPacket = [[NSMutableData alloc]initWithBytes:h length:sizeof(h)];
-        [udpPacket appendData:udpPayload];
-        NSData *packet =  [self ipv4Packet:udpPacket inbound:inbound];
-        return packet;
-    }
-
-
-    /*
-    Checksum:  16 bits
-
-    The checksum field is the 16 bit one's complement of the one's
-    complement sum of all 16 bit words in the header and text.  If a
-    segment contains an odd number of header and text octets to be
-    checksummed, the last octet is padded on the right with zeros to
-    form a 16 bit word for checksum purposes.  The pad is not
-    transmitted as part of the segment.  While computing the checksum,
-    the checksum field itself is replaced with zeros.
-
-    The checksum also covers a 96 bit pseudo header conceptually
-
-    prefixed to the TCP header.  This pseudo header contains the Source
-    Address, the Destination Address, the Protocol, and TCP length.
-    This gives the TCP protection against misrouted segments.  This
-    information is carried in the Internet Protocol and is transferred
-    across the TCP/Network interface in the arguments or results of
-    calls by the TCP on the IP.
-
-    +--------+--------+--------+--------+
-    |           Source Address          |
-    +--------+--------+--------+--------+
-    |         Destination Address       |
-    +--------+--------+--------+--------+
-    |  zero  |  PTCL  |    TCP Length   |
-    +--------+--------+--------+--------+
-
-    The TCP Length is the TCP header length plus the data length in
-    octets (this is not an explicitly transmitted quantity, but is
-            computed), and it does not count the 12 octets of the pseudo
-    header.
-    */
-
-    - (uint16_t)  layer4_checksum:(NSData *)payload headerPtr:(uint8_t *)headerPtr headerLen:(int)headerLen inbound:(BOOL)inbound
-    {
-        uint8_t h[12];
-        NSString *sourceIP;
-        NSString *destinationIP;
-        if(inbound)
-        {
-            sourceIP = _remoteIP;
-            destinationIP = _localIP;
-        }
-        else
-        {
-            sourceIP = _localIP;
-            destinationIP = _remoteIP;
-        }
-
-        int payloadLen = (int)payload.length;
-        int packetLen = payloadLen + headerLen;
-        int a = 0;
-        int b = 0;
-        int c = 0;
-        int d = 0;
-
-        if(sourceIP)
-        {
-            sscanf(sourceIP.UTF8String,"%d.%d.%d.%d",&a,&b,&c,&d);
-        }
-        h[0] = a;
-        h[1] = b;
-        h[2] = c;
-        h[3] = d;
-
-        a = 255;
-        b = 255;
-        c = 255;
-        d = 255;
-
-        if(destinationIP)
-        {
-            sscanf(destinationIP.UTF8String,"%d.%d.%d.%d",&a,&b,&c,&d);
-        }
-        h[4] = a;
-        h[5] = b;
-        h[6] = c;
-        h[7] = d;
-
-        h[8] = 0;
-        h[9] = _protocol;
-        h[10] = (packetLen >>8) & 0xFF;
-        h[11] = (packetLen >>0) & 0xFF;
-
-        uint32_t acc = 0;
-        uint16_t src;
-
-        int i;
-        for(i=0;i<12;i += 2)
-        {
-            acc += (h[i] << 8)  | (h[i+1]);
-        }
-
-        for(i=0;i<headerLen;i += 2)
-        {
-            acc += (headerPtr[i] << 8)  | (headerPtr[i+1]);
-        }
-
-        /* dataptr may be at odd or even addresses */
-
-        const uint8_t *octetptr = payload.bytes;
-        int len = (int)payload.length;
-        while (len > 1)
-        {
-            /* declare first octet as most significant
-             thus assume network order, ignoring host order */
-            src = (*octetptr) << 8;
-            octetptr++;
-            /* declare second octet as least significant */
-            src |= (*octetptr);
-            octetptr++;
-            acc += src;
-            len -= 2;
-        }
-        if (len > 0)
-        {
-            /* accumulate remaining octet */
-            src = (*octetptr) << 8;
-            acc += src;
-        }
-        /* add deferred carry bits */
         acc = (acc >> 16) + (acc & 0x0000ffffUL);
-        if ((acc & 0xffff0000UL) != 0)
-        {
-            acc = (acc >> 16) + (acc & 0x0000ffffUL);
-        }
-        return 0xFFFF ^ acc;
     }
-
-    /*
-     from https://www.ietf.org/rfc/rfc793.txt
-
-     0                   1                   2                   3
-     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |          Source Port          |       Destination Port        |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                        Sequence Number                        |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                    Acknowledgment Number                      |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |  Data |           |U|A|P|R|S|F|                               |
-     | Offset| Reserved  |R|C|S|S|Y|I|            Window             |
-     |       |           |G|K|H|T|N|N|                               |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |           Checksum            |         Urgent Pointer        |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                    Options                    |    Padding    |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                             data                              |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     */
-
-
-    @end
-
-
-    static uint16_t  ip_header_checksum(const void *dataptr, int len)
-    {
-        uint32_t acc;
-        uint16_t src;
-        const uint8_t *octetptr;
-
-        acc = 0;
-        /* dataptr may be at odd or even addresses */
-        octetptr = (const uint8_t *)dataptr;
-        while (len > 1)
-        {
-            /* declare first octet as most significant
-             thus assume network order, ignoring host order */
-            src = (*octetptr) << 8;
-            octetptr++;
-            /* declare second octet as least significant */
-            src |= (*octetptr);
-            octetptr++;
-            acc += src;
-            len -= 2;
-        }
-        if (len > 0)
-        {
-            /* accumulate remaining octet */
-            src = (*octetptr) << 8;
-            acc += src;
-        }
-        /* add deferred carry bits */
-        acc = (acc >> 16) + (acc & 0x0000ffffUL);
-        if ((acc & 0xffff0000UL) != 0)
-        {
-            acc = (acc >> 16) + (acc & 0x0000ffffUL);
-        }
-        return 0xFFFF ^ acc;
-    }
-
-
-#endif
-
+    return 0xFFFF ^ acc;
+}
 
 @end

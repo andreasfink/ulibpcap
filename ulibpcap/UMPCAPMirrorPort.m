@@ -133,7 +133,7 @@
     memset(&ifr, 0, sizeof(struct ifreq));
     snprintf(ifr.ifr_name, sizeof(ifr.ifr_name), "%s",name);
     ioctl(_sockfd, SIOCGIFINDEX, &ifr);
-    _interfaceIndex = ifr.ifru_ivalue;
+    _interfaceIndex = ifr.ifr_ifru.ifru_ivalue;
     
 #endif
     return UMPCAPMirrorPort_error_none;

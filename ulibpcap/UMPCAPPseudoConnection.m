@@ -10,8 +10,6 @@
 
 /* this object holds data for filling in pseudo data pseudo connection above IP */
 
-static uint16_t  ip_header_checksum(const void *dataptr, int len);
-
 @implementation UMPCAPPseudoConnection
 
 -(UMPCAPPseudoConnection *)init
@@ -172,9 +170,7 @@ static uint16_t  ip_header_checksum(const void *dataptr, int len);
      complement sum of all 16 bit words in the header.  For purposes of
      computing the checksum, the value of the checksum field is zero.
      */
-    int chk = ip_header_checksum(h,sizeof(h));
-
-
+    int chk = [UMPCAPPseudoConnection ip_header_checksum:h len:sizeof(h)];
     h[10] = (chk >> 8) & 0xFF; /* header checksum */
     h[11] = (chk >> 0) & 0xFF; /* header checksum */
     
@@ -463,10 +459,9 @@ header.
  */
 
 
-@end
 
 
-static uint16_t  ip_header_checksum(const void *dataptr, int len)
++ (uint16_t) ip_header_checksum:(const void *)dataptr len:(int)len;
 {
     uint32_t acc;
     uint16_t src;
@@ -502,3 +497,4 @@ static uint16_t  ip_header_checksum(const void *dataptr, int len)
     return 0xFFFF ^ acc;
 }
 
+@end

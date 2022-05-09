@@ -44,4 +44,22 @@ typedef enum UMPCAPMirrorPort_error
 + (NSData *)macAddressFromString:(NSString *)in;
 - (void)setConfig:(NSDictionary *)dict;
 
+- (void)writeFromMacAddress:(NSData *)srcMac
+               toMacAddress:(NSData *)dstMac
+               ethernetType:(int)ethType
+                       dscp:(int)dscp
+                      flags:(int)flags
+                        ttl:(int)ttl
+                   protocol:(int)protocol
+              sourceAddress:(NSString *)srcIp
+         destinationAddress:(NSString *)dstIp
+                 sourcePort:(int)srcPort
+            destinationPort:(int)dstPort
+                       data:(NSData *)data;
+
++ (uint16_t)  layer4_checksum:(NSData *)payload
+                    headerPtr:(uint8_t *)h
+                    headerLen:(int)headerLen;
+
+
 @end

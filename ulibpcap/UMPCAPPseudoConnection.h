@@ -61,5 +61,7 @@ typedef enum UMPCAPPseudoConnection_ip_protocol
                                annex_a:(UMPCAP_MTP2_AnnexA)annex_a;
 
 - (NSData *)mtp2PacketWithPseudoHeader:(NSData *)payload inbound:(BOOL)inbound;
++ (uint16_t) ip_header_checksum:(const void *)dataptr len:(int)len;
+
 
 @end

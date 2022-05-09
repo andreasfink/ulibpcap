@@ -35,6 +35,8 @@
 		A6B3968E236BA7C400C8D33D /* UMPCAPLiveTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B3968C236BA7C400C8D33D /* UMPCAPLiveTrace.m */; };
 		A6B39691236BBAC500C8D33D /* UMPCAPLiveTracePacket.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B3968F236BBAC500C8D33D /* UMPCAPLiveTracePacket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6B39692236BBAC500C8D33D /* UMPCAPLiveTracePacket.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B39690236BBAC500C8D33D /* UMPCAPLiveTracePacket.m */; };
+		A6FD69352828FE78000C0E03 /* UMPCAPMirrorPort.h in Headers */ = {isa = PBXBuildFile; fileRef = A6FD69332828FE78000C0E03 /* UMPCAPMirrorPort.h */; };
+		A6FD69362828FE78000C0E03 /* UMPCAPMirrorPort.m in Sources */ = {isa = PBXBuildFile; fileRef = A6FD69342828FE78000C0E03 /* UMPCAPMirrorPort.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +117,8 @@
 		A6B3968C236BA7C400C8D33D /* UMPCAPLiveTrace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UMPCAPLiveTrace.m; sourceTree = "<group>"; };
 		A6B3968F236BBAC500C8D33D /* UMPCAPLiveTracePacket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMPCAPLiveTracePacket.h; sourceTree = "<group>"; };
 		A6B39690236BBAC500C8D33D /* UMPCAPLiveTracePacket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UMPCAPLiveTracePacket.m; sourceTree = "<group>"; };
+		A6FD69332828FE78000C0E03 /* UMPCAPMirrorPort.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMPCAPMirrorPort.h; sourceTree = "<group>"; };
+		A6FD69342828FE78000C0E03 /* UMPCAPMirrorPort.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UMPCAPMirrorPort.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +242,8 @@
 				A65781BD1CF54A3600211137 /* ulibpcap.h */,
 				A65781DA1CF54D8E00211137 /* UMPCAPFile.h */,
 				A65781DB1CF54D8E00211137 /* UMPCAPFile.m */,
+				A6FD69332828FE78000C0E03 /* UMPCAPMirrorPort.h */,
+				A6FD69342828FE78000C0E03 /* UMPCAPMirrorPort.m */,
 				A688023820443995007192F2 /* UMPCAPPseudoConnection.h */,
 				A688023920443995007192F2 /* UMPCAPPseudoConnection.m */,
 				A6B3968B236BA7C400C8D33D /* UMPCAPLiveTrace.h */,
@@ -292,6 +298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6B3968D236BA7C400C8D33D /* UMPCAPLiveTrace.h in Headers */,
+				A6FD69352828FE78000C0E03 /* UMPCAPMirrorPort.h in Headers */,
 				A605335A2386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h in Headers */,
 				A65781DC1CF54D8E00211137 /* UMPCAPFile.h in Headers */,
 				A688023A20443995007192F2 /* UMPCAPPseudoConnection.h in Headers */,
@@ -576,6 +583,7 @@
 			files = (
 				A6B3968E236BA7C400C8D33D /* UMPCAPLiveTrace.m in Sources */,
 				A65781DD1CF54D8E00211137 /* UMPCAPFile.m in Sources */,
+				A6FD69362828FE78000C0E03 /* UMPCAPMirrorPort.m in Sources */,
 				A688023B20443995007192F2 /* UMPCAPPseudoConnection.m in Sources */,
 				A6B39692236BBAC500C8D33D /* UMPCAPLiveTracePacket.m in Sources */,
 			);

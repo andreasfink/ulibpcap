@@ -35,7 +35,7 @@
 		A6B3968E236BA7C400C8D33D /* UMPCAPLiveTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B3968C236BA7C400C8D33D /* UMPCAPLiveTrace.m */; };
 		A6B39691236BBAC500C8D33D /* UMPCAPLiveTracePacket.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B3968F236BBAC500C8D33D /* UMPCAPLiveTracePacket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6B39692236BBAC500C8D33D /* UMPCAPLiveTracePacket.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B39690236BBAC500C8D33D /* UMPCAPLiveTracePacket.m */; };
-		A6FD69352828FE78000C0E03 /* UMPCAPMirrorPort.h in Headers */ = {isa = PBXBuildFile; fileRef = A6FD69332828FE78000C0E03 /* UMPCAPMirrorPort.h */; };
+		A6FD69352828FE78000C0E03 /* UMPCAPMirrorPort.h in Headers */ = {isa = PBXBuildFile; fileRef = A6FD69332828FE78000C0E03 /* UMPCAPMirrorPort.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6FD69362828FE78000C0E03 /* UMPCAPMirrorPort.m in Sources */ = {isa = PBXBuildFile; fileRef = A6FD69342828FE78000C0E03 /* UMPCAPMirrorPort.m */; };
 /* End PBXBuildFile section */
 

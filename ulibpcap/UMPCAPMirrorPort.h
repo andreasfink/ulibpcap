@@ -19,18 +19,29 @@ typedef enum UMPCAPMirrorPort_error
 
 @interface UMPCAPMirrorPort : UMObject
 {
-    NSString *_name;
-    NSString *_interfaceName;
-    int     _interfaceIndex;
-    int      _linkNumber;
-    NSData   *_localMacAddress;
-    NSData   *_remoteMacAddress;
-    BOOL    _verbose;
-    int     _sockfd;
+    NSString    *_name;
+    NSString    *_interfaceName;
+    int         _interfaceIndex;
+    int         _linkNumber;
+    NSData      *_localMacAddress;
+    NSData      *_remoteMacAddress;
+    BOOL        _verbose;
+    int         _sockfd;
 }
 
 
+@property(readwrite,strong,atomic)  NSString    *name;
+@property(readwrite,strong,atomic)  NSString    *interfaceName;
+@property(readwrite,assign,atomic)  int         interfaceIndex;
+@property(readwrite,assign,atomic)  int         linkNumber;
+@property(readwrite,strong,atomic)  NSData      *localMacAddress;
+@property(readwrite,strong,atomic)  NSData      *remoteMacAddress;
+@property(readwrite,assign,atomic)  BOOL        verbose;
+@property(readwrite,assign,atomic)  int         sockfd;
+
 - (UMPCAPMirrorPort_error)openDevice;
 - (UMPCAPMirrorPort_error)openDevice:(NSString *)deviceName;
++ (NSData *)macAddressFromString:(NSString *)in;
+- (void)setConfig:(NSDictionary *)dict;
 
 @end

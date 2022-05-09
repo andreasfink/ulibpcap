@@ -131,7 +131,7 @@
     
     struct ifreq ifr;
     memset(&ifr, 0, sizeof(struct ifreq));
-    snprintf("%s",ifr.ifr_name, sizeof(ifr.ifr_name), name);
+    snprintf(ifr.ifr_name, sizeof(ifr.ifr_name), "%s",name);
     ioctl(_sockfd, SIOCGIFINDEX, &ifr);
     _interfaceIndex = ifr.ifru_ivalue;
     

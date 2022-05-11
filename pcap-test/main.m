@@ -15,22 +15,26 @@ int main(int argc, const char * argv[])
     @autoreleasepool
     {
         uint8_t data[] = { 0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x57, 0x6F, 0x72, 0x6C, 0x64, 0x0A };
-        
+        uint8_t m2pa_data[] = { 0x01,0x00,0x0b,0x01,0x00,0x00,0x00,0x26,0x00,0x00,0x0d,0x44,0x00,
+            0x00,0x0d,0x2a,0x0f
+            ,0x01,0x73,0xb7,0x9f,0x1f,0x11,0xe0,0x49,0x20,0x6e,0x65,0x65,0x64,0x20,0x63,0x6f,0x66,0x66,0x65,0x65,0x21 };
         uint8_t srcMac[] = { 0x70,     0xB3,     0xD5,     0x23,     0xB0,     0x00,};
         uint8_t dstMac[] = { 0x70,     0xB3,    0xD5,     0x23,     0xB0,     0x06, };
 
         NSData *tcpPayload = [NSData dataWithBytes:data length:sizeof(data)];
+        NSData *m2paPayload = [NSData dataWithBytes:m2pa_data length:sizeof(m2pa_data)];
         NSData *srcMacAddr = [NSData dataWithBytes:srcMac length:sizeof(srcMac)];
         NSData *dstMacAddr = [NSData dataWithBytes:dstMac length:sizeof(dstMac)];
 
 
 
-        NSData *sctpDataChunk = [UMPCAPMirrorPort sctpChunk:tcpPayload
-                                                      flags:0
-                                                        tsn:999
-                                                     stream:1
-                                       streamSequenceNumber:222
-                                          protocolIdentifier:5];
+        NSData *sctpDataChunk = [UMPCAPMirrorPort sctpChunk:m2paPayload
+                                                  chunkType:0 /* DATA */
+                                                      flags:0x03
+                                                        tsn:0xAABBCCDD
+                                                     stream:0
+                                       streamSequenceNumber:6766
+                                          protocolIdentifier:5]; /* PID=5 -> M2PA */
         NSArray *a = @[sctpDataChunk];
         
         NSData *sctpData = [UMPCAPMirrorPort sctpPacket:a

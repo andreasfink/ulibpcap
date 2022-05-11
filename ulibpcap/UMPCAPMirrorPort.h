@@ -97,6 +97,7 @@ typedef enum UMPCAPMirrorPort_error
 //       fragmentLength:(uint16_t)fragmentLength;
 
 + (NSData *)sctpChunk:(NSData *)payload
+            chunkType:(uint8_t)type
                 flags:(uint8_t)flags
                   tsn:(uint32_t)tsn
                stream:(uint16_t)stream

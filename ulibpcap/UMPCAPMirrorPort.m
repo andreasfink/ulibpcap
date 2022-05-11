@@ -307,6 +307,7 @@ static uint32_t crc32c_sb8_64_bit(uint32_t crc,const unsigned char *p_buf, uint3
 }
 
 + (NSData *)sctpChunk:(NSData *)payload
+            chunkType:(uint8_t)type
                 flags:(uint8_t)flags
                   tsn:(uint32_t)tsn
                stream:(uint16_t)stream
@@ -314,12 +315,11 @@ static uint32_t crc32c_sb8_64_bit(uint32_t crc,const unsigned char *p_buf, uint3
    protocolIdentifier:(uint32_t)pid
 {
     NSMutableData *p = [[NSMutableData alloc]init];
-    [p appendByte:0]; /* chunk type DATA */
+    [p appendByte:type]; /* chunk type DATA */
     [p appendByte:flags];
     uint16_t len = (uint16_t)payload.length + 16; /*size of header + payload*/
     [p appendByte:(len>>8) & 0xFF];
     [p appendByte:(len>>0) & 0xFF];
-    [p appendByte:flags];
     [p appendByte:(tsn >> 24) & 0xFF];
     [p appendByte:(tsn >> 16) & 0xFF];
     [p appendByte:(tsn >> 8) & 0xFF];

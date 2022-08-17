@@ -428,32 +428,32 @@
 				TargetAttributes = {
 					A60E40651D3E99CF00211137 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 2GSNWPNR77;
+						DevelopmentTeam = 38L827M334;
 						ProvisioningStyle = Automatic;
 					};
 					A60E40741D3E9D0C00211137 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 2GSNWPNR77;
+						DevelopmentTeam = 38L827M334;
 						ProvisioningStyle = Automatic;
 					};
 					A624F40E2150D62F0075788B = {
 						CreatedOnToolsVersion = 9.4.1;
-						DevelopmentTeam = 2GSNWPNR77;
+						DevelopmentTeam = 38L827M334;
 						ProvisioningStyle = Automatic;
 					};
 					A65781B91CF54A3600211137 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 2GSNWPNR77;
+						DevelopmentTeam = 38L827M334;
 						ProvisioningStyle = Automatic;
 					};
 					A65781C31CF54A3600211137 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 2GSNWPNR77;
+						DevelopmentTeam = 38L827M334;
 						ProvisioningStyle = Automatic;
 					};
 					A688023F20445EBB007192F2 = {
 						CreatedOnToolsVersion = 9.2;
-						DevelopmentTeam = 2GSNWPNR77;
+						DevelopmentTeam = 38L827M334;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -621,7 +621,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -641,7 +641,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -661,7 +661,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -681,7 +681,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -707,7 +707,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -735,7 +735,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -891,7 +891,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				DEVELOPMENT_TEAM = 38L827M334;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -916,7 +916,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				DEVELOPMENT_TEAM = 38L827M334;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -941,7 +941,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				DEVELOPMENT_TEAM = 38L827M334;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
@@ -961,7 +961,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				DEVELOPMENT_TEAM = 38L827M334;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
@@ -985,7 +985,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1011,7 +1011,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

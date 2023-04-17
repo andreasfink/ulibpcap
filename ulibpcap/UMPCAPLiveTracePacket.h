@@ -18,28 +18,28 @@ typedef enum  UMPCAPLiveTracePacketDirection
 
 @interface UMPCAPLiveTracePacket : UMObject
 {
-    NSDate          *_timestamp;    /* time stamp */
-    bpf_u_int32     _caplen;    /* length of portion present */
-    bpf_u_int32     _len;    /* length this packet (off wire) */
-    NSString        *_comment;
-    int             _frameType;
-    int             _eth_packet_type;
-    int             _ip_version;
-    NSString        *_source_ethernet_address;
-    NSString        *_destination_ethernet_address;
-    NSData          *_data;
-    u_char  _ip_tos;                 /* type of service */
-    u_short _ip_len;                 /* total length */
-    u_short _ip_id;                  /* identification */
-    u_short _ip_off;                 /* fragment offset field */
-    u_char  _ip_ttl;                 /* time to live */
-    u_char  _ip_p;                   /* protocol */
-    u_short _ip_sum;                 /* checksum */
-    NSString *_ip_src;
-    NSString *_ip_dst;
-    int             _source_port;
-    int             _destination_port;
-    UMPCAPLiveTracePacketDirection            _direction;
+    NSDate                          *_timestamp;    /* time stamp */
+    bpf_u_int32                     _caplen;    /* length of portion present */
+    bpf_u_int32                     _len;    /* length this packet (off wire) */
+    NSString                        *_comment;
+    int                             _frameType;
+    int                             _eth_packet_type;
+    int                             _ip_version;
+    NSString                        *_source_ethernet_address;
+    NSString                        *_destination_ethernet_address;
+    NSData                          *_data;
+    u_char                          _ip_tos;                 /* type of service */
+    u_short                         _ip_len;                 /* total length */
+    u_short                         _ip_id;                  /* identification */
+    u_short                         _ip_off;                 /* fragment offset field */
+    u_char                          _ip_ttl;                 /* time to live */
+    u_char                          _ip_p;                   /* protocol */
+    u_short                         _ip_sum;                 /* checksum */
+    NSString                        *_ip_src;
+    NSString                        *_ip_dst;
+    int                             _source_port;
+    int                             _destination_port;
+    UMPCAPLiveTracePacketDirection  _direction;
 }
 
 @property(readwrite,atomic,strong)  NSDate         *timestamp;

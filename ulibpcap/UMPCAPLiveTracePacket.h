@@ -22,6 +22,12 @@ typedef enum  UMPCAPLiveTracePacketDirection
     bpf_u_int32                     _caplen;    /* length of portion present */
     bpf_u_int32                     _len;    /* length this packet (off wire) */
     NSString                        *_comment;
+    int                             _pcp;
+    int                             _dei;
+    int                             _vlan;
+    int                             _pcp_qinq;
+    int                             _dei_qinq;
+    int                             _vlan_qinq;
     int                             _frameType;
     int                             _eth_packet_type;
     int                             _ip_version;
@@ -46,6 +52,12 @@ typedef enum  UMPCAPLiveTracePacketDirection
 @property(readwrite,atomic,assign)  bpf_u_int32    caplen;
 @property(readwrite,atomic,assign) bpf_u_int32     len;
 @property(readwrite,atomic,strong) NSString        *comment;
+@property(readwrite,atomic,assign) int             pcp;
+@property(readwrite,atomic,assign) int             dei;
+@property(readwrite,atomic,assign) int             vlan;
+@property(readwrite,atomic,assign) int             pcp_qinq;
+@property(readwrite,atomic,assign) int             dei_qinq;
+@property(readwrite,atomic,assign) int             vlan_qinq;
 @property(readwrite,atomic,assign) int             frameType;
 @property(readwrite,atomic,strong) NSData          *data;
 @property(readwrite,atomic,strong) NSString        *source_ethernet_address;
@@ -64,6 +76,5 @@ typedef enum  UMPCAPLiveTracePacketDirection
 @property(readwrite,atomic,assign) int             source_port;
 @property(readwrite,atomic,assign) int             destination_port;
 @property(readwrite,atomic,assign) UMPCAPLiveTracePacketDirection             direction;
-
 
 @end

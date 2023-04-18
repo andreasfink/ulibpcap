@@ -411,75 +411,122 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
                         break;
                 }
             }
+            const u_char *etherTypePtr = packet + sizeof(struct ether_header) - 2;
+            if(pkt.eth_packet_type == ETHERTYPE_VLAN_QINQ)
+            {
+                etherTypePtr += 2;
+                if(header->len >= 18) /* source mac addr (6) + dest mac addr (6) + 802.1ad header(4) + 802.1q header(4) + ethertype(2) */
+                {
+                    uint8_t *hb = (uint8_t *)packet;
+                    int t                   = (hb[14]<<8) || hb[15];
+                    pkt.pcp_qinq            = (t >> 13) & 0x03;
+                    pkt.dei_qinq            = (t >> 12) & 0x01;
+                    pkt.vlan_qinq           = t & 0x0FFF;
+                    pkt.eth_packet_type     = (hb[16]<<8) || hb[17];
+                    switch(pkt.eth_packet_type)
+                    {
+                        case ETHERTYPE_IP :
+                            version=4;
+                            break;
+                        case ETHERTYPE_IPV6:
+                            version=6;
+                            break;
+                    }
+                }
+            }
+            if(pkt.eth_packet_type == ETHERTYPE_VLAN)
+            {
+                etherTypePtr += 2;
+                if(header->len >= 18) /* source mac addr (6) + dest mac addr (6) + 802.11q header (len=2 value 0x8100) + ethertype(2) */
+                {
+                    uint8_t *hb = (uint8_t *)packet;
+                    int t = (hb[14]<<8) || hb[15];
+                    pkt.pcp             = (t >> 13) & 0x03;
+                    pkt.dei             = (t >> 12) & 0x01;
+                    pkt.vlan            = t & 0x0FFF;
+                    pkt.eth_packet_type = (hb[16]<<8) || hb[17];
+                    switch(pkt.eth_packet_type)
+                    {
+                        case ETHERTYPE_IP :
+                            version=4;
+                            break;
+                        case ETHERTYPE_IPV6:
+                            version=6;
+                            break;
+                    }
+                }
+            }
+            const u_char *ip_ptr = etherTypePtr + 2;
+            
             if(version==0)
             {
                 return;
             }
-            pkt.caplen      = header->caplen;
-            pkt.len         = header->len;
-        #ifdef __APPLE__
-            pkt.comment     = @(header->comment);
-        #endif
 
             uint8_t *ptr = eptr->ether_dhost;
             pkt.source_ethernet_address = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",ptr[0],ptr[1],ptr[2],ptr[3],ptr[4],ptr[5]];
             ptr = eptr->ether_shost;
             pkt.destination_ethernet_address = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",ptr[0],ptr[1],ptr[2],ptr[3],ptr[4],ptr[5]];
 
-            uint8_t *ip_ptr = (void *)eptr + sizeof(struct ether_header);
-
-            if(header->caplen-sizeof(struct ether_header) > sizeof(struct ip))
+            if(version == 4)
             {
-                const struct ip *ip_pkt = (const struct ip *)ip_ptr;
-                pkt.ip_version = ip_pkt->ip_v;
-                if(ip_pkt->ip_v == 4)
+                if(header->caplen-sizeof(struct ether_header) > sizeof(struct ip))
                 {
-                    pkt.data            = [NSData dataWithBytes:(void *)packet + sizeof(struct ether_header)+ sizeof(struct ip) length:header->caplen-sizeof(struct ether_header) - sizeof(struct ip)];
-
-                    pkt.ip_tos  = ip_pkt->ip_tos;
-                    pkt.ip_len  = ip_pkt->ip_len;
-                    pkt.ip_id   = ip_pkt->ip_id;
-                    pkt.ip_off  = ip_pkt->ip_off;
-                    pkt.ip_ttl  = ip_pkt->ip_ttl;
-                    pkt.ip_p  = ip_pkt->ip_p;
-                    pkt.ip_sum  = ip_pkt->ip_sum;
-                    uint8_t *p = (uint8_t *)&ip_pkt->ip_src;
-                    pkt.ip_src = [NSString stringWithFormat:@"%d.%d.%d.%d",p[0],p[1],p[2],p[3]];
-                    p = (uint8_t *) &ip_pkt->ip_dst;
-                    pkt.ip_dst = [NSString stringWithFormat:@"%d.%d.%d.%d",p[0],p[1],p[2],p[3]];
-                    BOOL isDupe = NO;
-                    if([pkt.timestamp isEqualToDate:obj.lastPacket.timestamp] || 1)
+                    const struct ip *ip_pkt = (const struct ip *)ip_ptr;
+                    pkt.ip_version = ip_pkt->ip_v;
+                    if(ip_pkt->ip_v == 4)
                     {
-                        if([obj.lastPacket.data isEqualToData:pkt.data])
+                        pkt.data            = [NSData dataWithBytes:(void *)packet + sizeof(struct ether_header)+ sizeof(struct ip) length:header->caplen-sizeof(struct ether_header) - sizeof(struct ip)];
+                        
+                        pkt.ip_tos  = ip_pkt->ip_tos;
+                        pkt.ip_len  = ip_pkt->ip_len;
+                        pkt.ip_id   = ip_pkt->ip_id;
+                        pkt.ip_off  = ip_pkt->ip_off;
+                        pkt.ip_ttl  = ip_pkt->ip_ttl;
+                        pkt.ip_p  = ip_pkt->ip_p;
+                        pkt.ip_sum  = ip_pkt->ip_sum;
+                        uint8_t *p = (uint8_t *)&ip_pkt->ip_src;
+                        pkt.ip_src = [NSString stringWithFormat:@"%d.%d.%d.%d",p[0],p[1],p[2],p[3]];
+                        p = (uint8_t *) &ip_pkt->ip_dst;
+                        pkt.ip_dst = [NSString stringWithFormat:@"%d.%d.%d.%d",p[0],p[1],p[2],p[3]];
+                        BOOL isDupe = NO;
+                        if([pkt.timestamp isEqualToDate:obj.lastPacket.timestamp] || 1)
                         {
-                            if([obj.lastPacket.ip_src isEqualToString:pkt.ip_src])
+                            if([obj.lastPacket.data isEqualToData:pkt.data])
                             {
-                                if([obj.lastPacket.ip_dst isEqualToString:pkt.ip_dst])
+                                if([obj.lastPacket.ip_src isEqualToString:pkt.ip_src])
                                 {
-                                    if([obj.lastPacket.source_ethernet_address isEqualToString:pkt.source_ethernet_address])
+                                    if([obj.lastPacket.ip_dst isEqualToString:pkt.ip_dst])
                                     {
-                                        if([obj.lastPacket.destination_ethernet_address isEqualToString:pkt.destination_ethernet_address])
+                                        if([obj.lastPacket.source_ethernet_address isEqualToString:pkt.source_ethernet_address])
                                         {
-                                            isDupe=YES;
+                                            if([obj.lastPacket.destination_ethernet_address isEqualToString:pkt.destination_ethernet_address])
+                                            {
+                                                isDupe=YES;
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
-                    if(isDupe==NO)
-                    {
-                        [obj.delegate handleEthernetPacket:pkt];
-                    }
-                    else
-                    {
-                        if(obj.verbose)
+                        if(isDupe==NO)
                         {
-                            NSLog(@"ignoring duplicate");
+                            [obj.delegate handleEthernetPacket:pkt];
                         }
+                        else
+                        {
+                            if(obj.verbose)
+                            {
+                                NSLog(@"ignoring duplicate");
+                            }
+                        }
+                        obj.lastPacket = pkt;
                     }
-                    obj.lastPacket = pkt;
                 }
+            }
+            else if(version==6)
+            {
+                /* TO BE FIXED */
             }
         }
     }

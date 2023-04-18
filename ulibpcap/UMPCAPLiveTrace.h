@@ -21,6 +21,7 @@ typedef enum UMPCAP_LiveTraceError
 
 } UMPCAP_LiveTraceError;
 
+#define ETHERTYPE_VLAN_QINQ  0x88A8
 
 @interface UMPCAPLiveTrace : UMBackgrounder
 {

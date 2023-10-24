@@ -9,9 +9,9 @@
 #import <ulib/ulib.h>
 #import <pcap/pcap.h>
 
-#import "UMPCAPFile.h"
-#import "UMPCAPPseudoConnection.h"
-#import "UMPCAPLiveTrace.h"
-#import "UMPCAPLiveTracePacket.h"
-#import "UMPCAPLiveTraceDelegateProtocol.h"
+#import <ulibpcap/UMPCAPFile.h>
+#import <ulibpcap/UMPCAPPseudoConnection.h>
+#import <ulibpcap/UMPCAPLiveTrace.h>
+#import <ulibpcap/UMPCAPLiveTracePacket.h>
+#import <ulibpcap/UMPCAPLiveTraceDelegateProtocol.h>
 

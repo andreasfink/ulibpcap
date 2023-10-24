@@ -8,7 +8,7 @@
 
 #import <ulib/ulib.h>
 #import <pcap/pcap.h>
-#import "UMPCAPLiveTraceDelegateProtocol.h"
+#import <ulibpcap/UMPCAPLiveTraceDelegateProtocol.h>
 
 typedef enum UMPCAP_LiveTraceError
 {

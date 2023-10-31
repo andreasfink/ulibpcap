@@ -418,11 +418,11 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
                 if(header->len >= 18) /* source mac addr (6) + dest mac addr (6) + 802.1ad header(4) + 802.1q header(4) + ethertype(2) */
                 {
                     uint8_t *hb = (uint8_t *)packet;
-                    int t                   = (hb[14]<<8) || hb[15];
+                    int t                   = (hb[14]<<8) | hb[15];
                     pkt.pcp_qinq            = (t >> 13) & 0x03;
                     pkt.dei_qinq            = (t >> 12) & 0x01;
                     pkt.vlan_qinq           = t & 0x0FFF;
-                    pkt.eth_packet_type     = (hb[16]<<8) || hb[17];
+                    pkt.eth_packet_type     = (hb[16]<<8) | hb[17];
                     switch(pkt.eth_packet_type)
                     {
                         case ETHERTYPE_IP :
@@ -440,11 +440,11 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
                 if(header->len >= 18) /* source mac addr (6) + dest mac addr (6) + 802.11q header (len=2 value 0x8100) + ethertype(2) */
                 {
                     uint8_t *hb = (uint8_t *)packet;
-                    int t = (hb[14]<<8) || hb[15];
+                    int t = (hb[14]<<8) | hb[15];
                     pkt.pcp             = (t >> 13) & 0x03;
                     pkt.dei             = (t >> 12) & 0x01;
                     pkt.vlan            = t & 0x0FFF;
-                    pkt.eth_packet_type = (hb[16]<<8) || hb[17];
+                    pkt.eth_packet_type = (hb[16]<<8) | hb[17];
                     switch(pkt.eth_packet_type)
                     {
                         case ETHERTYPE_IP :

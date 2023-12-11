@@ -12,7 +12,8 @@ config.log
 config.status
 stamp-h1
 autom4te.cache
-Classes/ulib_config.h
+ulibpcap/ulibpcap_config.h
+ulkibpcap.pc
 version.h
 BUILDNR
 make_buildnr.sh

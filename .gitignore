@@ -19,6 +19,7 @@ BUILDNR
 make_buildnr.sh
 buildnumber.c
 buildnumber.h
+*.m.d
 
 
 #########################

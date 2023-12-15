@@ -892,6 +892,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				DSTROOT = "/Library/Application Support";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "$(DSTROOT)/$(INSTALL_PATH)";
@@ -902,6 +903,7 @@
 				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = ulibpcap/Info.plist;
+				INSTALL_PATH = FinkTelecomServices/frameworks;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -922,6 +924,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 2GSNWPNR77;
+				DSTROOT = "/Library/Application Support";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "$(DSTROOT)/$(INSTALL_PATH)";
@@ -932,6 +935,7 @@
 				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = ulibpcap/Info.plist;
+				INSTALL_PATH = FinkTelecomServices/frameworks;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

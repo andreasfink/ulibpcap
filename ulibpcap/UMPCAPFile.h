@@ -7,7 +7,9 @@
 //
 
 #import <ulib/ulib.h>
-#import <pcap/pcap.h>
+
+typedef struct pcap pcap_t;
+typedef struct pcap_dumper pcap_dumper_t;
 
 typedef enum UMPCAP_Mode
 {
@@ -17,6 +19,7 @@ typedef enum UMPCAP_Mode
     UMPCAP_Mode_MTP3 = 3,
     UMPCAP_Mode_MTP2 = 4, /* includes pseudo header */
 } UMPCAP_Mode;
+
 
 
 @class UMPCAPPseudoConnection;

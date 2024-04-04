@@ -7,7 +7,8 @@
 //
 
 #import <ulib/ulib.h>
-#import <pcap/pcap.h>
+
+typedef struct pcap pcap_t;
 
 typedef enum UMPCAPMirrorPort_error
 {

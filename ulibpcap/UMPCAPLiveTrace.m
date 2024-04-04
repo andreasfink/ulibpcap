@@ -11,6 +11,7 @@
 #import <CoreFoundation/CoreFoundation.h>
 #include <netinet/if_ether.h> /* includes net/ethernet.h */
 #include <netinet/ip.h>
+#import <pcap/pcap.h>
 
 
 static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_char *packet);
@@ -38,10 +39,19 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
             NSLog(@"%@",_lastError);
         }
         _lock =[[UMMutex alloc]initWithName:@"UMPCAPLiveTrace_mutex"];
+        _fpPtr = calloc(1,sizeof(struct bpf_program));
     }
     return self;
 }
 
+- (void)dealloc
+{
+    if(_fpPtr)
+    {
+        free(_fpPtr);
+        _fpPtr = NULL;
+    }
+}
 
 - (UMPCAP_LiveTraceError)genericInitialisation
 {
@@ -117,8 +127,15 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     else
     {
         bpf_u_int32 netmask = 0;
-        memset(&_fp,0,sizeof(_fp));
-        if(pcap_compile(_handle, &_fp, _capturingRule.UTF8String, 1,netmask) != 0)
+        if(_fpPtr == NULL)
+        {
+            _fpPtr = calloc(1,sizeof(struct bpf_program));
+        }
+        else
+        {
+            memset(_fpPtr,0,sizeof(struct bpf_program));
+        }
+        if(pcap_compile(_handle, _fpPtr, _capturingRule.UTF8String, 1,netmask) != 0)
         {
             _lastError = [NSString stringWithFormat:@"Can not compile capture rule %@:\n%s", _capturingRule,pcap_geterr(_handle)];
             if(_verbose)
@@ -127,7 +144,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
             }
             err = UMPCAP_LiveTraceError_unsupported_capturing_rule;
         }
-        else if(pcap_setfilter(_handle, &_fp) !=0)
+        else if(pcap_setfilter(_handle, _fpPtr) !=0)
         {
             _lastError = [NSString stringWithFormat:@"Can not install capture filter %@:\n%s", _capturingRule,pcap_geterr(_handle)];
             if(_verbose)

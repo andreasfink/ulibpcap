@@ -7,8 +7,10 @@
 //
 
 #import <ulib/ulib.h>
-#import <pcap/pcap.h>
 #import <ulibpcap/UMPCAPLiveTraceDelegateProtocol.h>
+
+typedef struct pcap pcap_t;
+struct bpf_program;
 
 typedef enum UMPCAP_LiveTraceError
 {
@@ -36,7 +38,7 @@ typedef enum UMPCAP_LiveTraceError
     int             _to_ms;
     NSString        *_lastError;
     NSString        *_capturingRule;
-    struct bpf_program _fp;
+    struct bpf_program *_fpPtr;
     UMMutex         *_lock;
     BOOL            _isOpen;
     BOOL            _isRunning;

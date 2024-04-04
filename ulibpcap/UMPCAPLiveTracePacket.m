@@ -7,6 +7,7 @@
 //
 
 #import "UMPCAPLiveTracePacket.h"
+#import <pcap/pcap.h>
 
 @implementation UMPCAPLiveTracePacket
 

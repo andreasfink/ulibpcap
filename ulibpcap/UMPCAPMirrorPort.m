@@ -7,7 +7,9 @@
 //
 
 #import "UMPCAPMirrorPort.h"
-#import "UMPCAPPseudoConnection.h"
+#import <pcap/pcap.h>
+
+#import <ulibpcap/UMPCAPPseudoConnection.h>
 
 #include <netinet/in.h>
 #include <sys/types.h>

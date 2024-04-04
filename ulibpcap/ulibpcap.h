@@ -7,11 +7,11 @@
 //
 
 #import <ulib/ulib.h>
-#import <pcap/pcap.h>
 
 #import <ulibpcap/UMPCAPFile.h>
 #import <ulibpcap/UMPCAPPseudoConnection.h>
 #import <ulibpcap/UMPCAPLiveTrace.h>
 #import <ulibpcap/UMPCAPLiveTracePacket.h>
 #import <ulibpcap/UMPCAPLiveTraceDelegateProtocol.h>
+#import <ulibpcap/UMPCAPMirrorPort.h>
 

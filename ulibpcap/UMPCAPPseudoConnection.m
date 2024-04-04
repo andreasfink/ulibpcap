@@ -7,6 +7,7 @@
 //
 
 #import "UMPCAPPseudoConnection.h"
+#import <pcap/pcap.h>
 
 /* this object holds data for filling in pseudo data pseudo connection above IP */
 

@@ -7,7 +7,6 @@
 //
 
 #import <ulib/ulib.h>
-#import <pcap/pcap.h>
 
 typedef enum  UMPCAPLiveTracePacketDirection
 {
@@ -19,8 +18,8 @@ typedef enum  UMPCAPLiveTracePacketDirection
 @interface UMPCAPLiveTracePacket : UMObject
 {
     NSDate                          *_timestamp;    /* time stamp */
-    bpf_u_int32                     _caplen;    /* length of portion present */
-    bpf_u_int32                     _len;    /* length this packet (off wire) */
+    uint32_t                        _caplen;    /* length of portion present */
+    uint32_t                        _len;    /* length this packet (off wire) */
     NSString                        *_comment;
     int                             _pcp;
     int                             _dei;
@@ -49,8 +48,8 @@ typedef enum  UMPCAPLiveTracePacketDirection
 }
 
 @property(readwrite,atomic,strong)  NSDate         *timestamp;
-@property(readwrite,atomic,assign)  bpf_u_int32    caplen;
-@property(readwrite,atomic,assign) bpf_u_int32     len;
+@property(readwrite,atomic,assign)  uint32_t       caplen;
+@property(readwrite,atomic,assign) uint32_t        len;
 @property(readwrite,atomic,strong) NSString        *comment;
 @property(readwrite,atomic,assign) int             pcp;
 @property(readwrite,atomic,assign) int             dei;

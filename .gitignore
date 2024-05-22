@@ -3,6 +3,10 @@
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
 *.o
+*.d
+install
+libulibpcap.a
+libulibpcap.so
 Makefile
 Makefile.linux
 Makefile.osx
@@ -19,7 +23,6 @@ BUILDNR
 make_buildnr.sh
 buildnumber.c
 buildnumber.h
-*.d
 ulibpcap.pc
 
 #########################

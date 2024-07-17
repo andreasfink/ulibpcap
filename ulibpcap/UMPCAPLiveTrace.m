@@ -90,7 +90,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
 - (UMPCAP_LiveTraceError)openDevice:(NSString *)deviceName
 {
     UMPCAP_LiveTraceError err = UMPCAP_LiveTraceError_none;
-    UMMUTEX_LOCK(_lock);
+    ummutex_lock(_lock);
     if(deviceName==NULL)
     {
         _deviceName = _defaultDevice;
@@ -162,7 +162,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
             }
         }
     }
-    UMMUTEX_UNLOCK(_lock);
+    ummutex_unlock(_lock);
     return err;
 }
 
@@ -170,7 +170,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
 {
     UMPCAP_LiveTraceError err = UMPCAP_LiveTraceError_none;
 
-    UMMUTEX_LOCK(_lock);
+    ummutex_lock(_lock);
     _fileName = filename;
     _readingFromFile = YES;
 
@@ -195,19 +195,19 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
             _isOpen = YES;
         }
     }
-    UMMUTEX_UNLOCK(_lock);
+    ummutex_unlock(_lock);
     return err;
 }
 
 - (UMPCAP_LiveTraceError)close
 {
-    UMMUTEX_LOCK(_lock);
+    ummutex_lock(_lock);
     if(_isOpen)
     {
         pcap_close(_handle);
         _isOpen = NO;
     }
-    UMMUTEX_UNLOCK(_lock);
+    ummutex_unlock(_lock);
     return UMPCAP_LiveTraceError_none;
 }
 
@@ -258,7 +258,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
         return UMPCAP_LiveTraceError_none;
     }
     UMPCAP_LiveTraceError e = UMPCAP_LiveTraceError_none;
-    UMMUTEX_LOCK(_lock);
+    ummutex_lock(_lock);
     @try
     {
         if(_isOpen==NO)
@@ -274,7 +274,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     }
     @finally
     {
-        UMMUTEX_UNLOCK(_lock);
+        ummutex_unlock(_lock);
     }
     return e;
 }
@@ -283,7 +283,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
 - (UMPCAP_LiveTraceError)stop
 {
     UMPCAP_LiveTraceError e = UMPCAP_LiveTraceError_none;
-    UMMUTEX_LOCK(_lock);
+    ummutex_lock(_lock);
     @try
     {
         if(_isRunning == YES)
@@ -302,7 +302,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     }
     @finally
     {
-        UMMUTEX_UNLOCK(_lock);
+        ummutex_unlock(_lock);
     }
     return e;
 }

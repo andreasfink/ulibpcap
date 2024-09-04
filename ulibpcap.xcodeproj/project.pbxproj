@@ -630,7 +630,7 @@
 				);
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "me.fink.ulibpcap.dump-mtp3";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -650,7 +650,7 @@
 				);
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "me.fink.ulibpcap.dump-mtp3";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -670,7 +670,7 @@
 				);
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "me.fink.ulibpcap.dump-sccp";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -690,7 +690,7 @@
 				);
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "me.fink.ulibpcap.dump-sccp";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -717,7 +717,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "me.fink.ulibpcap.dump-huawei";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -745,7 +745,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "me.fink.ulibpcap.dump-huawei";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -911,7 +911,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
 				MARKETING_VERSION = 1.16.3;
-				PRODUCT_BUNDLE_IDENTIFIER = me.fink.ulibpcap;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -943,7 +943,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
 				MARKETING_VERSION = 1.16.3;
-				PRODUCT_BUNDLE_IDENTIFIER = me.fink.ulibpcap;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -968,7 +968,7 @@
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				PRODUCT_BUNDLE_IDENTIFIER = me.fink.ulibpcapTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -993,7 +993,7 @@
 					"@loader_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				PRODUCT_BUNDLE_IDENTIFIER = me.fink.ulibpcapTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1019,7 +1019,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "me.fink.ulibpcap.pcap-test";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1045,7 +1045,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "me.fink.ulibpcap.pcap-test";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};

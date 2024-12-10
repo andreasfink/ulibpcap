@@ -9,7 +9,7 @@
 #import <ulib/ulib.h>
 #import <ulibpcap/UMPCAPLiveTraceDelegateProtocol.h>
 
-typedef struct pcap pcap_t;
+
 struct bpf_program;
 
 typedef enum UMPCAP_LiveTraceError
@@ -31,7 +31,7 @@ typedef enum UMPCAP_LiveTraceError
     NSString        *_defaultDevice;
     NSString        *_deviceName;
     NSString        *_fileName;
-    pcap_t          *_handle;
+    void            *_pcap_t_handle;
     int             _frameType;
     int             _snaplen;
     int             _promisc;

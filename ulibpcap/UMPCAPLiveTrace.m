@@ -104,8 +104,8 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     {
         NSLog(@"opening device %@ ",_deviceName);
     }
-    _handle = pcap_open_live(_deviceName.UTF8String, _snaplen,_promisc, _to_ms,errbuf);
-    if (_handle == NULL)
+    _pcap_t_handle = (void *)pcap_open_live(_deviceName.UTF8String, _snaplen,_promisc, _to_ms,errbuf);
+    if (_pcap_t_handle == NULL)
     {
         _lastError = [NSString stringWithFormat:@"Couldn't open device %@: %s", _deviceName, errbuf];
         if(_verbose)
@@ -115,7 +115,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
         err =  UMPCAP_LiveTraceError_can_not_open;
     }
 
-    else if (pcap_datalink(_handle) != DLT_EN10MB)
+    else if (pcap_datalink((pcap_t *) _pcap_t_handle) != DLT_EN10MB)
     {
         _lastError = [NSString stringWithFormat:@"Device %@ doesn't provide Ethernet headers - not supported", _deviceName];
         if(_verbose)
@@ -135,18 +135,18 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
         {
             memset(_fpPtr,0,sizeof(struct bpf_program));
         }
-        if(pcap_compile(_handle, _fpPtr, _capturingRule.UTF8String, 1,netmask) != 0)
+        if(pcap_compile((pcap_t *) _pcap_t_handle, _fpPtr, _capturingRule.UTF8String, 1,netmask) != 0)
         {
-            _lastError = [NSString stringWithFormat:@"Can not compile capture rule %@:\n%s", _capturingRule,pcap_geterr(_handle)];
+            _lastError = [NSString stringWithFormat:@"Can not compile capture rule %@:\n%s", _capturingRule,pcap_geterr((pcap_t *) _pcap_t_handle)];
             if(_verbose)
             {
                 NSLog(@"Error: %@ ",_lastError);
             }
             err = UMPCAP_LiveTraceError_unsupported_capturing_rule;
         }
-        else if(pcap_setfilter(_handle, _fpPtr) !=0)
+        else if(pcap_setfilter((pcap_t *) _pcap_t_handle, _fpPtr) !=0)
         {
-            _lastError = [NSString stringWithFormat:@"Can not install capture filter %@:\n%s", _capturingRule,pcap_geterr(_handle)];
+            _lastError = [NSString stringWithFormat:@"Can not install capture filter %@:\n%s", _capturingRule,pcap_geterr((pcap_t *) _pcap_t_handle)];
             if(_verbose)
             {
                 NSLog(@"Error: %@ ",_lastError);
@@ -184,8 +184,8 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     }
     else
     {
-        _handle = pcap_fopen_offline(f,errbuf);
-        if(_handle == NULL)
+        _pcap_t_handle = (pcap_t *)pcap_fopen_offline(f,errbuf);
+        if(_pcap_t_handle == NULL)
         {
             NSLog(@"pcap_fopen_offline returns error %s",errbuf);
             err =  UMPCAP_LiveTraceError_can_not_open;
@@ -204,7 +204,7 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     ummutex_lock(_lock);
     if(_isOpen)
     {
-        pcap_close(_handle);
+        pcap_close((pcap_t *)_pcap_t_handle);
         _isOpen = NO;
     }
     ummutex_unlock(_lock);
@@ -313,9 +313,9 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     @autoreleasepool
     {
         _itemsReceived = [[NSMutableArray alloc]init];
-        _frameType = pcap_datalink(_handle);
+        _frameType = pcap_datalink((pcap_t *)_pcap_t_handle);
         u_char *arg = (u_char *)(__bridge CFTypeRef)self;
-        cnt = pcap_dispatch(_handle, 100, got_packet, arg);
+        cnt = pcap_dispatch((pcap_t *)_pcap_t_handle, 100, got_packet, arg);
         if((cnt==0) && (_readingFromFile==YES))
         {
             _isRunning = NO;

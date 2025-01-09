@@ -167,7 +167,6 @@ int main(int argc, const char * argv[])
                     else if([firstPart isEqualToString:@"DPC"])
                     {
                         dpc = scan_pointcode(secondPart,&format);
-                        //sscanf(secondPart.UTF8String,"%06X",&dpc);
                     }
                     else if([firstPart isEqualToString:@"Hex SigMsg"])
                     {

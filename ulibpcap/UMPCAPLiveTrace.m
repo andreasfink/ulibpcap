@@ -13,7 +13,6 @@
 #include <netinet/ip.h>
 #import <pcap/pcap.h>
 
-
 static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_char *packet);
 
 @implementation UMPCAPLiveTrace
@@ -328,6 +327,15 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
 
 @end
 
+typedef struct linux_sll_header
+{
+    uint16_t packet_type;
+    uint16_t ARPHRD_type;
+    uint16_t link_layer_address_len;
+    uint8_t link_layer_address[8];
+    uint16_t protocol_type;
+} linux_sll_header;
+
 typedef void (*pcap_handler)(u_char *, const struct pcap_pkthdr *, const u_char *);
 
 void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
@@ -356,6 +364,114 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
         #endif
             pkt.data    = [NSData dataWithBytes:(void *)packet length:header->caplen];
             [obj.delegate handleMtp3Packet:pkt];
+        }
+        else if(obj.frameType == DLT_LINUX_SLL)
+        {
+            /* we hae a linux SLL pseudo header here
+                from https://www.tcpdump.org/linktypes/LINKTYPE_LINUX_SLL.html
+                A SLL pseudo header looks like this:
+             
+            +---------------------------+
+            |         Packet type       |
+            |         (2 Octets)        |
+            +---------------------------+
+            |        ARPHRD_ type       |
+            |         (2 Octets)        |
+            +---------------------------+
+            | Link-layer address length |
+            |         (2 Octets)        |
+            +---------------------------+
+            |    Link-layer address     |
+            |         (8 Octets)        |
+            +---------------------------+
+            |        Protocol type      |
+            |         (2 Octets)        |
+            +---------------------------+
+            |           Payload         |
+
+            */
+            /* lets start with the ether header... */
+            linux_sll_header *lsll = (linux_sll_header *)packet;
+            
+            pkt.eth_packet_type = ntohs (lsll->packet_type);
+            uint8_t *ptr = &lsll->link_layer_address[0];
+            pkt.source_ethernet_address = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x",ptr[0],ptr[1],ptr[2],ptr[3],ptr[4],ptr[5]];
+            pkt.destination_ethernet_address = @"00:00:00:00:00:00";
+            int version=0;
+            switch(pkt.eth_packet_type)
+            {
+                case ETHERTYPE_IP :
+                    version=4;
+                    break;
+                case ETHERTYPE_IPV6:
+                    version=6;
+                    break;
+            }
+            const uint8_t *ip_ptr = packet + sizeof(linux_sll_header);
+            if(version==0)
+            {
+                return;
+            }
+            if(version == 4)
+            {
+                if(header->caplen-sizeof(struct linux_sll_header) > sizeof(struct ip))
+                {
+                    const struct ip *ip_pkt = (const struct ip *)ip_ptr;
+                    pkt.ip_version = ip_pkt->ip_v;
+                    if(ip_pkt->ip_v == 4)
+                    {
+                        pkt.data            = [NSData dataWithBytes:(void *)packet + sizeof(struct ether_header)+ sizeof(struct ip) length:header->caplen-sizeof(struct ether_header) - sizeof(struct ip)];
+                        
+                        pkt.ip_tos  = ip_pkt->ip_tos;
+                        pkt.ip_len  = ip_pkt->ip_len;
+                        pkt.ip_id   = ip_pkt->ip_id;
+                        pkt.ip_off  = ip_pkt->ip_off;
+                        pkt.ip_ttl  = ip_pkt->ip_ttl;
+                        pkt.ip_p  = ip_pkt->ip_p;
+                        pkt.ip_sum  = ip_pkt->ip_sum;
+                        uint8_t *p = (uint8_t *)&ip_pkt->ip_src;
+                        pkt.ip_src = [NSString stringWithFormat:@"%d.%d.%d.%d",p[0],p[1],p[2],p[3]];
+                        p = (uint8_t *) &ip_pkt->ip_dst;
+                        pkt.ip_dst = [NSString stringWithFormat:@"%d.%d.%d.%d",p[0],p[1],p[2],p[3]];
+                        BOOL isDupe = NO;
+                        if([pkt.timestamp isEqualToDate:obj.lastPacket.timestamp] || 1)
+                        {
+                            if([obj.lastPacket.data isEqualToData:pkt.data])
+                            {
+                                if([obj.lastPacket.ip_src isEqualToString:pkt.ip_src])
+                                {
+                                    if([obj.lastPacket.ip_dst isEqualToString:pkt.ip_dst])
+                                    {
+                                        if([obj.lastPacket.source_ethernet_address isEqualToString:pkt.source_ethernet_address])
+                                        {
+                                            if([obj.lastPacket.destination_ethernet_address isEqualToString:pkt.destination_ethernet_address])
+                                            {
+                                                isDupe=YES;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if(isDupe==NO)
+                        {
+                            [obj.delegate handleEthernetPacket:pkt];
+                        }
+                        else
+                        {
+                            if(obj.verbose)
+                            {
+                                NSLog(@"ignoring duplicate");
+                            }
+                        }
+                        obj.lastPacket = pkt;
+                    }
+                }
+            }
+            else if(version==6)
+            {
+                /* TO BE FIXED */
+            }
         }
         else if(obj.frameType == DLT_EN10MB)
         {

@@ -108,6 +108,20 @@ struct pcap_pkthdr *hdr;
     pcap_dump((u_char *)_dumper, &pcap_hdr, [pdu bytes]);
 }
 
+- (void)writePdu:(NSData *)pdu timestamp:(struct timeval *)timestamp
+{
+    if(_dumper==NULL)
+    {
+        NSLog(@"trying to write to closed UMPCAPFile");
+        return;
+    }
+    struct  pcap_pkthdr pcap_hdr;
+    pcap_hdr.ts = *timestamp;
+    pcap_hdr.caplen = (bpf_u_int32)[pdu length];
+    pcap_hdr.len = pcap_hdr.caplen;
+    pcap_dump((u_char *)_dumper, &pcap_hdr, [pdu bytes]);
+}
+
 - (void)writeItuMtp3Pdu:(NSData *)pdu
 			  timestamp:(struct timeval *)timestamp
 					 si:(int)si
@@ -149,7 +163,6 @@ struct pcap_pkthdr *hdr;
 
     NSMutableData *data2 =[[NSMutableData alloc]initWithBytes:buf length:sizeof(buf)];
     [data2 appendData:pdu];
-
     pcap_hdr.ts = *timestamp;
     pcap_hdr.caplen = (bpf_u_int32)[data2 length];
     pcap_hdr.len = pcap_hdr.caplen;

@@ -103,7 +103,7 @@
 |                    Options                    |    Padding    |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 */
-- (NSData *)ipv4Packet:(NSData *)ipPayload inbound:(BOOL)inbound
+- (NSData *)ipv4Packet:(NSData *)ipPayload protocol:(int)protocol inbound:(BOOL)inbound
 {
     NSString *sourceIP;
     NSString *destinationIP;
@@ -134,7 +134,7 @@
     h[6] = ((flags <<6) & 0xFF) | (((fragmentOffset & 0x3F) >> 8) & 0xFF);
     h[7] = (fragmentOffset & 0xFF); /* fragment offset */
     h[8] = 64; /* time to live */
-    h[9] = _protocol;
+    h[9] = protocol;
     h[10] = 0; /* header checksum to be calculated later */
     h[11] = 0; /* header checksum to be calculated later */
     
@@ -262,7 +262,7 @@
     _tcpAckNumber++;
     NSMutableData *tcpPacket = [[NSMutableData alloc]initWithBytes:h length:sizeof(h)];
     [tcpPacket appendData:tcpPayload];
-    NSData *packet =  [self ipv4Packet:tcpPacket inbound:inbound];
+    NSData *packet =  [self ipv4Packet:tcpPacket protocol:UMPCAPPseudoConnection_ip_protocol_tcp inbound:inbound];
     return packet;
 }
 
@@ -301,7 +301,7 @@
 
     NSMutableData *udpPacket = [[NSMutableData alloc]initWithBytes:h length:sizeof(h)];
     [udpPacket appendData:udpPayload];
-    NSData *packet =  [self ipv4Packet:udpPacket inbound:inbound];
+    NSData *packet =  [self ipv4Packet:udpPacket protocol:UMPCAPPseudoConnection_ip_protocol_udp inbound:inbound];
     return packet;
 }
 
@@ -396,7 +396,7 @@
     h_ip[6] = ((flags <<6) & 0xFF) | (((fragmentOffset & 0x3F) >> 8) & 0xFF);
     h_ip[7] = (fragmentOffset & 0xFF); /* fragment offset */
     h_ip[8] = 64; /* time to live */
-    h_ip[9] = _protocol;
+    h_ip[9] = UMPCAPPseudoConnection_ip_protocol_udp;
     h_ip[10] = 0; /* header checksum to be calculated later */
     h_ip[11] = 0; /* header checksum to be calculated later */
     h_ip[12] = 127;

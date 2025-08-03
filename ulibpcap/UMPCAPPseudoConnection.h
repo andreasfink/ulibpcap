@@ -54,7 +54,7 @@ typedef enum UMPCAPPseudoConnection_ip_protocol
 @property(readwrite,assign,atomic)  int linkNumber;
 
 - (NSData *)ethernetPacket:(NSData *)payload inbound:(BOOL)inbound;
-- (NSData *)ipv4Packet:(NSData *)ipPayload inbound:(BOOL)inbound;
+- (NSData *)ipv4Packet:(NSData *)ipPayload protocol:(int)protocol inbound:(BOOL)inbound;
 - (NSData *)tcpPacket:(NSData *)tcpPayload inbound:(BOOL)inbound;
 - (NSData *)udpPacket:(NSData *)udpPayload inbound:(BOOL)inbound;
 - (NSData *)sctpPacket:(NSData *)sctpPayload inbound:(BOOL)inbound;

@@ -49,6 +49,7 @@ typedef enum UMPCAPPseudoConnection_ip_protocol
 @property(readwrite,strong,atomic)  NSString *remoteIP;
 @property(readwrite,assign,atomic)  int localPort;
 @property(readwrite,assign,atomic)  int remotePort;
+@property(readwrite,assign,atomic)  uint32_t payloadProtocolIdentifier;
 @property(readwrite,assign,atomic)  UMPCAPPseudoConnection_ip_protocol protocol;
 @property(readwrite,assign,atomic)  int linkNumber;
 
@@ -57,6 +58,7 @@ typedef enum UMPCAPPseudoConnection_ip_protocol
 - (NSData *)tcpPacket:(NSData *)tcpPayload inbound:(BOOL)inbound;
 - (NSData *)udpPacket:(NSData *)udpPayload inbound:(BOOL)inbound;
 - (NSData *)sctpPacket:(NSData *)sctpPayload inbound:(BOOL)inbound;
+- (NSData *)syslogPacket:(NSString *)text;
 
 + (NSData *)mtp2PacketWithPseudoHeader:(NSData *)payload
                                inbound:(BOOL)inbound

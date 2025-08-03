@@ -35,6 +35,7 @@
         _localPort = 80;
         _remotePort = 3000;
         _protocol = 6; /* TCP */
+        _payloadProtocolIdentifier = 5; /* SCTP_PROTOCOL_IDENTIFIER_M2PA */
         _sequenceCounter = 0;
         _tcpSeqNumber = 100;
         _tcpAckNumber = 99;
@@ -346,7 +347,7 @@
     [p appendByte: 0]; /* TSN  */
     [p appendByte: 0]; /* TSN  */
     [p appendByte: 0]; /* stream identifier  */
-    [p appendByte: 0];
+    [p appendByte: 1]; /* we assume M2PA_STREAM_USERDATA */
     [p appendByte: 0]; /* stream sequence  */
     [p appendByte: 0];
     [p appendByte:(payloadProtocolIdentifier >> 24) & 0xFF];
@@ -357,7 +358,64 @@
     return p;
 }
 
-
+- (NSData *)syslogPacket:(NSString *)str
+{
+    NSString *s = [NSString stringWithFormat:@"<134>%@",str];
+    NSData *udpPayload = [s dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    uint16_t sourcePort = 514; /* syslog port*/
+    uint16_t destinationPort = 514;
+    uint8_t h_udp[8];
+    int length = (int)udpPayload.length + 8;
+    h_udp[0] = (sourcePort >> 8) & 0xFF;
+    h_udp[1] = (sourcePort >> 0) & 0xFF;
+    h_udp[2] = (destinationPort >> 8) & 0xFF;
+    h_udp[3] = (destinationPort >> 0) & 0xFF;
+    h_udp[4] = (length >> 8) & 0xFF;
+    h_udp[5] = (length >> 0) & 0xFF;
+    h_udp[6] = 0;
+    h_udp[7] = 0;
+    int udpChecksum =  [self layer4_checksum:udpPayload headerPtr:&h_udp[0] headerLen:sizeof(h_udp) inbound:YES];
+    h_udp[6] = (udpChecksum >> 8) & 0xFF;
+    h_udp[7] = (udpChecksum >> 0) & 0xFF;
+    NSMutableData *udpPacket = [[NSMutableData alloc]initWithBytes:h_udp length:sizeof(h_udp)];
+    [udpPacket appendData:udpPayload];
+    
+    int payloadLen = (int)udpPacket.length;
+    int packetLen = payloadLen + 20;
+    int identification = 0;
+    int flags = 0x02; /* flags "dont fragment" */
+    int fragmentOffset = 0;
+    uint8_t h_ip[20];
+    h_ip[0] = 0x45; /*version 4 , header length 5 */
+    h_ip[1] = 0x00; /* differentiated services  / type of service */
+    h_ip[2] = (packetLen >> 8) & 0xFF;
+    h_ip[3] = (packetLen >> 0) & 0xFF;
+    h_ip[4] = (identification >>8) & 0xFF;
+    h_ip[5] = (identification >>0) & 0xFF;
+    h_ip[6] = ((flags <<6) & 0xFF) | (((fragmentOffset & 0x3F) >> 8) & 0xFF);
+    h_ip[7] = (fragmentOffset & 0xFF); /* fragment offset */
+    h_ip[8] = 64; /* time to live */
+    h_ip[9] = _protocol;
+    h_ip[10] = 0; /* header checksum to be calculated later */
+    h_ip[11] = 0; /* header checksum to be calculated later */
+    h_ip[12] = 127;
+    h_ip[13] = 0;
+    h_ip[14] = 0;
+    h_ip[15] = 1;
+    h_ip[16] = 127;
+    h_ip[17] = 0;
+    h_ip[18] = 0;
+    h_ip[19] = 1;
+    int chk = [UMPCAPPseudoConnection ip_header_checksum:h_ip len:sizeof(h_ip)];
+    h_ip[10] = (chk >> 8) & 0xFF; /* header checksum */
+    h_ip[11] = (chk >> 0) & 0xFF; /* header checksum */
+    _sequenceCounter++;
+    NSMutableData *ipPacket = [[NSMutableData alloc]initWithBytes:h_ip length:sizeof(h_ip)];
+    [ipPacket appendData:udpPacket];
+    NSData *packet =  [self ethernetPacket:ipPacket inbound:YES];
+    return packet;
+}
 
 /*
 Checksum:  16 bits

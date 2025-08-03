@@ -17,24 +17,26 @@ typedef enum UMPCAP_MTP2_AnnexA
 
 typedef enum UMPCAPPseudoConnection_ip_protocol
 {
-    UMPCAPPseudoConnection_ip_protocol_tcp = 6,
-    UMPCAPPseudoConnection_ip_protocol_udp = 17,
+    UMPCAPPseudoConnection_ip_protocol_tcp  = 6,
+    UMPCAPPseudoConnection_ip_protocol_udp  = 17,
+    UMPCAPPseudoConnection_ip_protocol_sctp = 132,
 } UMPCAPPseudoConnection_ip_protocol;
 
 @interface UMPCAPPseudoConnection : UMObject
 {
-    NSData *_localMacAddress;
-    NSData *_remoteMacAddress;
-    NSData *_etherType;
-    NSString *_localIP;
-    NSString *_remoteIP;
-    int _localPort;
-    int _remotePort;
-    UMPCAPPseudoConnection_ip_protocol _protocol;
-    uint16_t _sequenceCounter;
-    uint16_t _tcpSeqNumber;
-    uint16_t _tcpAckNumber;
-    int _linkNumber;
+    NSData                              *_localMacAddress;
+    NSData                              *_remoteMacAddress;
+    NSData                              *_etherType;
+    NSString                            *_localIP;
+    NSString                            *_remoteIP;
+    int                                 _localPort;
+    int                                 _remotePort;
+    uint32_t                            _payloadProtocolIdentifier;
+    UMPCAPPseudoConnection_ip_protocol  _protocol;
+    uint16_t                            _sequenceCounter;
+    uint16_t                            _tcpSeqNumber;
+    uint16_t                            _tcpAckNumber;
+    int                                 _linkNumber;
 }
 
 -(UMPCAPPseudoConnection *)initForLinkNumber:(int)link; /* adding a link number 0...254 will increase the mac address accordingly for ethernet framing. For mtp2 framing, it will set the link number into the pseudo header */
@@ -54,6 +56,7 @@ typedef enum UMPCAPPseudoConnection_ip_protocol
 - (NSData *)ipv4Packet:(NSData *)ipPayload inbound:(BOOL)inbound;
 - (NSData *)tcpPacket:(NSData *)tcpPayload inbound:(BOOL)inbound;
 - (NSData *)udpPacket:(NSData *)udpPayload inbound:(BOOL)inbound;
+- (NSData *)sctpPacket:(NSData *)sctpPayload inbound:(BOOL)inbound;
 
 + (NSData *)mtp2PacketWithPseudoHeader:(NSData *)payload
                                inbound:(BOOL)inbound

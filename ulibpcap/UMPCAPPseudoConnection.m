@@ -304,6 +304,60 @@
     return packet;
 }
 
+- (NSData *)sctpPacket:(NSData *)sctpPayload inbound:(BOOL)inbound
+{
+    NSMutableData *p = [[NSMutableData alloc]init];
+    int srcPort;
+    int dstPort;
+    if(inbound)
+    {
+        srcPort = _remotePort;
+        dstPort = _localPort;
+    }
+    else
+    {
+        srcPort = _localPort;
+        dstPort = _remotePort;
+    }
+    int payloadProtocolIdentifier = _payloadProtocolIdentifier;
+
+    int verificationTag = 0;
+    int checksum = 0;
+    [p appendByte: (srcPort>>8) & 0xFF];
+    [p appendByte: (srcPort>>0) & 0xFF];
+    [p appendByte: (dstPort>>8) & 0xFF];
+    [p appendByte: (dstPort>>0) & 0xFF];
+    [p appendByte: (verificationTag>>24) & 0xFF];
+    [p appendByte: (verificationTag>>16) & 0xFF];
+    [p appendByte: (verificationTag>>8) & 0xFF];
+    [p appendByte: (verificationTag>>0) & 0xFF];
+    [p appendByte: (checksum>>24) & 0xFF];
+    [p appendByte: (checksum>>16) & 0xFF];
+    [p appendByte: (checksum>>8) & 0xFF];
+    [p appendByte: (checksum>>0) & 0xFF];
+    /* encoding DATA chunk */
+    [p appendByte:0]; /* chunk type 0 = DATA */
+    [p appendByte:0]; /* chunk flags 0  */
+    int len = (int)sctpPayload.length;
+    [p appendByte: (len>>8) & 0xFF]; /* len  */
+    [p appendByte: (len>>0) & 0xFF]; /* len  */
+    [p appendByte: 0]; /* TSN  */
+    [p appendByte: 0]; /* TSN  */
+    [p appendByte: 0]; /* TSN  */
+    [p appendByte: 0]; /* TSN  */
+    [p appendByte: 0]; /* stream identifier  */
+    [p appendByte: 0];
+    [p appendByte: 0]; /* stream sequence  */
+    [p appendByte: 0];
+    [p appendByte:(payloadProtocolIdentifier >> 24) & 0xFF];
+    [p appendByte:(payloadProtocolIdentifier >> 16) & 0xFF];
+    [p appendByte:(payloadProtocolIdentifier >> 8)  & 0xFF];
+    [p appendByte:(payloadProtocolIdentifier >> 0)  & 0xFF];
+    [p appendData:sctpPayload];
+    return p;
+}
+
+
 
 /*
 Checksum:  16 bits

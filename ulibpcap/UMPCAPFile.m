@@ -91,8 +91,6 @@ struct pcap_pkthdr *hdr;
 
 /* Packet "pseudo-header" for MTP2 files. */
 
-
-
 - (void)writePdu:(NSData *)pdu
 {
     if(_dumper==NULL)
@@ -192,6 +190,7 @@ struct pcap_pkthdr *hdr;
                 case UMPCAPPseudoConnection_ip_protocol_udp:
                     pdu = [con udpPacket:pdu inbound:inbound];
                     break;
+                case UMPCAPPseudoConnection_ip_protocol_sctp:
                 default:
                     pdu = [con ipv4Packet:pdu inbound:inbound];
                     break;

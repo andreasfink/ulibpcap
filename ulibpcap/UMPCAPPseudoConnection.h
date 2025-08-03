@@ -59,7 +59,7 @@ typedef enum UMPCAPPseudoConnection_ip_protocol
 - (NSData *)udpPacket:(NSData *)udpPayload inbound:(BOOL)inbound;
 - (NSData *)sctpPacket:(NSData *)sctpPayload inbound:(BOOL)inbound;
 - (NSData *)syslogPacket:(NSString *)text;
-
+- (NSData *)encodeSyslogPacket:(NSString *)message;
 + (NSData *)mtp2PacketWithPseudoHeader:(NSData *)payload
                                inbound:(BOOL)inbound
                                   link:(int)link
@@ -67,6 +67,12 @@ typedef enum UMPCAPPseudoConnection_ip_protocol
 
 - (NSData *)mtp2PacketWithPseudoHeader:(NSData *)payload inbound:(BOOL)inbound;
 + (uint16_t) ip_header_checksum:(const void *)dataptr len:(int)len;
++ (uint16_t)  layer4_checksum:(NSData *)payload
+                     sourceIp:(NSString *)sourceIP
+                       destIp:(NSString *)destinationIP
+               protocolNumber:(int)protocol
+                    headerPtr:(uint8_t *)headerPtr
+                    headerLen:(int)headerLen;
 
 
 @end

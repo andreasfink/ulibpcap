@@ -91,8 +91,6 @@ struct pcap_pkthdr *hdr;
 
 /* Packet "pseudo-header" for MTP2 files. */
 
-
-
 - (void)writePdu:(NSData *)pdu
 {
     if(_dumper==NULL)
@@ -103,6 +101,20 @@ struct pcap_pkthdr *hdr;
     struct  pcap_pkthdr pcap_hdr;
     struct	timezone tzp;
     gettimeofday(&pcap_hdr.ts, &tzp);
+    pcap_hdr.caplen = (bpf_u_int32)[pdu length];
+    pcap_hdr.len = pcap_hdr.caplen;
+    pcap_dump((u_char *)_dumper, &pcap_hdr, [pdu bytes]);
+}
+
+- (void)writePdu:(NSData *)pdu timestamp:(struct timeval *)timestamp
+{
+    if(_dumper==NULL)
+    {
+        NSLog(@"trying to write to closed UMPCAPFile");
+        return;
+    }
+    struct  pcap_pkthdr pcap_hdr;
+    pcap_hdr.ts = *timestamp;
     pcap_hdr.caplen = (bpf_u_int32)[pdu length];
     pcap_hdr.len = pcap_hdr.caplen;
     pcap_dump((u_char *)_dumper, &pcap_hdr, [pdu bytes]);
@@ -149,11 +161,27 @@ struct pcap_pkthdr *hdr;
 
     NSMutableData *data2 =[[NSMutableData alloc]initWithBytes:buf length:sizeof(buf)];
     [data2 appendData:pdu];
-
     pcap_hdr.ts = *timestamp;
     pcap_hdr.caplen = (bpf_u_int32)[data2 length];
     pcap_hdr.len = pcap_hdr.caplen;
     pcap_dump((u_char *)_dumper, &pcap_hdr, [data2 bytes]);
+}
+
+
+- (void)writeSyslogComment:(NSString *)msg withPseudoHeader:(UMPCAPPseudoConnection *)con
+{
+    if(_dumper==NULL)
+    {
+        NSLog(@"trying to write to closed UMPCAPFile");
+        return;
+    }
+    NSData *pdu = [con syslogPacket:msg];
+    struct   pcap_pkthdr pcap_hdr;
+    struct    timezone tzp;
+    gettimeofday(&pcap_hdr.ts, &tzp);
+    pcap_hdr.caplen = (bpf_u_int32)[pdu length];
+    pcap_hdr.len = pcap_hdr.caplen;
+    pcap_dump((u_char *)_dumper, &pcap_hdr, [pdu bytes]);
 }
 
 - (void)writePdu:(NSData *)pdu withPseudoHeader:(UMPCAPPseudoConnection *)con inbound:(BOOL)inbound
@@ -179,8 +207,8 @@ struct pcap_pkthdr *hdr;
                 case UMPCAPPseudoConnection_ip_protocol_udp:
                     pdu = [con udpPacket:pdu inbound:inbound];
                     break;
-                default:
-                    pdu = [con ipv4Packet:pdu inbound:inbound];
+                case UMPCAPPseudoConnection_ip_protocol_sctp:
+                    pdu = [con sctpPacket:pdu inbound:inbound];
                     break;
             }
             break;

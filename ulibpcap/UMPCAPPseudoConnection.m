@@ -35,6 +35,7 @@
         _localPort = 80;
         _remotePort = 3000;
         _protocol = 6; /* TCP */
+        _payloadProtocolIdentifier = 5; /* SCTP_PROTOCOL_IDENTIFIER_M2PA */
         _sequenceCounter = 0;
         _tcpSeqNumber = 100;
         _tcpAckNumber = 99;
@@ -56,13 +57,26 @@
                                   link:(int)link
                                annex_a:(UMPCAP_MTP2_AnnexA)annex_a
 {
-    uint8_t header[4];
-    header[0] = inbound ? 0 : 1;
-    header[1] = annex_a;
-    header[2] = link & 0xFF;
-    header[3] = (link & 0xFF00)>> 8;
-
-    NSMutableData *data = [NSMutableData dataWithBytes:&header length:sizeof(header)];
+    uint8_t commonMessageHeader[17];
+    NSInteger len = payload.length + sizeof(commonMessageHeader);
+    commonMessageHeader[0] = 1; /* version 1*/
+    commonMessageHeader[1] = 0; /* spare */
+    commonMessageHeader[2] = 11; /* message class */
+    commonMessageHeader[3] = 1; /* message type user Data) */
+    commonMessageHeader[4] =  ((len >> 24) & 0xFF);  /* len */
+    commonMessageHeader[5]  = ((len >> 16) & 0xFF);  /* len */
+    commonMessageHeader[6]  = ((len >>  8) & 0xFF);  /* len */
+    commonMessageHeader[7]  = ((len >>  0) & 0xFF);/* len */
+    commonMessageHeader[8] =  0;  /* FSN */
+    commonMessageHeader[9]  = 0;  /* FSN */
+    commonMessageHeader[10]  = 0;  /* FSN */
+    commonMessageHeader[11]  = 100;/* FSN */
+    commonMessageHeader[12]  = 0;  /* BSN*/
+    commonMessageHeader[13]  = 0;  /* BSN*/
+    commonMessageHeader[14] = 0;  /* BSN*/
+    commonMessageHeader[15] = 200;/* BSN*/
+    commonMessageHeader[16] = 0;/* priority*/
+    NSMutableData *data = [NSMutableData dataWithBytes:&commonMessageHeader length:sizeof(commonMessageHeader)];
     [data appendData:payload];
     return data;
 }
@@ -102,7 +116,7 @@
 |                    Options                    |    Padding    |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 */
-- (NSData *)ipv4Packet:(NSData *)ipPayload inbound:(BOOL)inbound
+- (NSData *)ipv4Packet:(NSData *)ipPayload protocol:(int)protocol inbound:(BOOL)inbound
 {
     NSString *sourceIP;
     NSString *destinationIP;
@@ -133,7 +147,7 @@
     h[6] = ((flags <<6) & 0xFF) | (((fragmentOffset & 0x3F) >> 8) & 0xFF);
     h[7] = (fragmentOffset & 0xFF); /* fragment offset */
     h[8] = 64; /* time to live */
-    h[9] = _protocol;
+    h[9] = protocol;
     h[10] = 0; /* header checksum to be calculated later */
     h[11] = 0; /* header checksum to be calculated later */
     
@@ -179,8 +193,7 @@
     
     NSMutableData *ipPacket = [[NSMutableData alloc]initWithBytes:h length:sizeof(h)];
     [ipPacket appendData:ipPayload];
-    NSData *packet =  [self ethernetPacket:ipPacket inbound:inbound];
-    return packet;
+    return ipPacket;
 }
 
 
@@ -253,7 +266,10 @@
     h[19] = ((urgentPointer >>0) & 0xFF);
 
 
-    int tcpChecksum = [self layer4_checksum:tcpPayload headerPtr:&h[0] headerLen:sizeof(h) inbound:inbound];
+    int tcpChecksum = [self layer4_checksum:tcpPayload
+                                  headerPtr:&h[0]
+                                  headerLen:sizeof(h)
+                                    inbound:inbound];
     h[16] = ((tcpChecksum >>8) & 0xFF);
     h[17] = ((tcpChecksum >>0) & 0xFF);
 
@@ -261,7 +277,7 @@
     _tcpAckNumber++;
     NSMutableData *tcpPacket = [[NSMutableData alloc]initWithBytes:h length:sizeof(h)];
     [tcpPacket appendData:tcpPayload];
-    NSData *packet =  [self ipv4Packet:tcpPacket inbound:inbound];
+    NSData *packet =  [self ipv4Packet:tcpPacket protocol:UMPCAPPseudoConnection_ip_protocol_tcp inbound:inbound];
     return packet;
 }
 
@@ -293,17 +309,154 @@
     h[6] = 0;
     h[7] = 0;
 
-    int udpChecksum =  [self layer4_checksum:udpPayload headerPtr:&h[0] headerLen:sizeof(h) inbound:inbound];
 
+    int udpChecksum = [self layer4_checksum:udpPayload
+                                  headerPtr:&h[0]
+                                  headerLen:sizeof(h)
+                                    inbound:inbound];
     h[6] = (udpChecksum >> 8) & 0xFF;
     h[7] = (udpChecksum >> 0) & 0xFF;
 
     NSMutableData *udpPacket = [[NSMutableData alloc]initWithBytes:h length:sizeof(h)];
     [udpPacket appendData:udpPayload];
-    NSData *packet =  [self ipv4Packet:udpPacket inbound:inbound];
+    NSData *packet =  [self ipv4Packet:udpPacket protocol:UMPCAPPseudoConnection_ip_protocol_udp inbound:inbound];
     return packet;
 }
 
+- (NSData *)sctpPacket:(NSData *)sctpPayload inbound:(BOOL)inbound
+{
+    NSMutableData *p = [[NSMutableData alloc]init];
+    int srcPort;
+    int dstPort;
+    if(inbound)
+    {
+        srcPort = _remotePort;
+        dstPort = _localPort;
+    }
+    else
+    {
+        srcPort = _localPort;
+        dstPort = _remotePort;
+    }
+    int payloadProtocolIdentifier = _payloadProtocolIdentifier;
+
+    int verificationTag = 0;
+    int checksum = 0;
+    [p appendByte: (srcPort>>8) & 0xFF];
+    [p appendByte: (srcPort>>0) & 0xFF];
+    [p appendByte: (dstPort>>8) & 0xFF];
+    [p appendByte: (dstPort>>0) & 0xFF];
+    [p appendByte: (verificationTag>>24) & 0xFF];
+    [p appendByte: (verificationTag>>16) & 0xFF];
+    [p appendByte: (verificationTag>>8) & 0xFF];
+    [p appendByte: (verificationTag>>0) & 0xFF];
+    [p appendByte: (checksum>>24) & 0xFF];
+    [p appendByte: (checksum>>16) & 0xFF];
+    [p appendByte: (checksum>>8) & 0xFF];
+    [p appendByte: (checksum>>0) & 0xFF];
+    /* encoding DATA chunk */
+    [p appendByte:0]; /* chunk type 0 = DATA */
+    [p appendByte:0x03]; /* chunk flags 0  */
+    int len = (int)sctpPayload.length;
+    len = len + 16;
+    [p appendByte: (len>>8) & 0xFF]; /* len  */
+    [p appendByte: (len>>0) & 0xFF]; /* len  */
+    [p appendByte: 0]; /* TSN  */
+    [p appendByte: 0]; /* TSN  */
+    [p appendByte: 0]; /* TSN  */
+    [p appendByte: 0]; /* TSN  */
+    [p appendByte: 0]; /* stream identifier  */
+    [p appendByte: 1]; /* we assume M2PA_STREAM_USERDATA */
+    [p appendByte: 0]; /* stream sequence  */
+    [p appendByte: 0];
+    [p appendByte:(payloadProtocolIdentifier >> 24) & 0xFF];
+    [p appendByte:(payloadProtocolIdentifier >> 16) & 0xFF];
+    [p appendByte:(payloadProtocolIdentifier >> 8)  & 0xFF];
+    [p appendByte:(payloadProtocolIdentifier >> 0)  & 0xFF];
+    [p appendData:sctpPayload];
+    int remaining = (len % 4);
+    switch(remaining)
+    {
+        case 0:
+            break;
+        case 1:
+            [p appendByte: 0];
+            [p appendByte: 0];
+            [p appendByte: 0];
+            break;
+        case 2:
+            [p appendByte: 0];
+            [p appendByte: 0];
+            break;
+        case 3:
+            [p appendByte: 0];
+            break;
+    }
+    return p;
+}
+
+- (NSData *)syslogPacket:(NSString *)str
+{
+    NSData *udpPayload = [self encodeSyslogPacket:str];
+    
+    uint16_t sourcePort = 514; /* syslog port*/
+    uint16_t destinationPort = 514;
+    uint8_t h_udp[8];
+    int length = (int)udpPayload.length + 8;
+    h_udp[0] = (sourcePort >> 8) & 0xFF;
+    h_udp[1] = (sourcePort >> 0) & 0xFF;
+    h_udp[2] = (destinationPort >> 8) & 0xFF;
+    h_udp[3] = (destinationPort >> 0) & 0xFF;
+    h_udp[4] = (length >> 8) & 0xFF;
+    h_udp[5] = (length >> 0) & 0xFF;
+    h_udp[6] = 0;
+    h_udp[7] = 0;
+    int udpChecksum = [UMPCAPPseudoConnection layer4_checksum:udpPayload
+                                                     sourceIp:@"127.0.0.1"
+                                                       destIp:@"127.0.0.1"
+                                               protocolNumber:IPPROTO_UDP
+                                                    headerPtr:&h_udp[0]
+                                                    headerLen:sizeof(h_udp)];
+    h_udp[6] = (udpChecksum >> 8) & 0xFF;
+    h_udp[7] = (udpChecksum >> 0) & 0xFF;
+    NSMutableData *udpPacket = [[NSMutableData alloc]initWithBytes:h_udp length:sizeof(h_udp)];
+    [udpPacket appendData:udpPayload];
+    
+    int payloadLen = (int)udpPacket.length;
+    int packetLen = payloadLen + 20;
+    int identification = 0;
+    int flags = 0x02; /* flags "dont fragment" */
+    int fragmentOffset = 0;
+    uint8_t h_ip[20];
+    h_ip[0] = 0x45; /*version 4 , header length 5 */
+    h_ip[1] = 0x00; /* differentiated services  / type of service */
+    h_ip[2] = (packetLen >> 8) & 0xFF;
+    h_ip[3] = (packetLen >> 0) & 0xFF;
+    h_ip[4] = (identification >>8) & 0xFF;
+    h_ip[5] = (identification >>0) & 0xFF;
+    h_ip[6] = ((flags <<6) & 0xFF) | (((fragmentOffset & 0x3F) >> 8) & 0xFF);
+    h_ip[7] = (fragmentOffset & 0xFF); /* fragment offset */
+    h_ip[8] = 64; /* time to live */
+    h_ip[9] = UMPCAPPseudoConnection_ip_protocol_udp;
+    h_ip[10] = 0; /* header checksum to be calculated later */
+    h_ip[11] = 0; /* header checksum to be calculated later */
+    h_ip[12] = 127;
+    h_ip[13] = 0;
+    h_ip[14] = 0;
+    h_ip[15] = 1;
+    h_ip[16] = 127;
+    h_ip[17] = 0;
+    h_ip[18] = 0;
+    h_ip[19] = 1;
+    int chk = [UMPCAPPseudoConnection ip_header_checksum:h_ip len:sizeof(h_ip)];
+    h_ip[10] = (chk >> 8) & 0xFF; /* header checksum */
+    h_ip[11] = (chk >> 0) & 0xFF; /* header checksum */
+    _sequenceCounter++;
+    NSMutableData *ipPacket = [[NSMutableData alloc]initWithBytes:h_ip length:sizeof(h_ip)];
+    [ipPacket appendData:udpPacket];
+    NSData *packet =  [self ethernetPacket:ipPacket inbound:YES];
+    return packet;
+}
 
 /*
 Checksum:  16 bits
@@ -339,9 +492,11 @@ octets (this is not an explicitly transmitted quantity, but is
 header.
 */
 
-- (uint16_t)  layer4_checksum:(NSData *)payload headerPtr:(uint8_t *)headerPtr headerLen:(int)headerLen inbound:(BOOL)inbound
+- (uint16_t)  layer4_checksum:(NSData *)payload
+                    headerPtr:(uint8_t *)headerPtr
+                    headerLen:(int)headerLen
+                      inbound:(BOOL)inbound
 {
-    uint8_t h[12];
     NSString *sourceIP;
     NSString *destinationIP;
     if(inbound)
@@ -354,7 +509,23 @@ header.
         sourceIP = _localIP;
         destinationIP = _remoteIP;
     }
+    
+    return [UMPCAPPseudoConnection layer4_checksum:payload
+                                          sourceIp:sourceIP
+                                            destIp:destinationIP
+                                    protocolNumber:_protocol
+                                         headerPtr:headerPtr
+                                         headerLen:headerLen];
+}
 
++ (uint16_t)  layer4_checksum:(NSData *)payload
+                     sourceIp:(NSString *)sourceIP
+                       destIp:(NSString *)destinationIP
+               protocolNumber:(int)protocol
+                    headerPtr:(uint8_t *)headerPtr
+                    headerLen:(int)headerLen
+{
+    uint8_t h[12];
     int payloadLen = (int)payload.length;
     int packetLen = payloadLen + headerLen;
     int a = 0;
@@ -386,10 +557,9 @@ header.
     h[7] = d;
 
     h[8] = 0;
-    h[9] = _protocol;
+    h[9] = protocol;
     h[10] = (packetLen >>8) & 0xFF;
     h[11] = (packetLen >>0) & 0xFF;
-
     uint32_t acc = 0;
     uint16_t src;
 
@@ -406,7 +576,16 @@ header.
 
     /* dataptr may be at odd or even addresses */
 
-    const uint8_t *octetptr = payload.bytes;
+    
+    NSData *paddedData = payload;
+    if((payload.length % 2)==1)
+    {
+        NSMutableData *p = [payload mutableCopy];
+        [p appendByte:0];
+        paddedData = p;
+    }
+    
+    const uint8_t *octetptr = paddedData.bytes;
     int len = (int)payload.length;
     while (len > 1)
     {
@@ -496,6 +675,26 @@ header.
         acc = (acc >> 16) + (acc & 0x0000ffffUL);
     }
     return 0xFFFF ^ acc;
+}
+
+- (NSData *)encodeSyslogPacket:(NSString *)message
+{
+    int prival = 132;
+    NSString *pri = [NSString stringWithFormat:@"<%d>",prival];
+    NSString *version = @"1";
+    NSString *sp = @" ";
+    NSString *msg = message;
+    NSString *structured_data = @"";
+    NSString *hostname=@"";
+    NSString *timestamp=@"";
+    NSString *procid=@"";
+    NSString *msgid=@"";
+    NSString *appname=@"";
+    NSString *header = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@%@%@%@",
+                        pri,version,sp,timestamp,sp,hostname,sp,appname,procid,sp,msgid];
+    NSString *syslog_msg = [NSString stringWithFormat:@"%@%@%@%@%@",header,sp,structured_data,sp,msg];
+    NSData *data = [syslog_msg dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    return data;
 }
 
 @end

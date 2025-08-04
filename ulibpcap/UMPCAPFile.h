@@ -44,14 +44,16 @@ typedef enum UMPCAP_Mode
 - (void) close;
 - (void) flush;
 - (void) writePdu:(NSData *)pdu;
+- (void) writePdu:(NSData *)pdu timestamp:(struct timeval *)timestamp;
 - (void) writePdu:(NSData *)pdu withPseudoHeader:(UMPCAPPseudoConnection *)con inbound:(BOOL)inbound;
-- (void)writeItuMtp3Pdu:(NSData *)pdu
-              timestamp:(struct timeval *)timestamp
-                     si:(int)si
-                     ni:(int)ni
-                    sls:(int)sls
-                    opc:(int)opc
-                    dpc:(int)dpc;
+- (void) writeSyslogComment:(NSString *)msg withPseudoHeader:(UMPCAPPseudoConnection *)con;
+- (void) writeItuMtp3Pdu:(NSData *)pdu
+               timestamp:(struct timeval *)timestamp
+                      si:(int)si
+                      ni:(int)ni
+                     sls:(int)sls
+                     opc:(int)opc
+                     dpc:(int)dpc;
 
 - (NSData *)dataAndClose;
 

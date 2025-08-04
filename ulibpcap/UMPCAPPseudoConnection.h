@@ -17,24 +17,26 @@ typedef enum UMPCAP_MTP2_AnnexA
 
 typedef enum UMPCAPPseudoConnection_ip_protocol
 {
-    UMPCAPPseudoConnection_ip_protocol_tcp = 6,
-    UMPCAPPseudoConnection_ip_protocol_udp = 17,
+    UMPCAPPseudoConnection_ip_protocol_tcp  = 6,
+    UMPCAPPseudoConnection_ip_protocol_udp  = 17,
+    UMPCAPPseudoConnection_ip_protocol_sctp = 132,
 } UMPCAPPseudoConnection_ip_protocol;
 
 @interface UMPCAPPseudoConnection : UMObject
 {
-    NSData *_localMacAddress;
-    NSData *_remoteMacAddress;
-    NSData *_etherType;
-    NSString *_localIP;
-    NSString *_remoteIP;
-    int _localPort;
-    int _remotePort;
-    UMPCAPPseudoConnection_ip_protocol _protocol;
-    uint16_t _sequenceCounter;
-    uint16_t _tcpSeqNumber;
-    uint16_t _tcpAckNumber;
-    int _linkNumber;
+    NSData                              *_localMacAddress;
+    NSData                              *_remoteMacAddress;
+    NSData                              *_etherType;
+    NSString                            *_localIP;
+    NSString                            *_remoteIP;
+    int                                 _localPort;
+    int                                 _remotePort;
+    uint32_t                            _payloadProtocolIdentifier;
+    UMPCAPPseudoConnection_ip_protocol  _protocol;
+    uint16_t                            _sequenceCounter;
+    uint16_t                            _tcpSeqNumber;
+    uint16_t                            _tcpAckNumber;
+    int                                 _linkNumber;
 }
 
 -(UMPCAPPseudoConnection *)initForLinkNumber:(int)link; /* adding a link number 0...254 will increase the mac address accordingly for ethernet framing. For mtp2 framing, it will set the link number into the pseudo header */
@@ -47,14 +49,17 @@ typedef enum UMPCAPPseudoConnection_ip_protocol
 @property(readwrite,strong,atomic)  NSString *remoteIP;
 @property(readwrite,assign,atomic)  int localPort;
 @property(readwrite,assign,atomic)  int remotePort;
+@property(readwrite,assign,atomic)  uint32_t payloadProtocolIdentifier;
 @property(readwrite,assign,atomic)  UMPCAPPseudoConnection_ip_protocol protocol;
 @property(readwrite,assign,atomic)  int linkNumber;
 
 - (NSData *)ethernetPacket:(NSData *)payload inbound:(BOOL)inbound;
-- (NSData *)ipv4Packet:(NSData *)ipPayload inbound:(BOOL)inbound;
+- (NSData *)ipv4Packet:(NSData *)ipPayload protocol:(int)protocol inbound:(BOOL)inbound;
 - (NSData *)tcpPacket:(NSData *)tcpPayload inbound:(BOOL)inbound;
 - (NSData *)udpPacket:(NSData *)udpPayload inbound:(BOOL)inbound;
-
+- (NSData *)sctpPacket:(NSData *)sctpPayload inbound:(BOOL)inbound;
+- (NSData *)syslogPacket:(NSString *)text;
+- (NSData *)encodeSyslogPacket:(NSString *)message;
 + (NSData *)mtp2PacketWithPseudoHeader:(NSData *)payload
                                inbound:(BOOL)inbound
                                   link:(int)link
@@ -62,6 +67,12 @@ typedef enum UMPCAPPseudoConnection_ip_protocol
 
 - (NSData *)mtp2PacketWithPseudoHeader:(NSData *)payload inbound:(BOOL)inbound;
 + (uint16_t) ip_header_checksum:(const void *)dataptr len:(int)len;
++ (uint16_t)  layer4_checksum:(NSData *)payload
+                     sourceIp:(NSString *)sourceIP
+                       destIp:(NSString *)destinationIP
+               protocolNumber:(int)protocol
+                    headerPtr:(uint8_t *)headerPtr
+                    headerLen:(int)headerLen;
 
 
 @end

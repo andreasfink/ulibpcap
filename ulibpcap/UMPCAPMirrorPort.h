@@ -6,7 +6,7 @@
 //  Copyright © 2022 Andreas Fink (andreas@fink.org). All rights reserved.
 //
 
-#import <ulibpcap/Foundation.h>
+#import <ulib/ulib.h>
 
 typedef struct pcap pcap_t;
 

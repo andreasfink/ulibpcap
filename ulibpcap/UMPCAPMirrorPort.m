@@ -6,6 +6,7 @@
 //  Copyright © 2022 Andreas Fink (andreas@fink.org). All rights reserved.
 //
 
+#import <ulib/ulib.h>
 #import <ulibpcap/UMPCAPMirrorPort.h>
 #import <pcap/pcap.h>
 
@@ -30,11 +31,18 @@ static uint32_t finalize_crc32c(uint32_t crc32c);
 static uint32_t multitable_crc32c(uint32_t crc32c, const unsigned char *buffer, unsigned int length);
 static uint32_t singletable_crc32c(uint32_t crc32c, const unsigned char *buffer, unsigned int length);
 static uint32_t crc32c_sb8_64_bit(uint32_t crc,const unsigned char *p_buf, uint32_t length, uint32_t init_bytes);
-;
+
+#define APPEND_BYTE(data,byte) \
+{ \
+    uint8_t b = byte; \
+    [data appendBytes:&b length:1]; \
+}
+
 @implementation UMPCAPMirrorPort
 
 - (UMPCAPMirrorPort *)init
 {
+    
     return [self initWithLinkNumber:0];
 }
 
@@ -317,27 +325,27 @@ static uint32_t crc32c_sb8_64_bit(uint32_t crc,const unsigned char *p_buf, uint3
    protocolIdentifier:(uint32_t)pid
 {
     NSMutableData *p = [[NSMutableData alloc]init];
-    [p appendByte:type]; /* chunk type DATA */
-    [p appendByte:flags];
+    APPEND_BYTE(p,type); /* chunk type DATA */
+    APPEND_BYTE(p,flags);
     uint16_t len = (uint16_t)payload.length + 16; /*size of header + payload*/
-    [p appendByte:(len>>8) & 0xFF];
-    [p appendByte:(len>>0) & 0xFF];
-    [p appendByte:(tsn >> 24) & 0xFF];
-    [p appendByte:(tsn >> 16) & 0xFF];
-    [p appendByte:(tsn >> 8) & 0xFF];
-    [p appendByte:(tsn >> 0) & 0xFF];
-    [p appendByte:(stream >> 8) & 0xFF];
-    [p appendByte:(stream >> 0) & 0xFF];
-    [p appendByte:(streamSequence >> 8) & 0xFF];
-    [p appendByte:(streamSequence >> 0) & 0xFF];
-    [p appendByte:(pid >> 24) & 0xFF];
-    [p appendByte:(pid >> 16) & 0xFF];
-    [p appendByte:(pid >> 8) & 0xFF];
-    [p appendByte:(pid >> 0) & 0xFF];
+    APPEND_BYTE(p,(len>>8) & 0xFF);
+    APPEND_BYTE(p,(len>>0) & 0xFF);
+    APPEND_BYTE(p,(tsn >> 24) & 0xFF);
+    APPEND_BYTE(p,(tsn >> 16) & 0xFF);
+    APPEND_BYTE(p,(tsn >> 8) & 0xFF);
+    APPEND_BYTE(p,(tsn >> 0) & 0xFF);
+    APPEND_BYTE(p,(stream >> 8) & 0xFF);
+    APPEND_BYTE(p,(stream >> 0) & 0xFF);
+    APPEND_BYTE(p,(streamSequence >> 8) & 0xFF);
+    APPEND_BYTE(p,(streamSequence >> 0) & 0xFF);
+    APPEND_BYTE(p,(pid >> 24) & 0xFF);
+    APPEND_BYTE(p,(pid >> 16) & 0xFF);
+    APPEND_BYTE(p,(pid >> 8) & 0xFF);
+    APPEND_BYTE(p,(pid >> 0) & 0xFF);
     [p appendData:payload];
     while((p.length % 4) != 0)
     {
-        [p appendByte:0];
+        APPEND_BYTE(p,0);
     }
     return p;
 

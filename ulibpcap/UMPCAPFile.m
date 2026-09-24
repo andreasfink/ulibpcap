@@ -10,6 +10,9 @@
 #import <ulibpcap/UMPCAPPseudoConnection.h>
 
 #include <pcap/pcap.h>
+#include <unistd.h>
+#include <fcntl.h>
+    
 struct pcap_pkthdr *hdr;
 
 @implementation UMPCAPFile
@@ -19,10 +22,11 @@ struct pcap_pkthdr *hdr;
     self = [super init];
     if(self)
     {
-        NSString *uuidStr = [UMUUID UUID];
-        NSString *prefix = @"pcap";
-        
-        _filename = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-%@", prefix, uuidStr]];
+        char tmpfilename[MAXPATHLEN];
+        int f = mkstemp("pcap");
+        fcntl(f,F_GETPATH,tmpfilename);
+        close(f);
+        _filename = @(tmpfilename);
     }
     return self;
 }

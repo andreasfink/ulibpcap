@@ -6,7 +6,7 @@
 //  Copyright © 2018 Andreas Fink (andreas@fink.org). All rights reserved.
 //
 
-#import <ulibpcap/Foundation.h>
+#import <ulib/ulib.h>
 
 typedef enum UMPCAP_MTP2_AnnexA
 {

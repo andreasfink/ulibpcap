@@ -21,13 +21,13 @@
 		A643D87B30650B2A00F9798D /* UMPCAPFile.m in Sources */ = {isa = PBXBuildFile; fileRef = A65781DB1CF54D8E00211137 /* UMPCAPFile.m */; };
 		A643D87C30650B2A00F9798D /* UMPCAPLiveTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B3968C236BA7C400C8D33D /* UMPCAPLiveTrace.m */; };
 		A643D87D30650B2A00F9798D /* UMPCAPPseudoConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A688023920443995007192F2 /* UMPCAPPseudoConnection.m */; };
-		A643D88230650C7E00F9798D /* Foundation.h in Headers */ = {isa = PBXBuildFile; fileRef = A643D88130650C7E00F9798D /* Foundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A643D8A03065161400F9798D /* libulib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A643D89F3065161400F9798D /* libulib.a */; };
+		A643D8A13065161400F9798D /* libulib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A643D89F3065161400F9798D /* libulib.a */; };
+		A643D8A23065161400F9798D /* libulib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A643D89F3065161400F9798D /* libulib.a */; };
+		A643D8A33065161400F9798D /* libulib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A643D89F3065161400F9798D /* libulib.a */; };
+		A643D8A43065161400F9798D /* libulib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A643D89F3065161400F9798D /* libulib.a */; };
+		A643D8A53065161400F9798D /* libulib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A643D89F3065161400F9798D /* libulib.a */; };
 		A65781CA1CF54A3600211137 /* ulibpcapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A65781C91CF54A3600211137 /* ulibpcapTests.m */; };
-		A67989FD22BB6EC70019806C /* ulib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A67989FB22BB6EC70019806C /* ulib.framework */; };
-		A67989FE22BB6EC70019806C /* ulib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A67989FB22BB6EC70019806C /* ulib.framework */; };
-		A67989FF22BB6EC70019806C /* ulib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A67989FB22BB6EC70019806C /* ulib.framework */; };
-		A6798A0022BB6EC70019806C /* ulib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A67989FB22BB6EC70019806C /* ulib.framework */; };
-		A6798A0122BB6EC70019806C /* ulib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A67989FB22BB6EC70019806C /* ulib.framework */; };
 		A688024320445EBB007192F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A688024220445EBB007192F2 /* main.m */; };
 /* End PBXBuildFile section */
 
@@ -84,7 +84,7 @@
 		A643D81E306507C000F9798D /* libpcap.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpcap.tbd; path = ../../../../Users/afink/development/git/ulibpcap/ulibpcap/libpcap.tbd; sourceTree = DEVELOPER_DIR; };
 		A643D83E30650B0800F9798D /* ulibpcap copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ulibpcap copy-Info.plist"; path = "/Users/afink/development/git/ulibpcap/ulibpcap copy-Info.plist"; sourceTree = "<absolute>"; };
 		A643D84330650B1600F9798D /* libulibpcap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libulibpcap.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		A643D88130650C7E00F9798D /* Foundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Foundation.h; sourceTree = "<group>"; };
+		A643D89F3065161400F9798D /* libulib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libulib.a; path = /usr/local/lib/libulib.a; sourceTree = "<absolute>"; };
 		A65781BD1CF54A3600211137 /* ulibpcap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ulibpcap.h; sourceTree = "<group>"; };
 		A65781BF1CF54A3600211137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A65781C41CF54A3600211137 /* ulibpcapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ulibpcapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,7 +92,6 @@
 		A65781CB1CF54A3600211137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A65781DA1CF54D8E00211137 /* UMPCAPFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMPCAPFile.h; sourceTree = "<group>"; };
 		A65781DB1CF54D8E00211137 /* UMPCAPFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMPCAPFile.m; sourceTree = "<group>"; };
-		A67989FB22BB6EC70019806C /* ulib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ulib.framework; path = "/Library/Application Support/FinkTelecomServices/frameworks/ulib.framework"; sourceTree = "<absolute>"; };
 		A688023820443995007192F2 /* UMPCAPPseudoConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMPCAPPseudoConnection.h; sourceTree = "<group>"; };
 		A688023920443995007192F2 /* UMPCAPPseudoConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UMPCAPPseudoConnection.m; sourceTree = "<group>"; };
 		A688024020445EBB007192F2 /* pcap-test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "pcap-test"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,15 +111,20 @@
 				ulibpcap_config.h,
 				ulibpcap.m.o,
 				UMPCAPFile.h,
+				UMPCAPFile.m,
 				UMPCAPFile.m.o,
 				UMPCAPLiveTrace.h,
+				UMPCAPLiveTrace.m,
 				UMPCAPLiveTrace.m.o,
 				UMPCAPLiveTraceDelegateProtocol.h,
 				UMPCAPLiveTracePacket.h,
+				UMPCAPLiveTracePacket.m,
 				UMPCAPLiveTracePacket.m.o,
 				UMPCAPMirrorPort.h,
+				UMPCAPMirrorPort.m,
 				UMPCAPMirrorPort.m.o,
 				UMPCAPPseudoConnection.h,
+				UMPCAPPseudoConnection.m,
 				UMPCAPPseudoConnection.m.o,
 			);
 			publicHeaders = (
@@ -139,7 +143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A67989FE22BB6EC70019806C /* ulib.framework in Frameworks */,
+				A643D8A23065161400F9798D /* libulib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,7 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A67989FF22BB6EC70019806C /* ulib.framework in Frameworks */,
+				A643D8A33065161400F9798D /* libulib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,7 +159,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6798A0122BB6EC70019806C /* ulib.framework in Frameworks */,
+				A643D8A43065161400F9798D /* libulib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,6 +167,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A643D8A03065161400F9798D /* libulib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,7 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A67989FD22BB6EC70019806C /* ulib.framework in Frameworks */,
+				A643D8A53065161400F9798D /* libulib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,7 +183,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6798A0022BB6EC70019806C /* ulib.framework in Frameworks */,
+				A643D8A13065161400F9798D /* libulib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +214,14 @@
 			path = "dump-huawei";
 			sourceTree = "<group>";
 		};
+		A643D89D306515C400F9798D /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				A643D89F3065161400F9798D /* libulib.a */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
 		A65781B01CF54A3600211137 = {
 			isa = PBXGroup;
 			children = (
@@ -222,7 +235,7 @@
 				A688024120445EBB007192F2 /* pcap-test */,
 				A624F4102150D62F0075788B /* dump-huawei */,
 				A643D84430650B1600F9798D /* ulibpcap */,
-				A65781D61CF54CFE00211137 /* Frameworks */,
+				A643D89D306515C400F9798D /* Libraries */,
 				A65781C81CF54A3600211137 /* ulibpcapTests */,
 				A643D83E30650B0800F9798D /* ulibpcap copy-Info.plist */,
 				A65781BB1CF54A3600211137 /* Products */,
@@ -247,7 +260,6 @@
 			children = (
 				A65781BF1CF54A3600211137 /* Info.plist */,
 				A65781BD1CF54A3600211137 /* ulibpcap.h */,
-				A643D88130650C7E00F9798D /* Foundation.h */,
 				A65781DA1CF54D8E00211137 /* UMPCAPFile.h */,
 				A65781DB1CF54D8E00211137 /* UMPCAPFile.m */,
 				A6FD69332828FE78000C0E03 /* UMPCAPMirrorPort.h */,
@@ -270,15 +282,6 @@
 				A65781CB1CF54A3600211137 /* Info.plist */,
 			);
 			path = ulibpcapTests;
-			sourceTree = "<group>";
-		};
-		A65781D61CF54CFE00211137 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				A67989FB22BB6EC70019806C /* ulib.framework */,
-			);
-			name = Frameworks;
-			path = ulibpcap;
 			sourceTree = "<group>";
 		};
 		A65781D91CF54D4300211137 /* Libraries */ = {
@@ -305,7 +308,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A643D88230650C7E00F9798D /* Foundation.h in Headers */,
 				A643D87330650B2400F9798D /* UMPCAPFile.h in Headers */,
 				A643D87430650B2A00F9798D /* UMPCAPLiveTracePacket.h in Headers */,
 				A643D87530650B2A00F9798D /* UMPCAPLiveTrace.h in Headers */,

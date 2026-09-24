@@ -6,7 +6,7 @@
 //  Copyright © 2019 Andreas Fink (andreas@fink.org). All rights reserved.
 //
 
-#import "UMPCAPLiveTracePacket.h"
+#import <ulibpcap/UMPCAPLiveTracePacket.h>
 #import <pcap/pcap.h>
 
 @implementation UMPCAPLiveTracePacket

@@ -6,7 +6,7 @@
 //  Copyright © 2022 Andreas Fink (andreas@fink.org). All rights reserved.
 //
 
-#import "UMPCAPMirrorPort.h"
+#import <ulibpcap/UMPCAPMirrorPort.h>
 #import <pcap/pcap.h>
 
 #import <ulibpcap/UMPCAPPseudoConnection.h>

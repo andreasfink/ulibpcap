@@ -6,7 +6,7 @@
 //  Copyright © 2017 Andreas Fink (andreas@fink.org). All rights reserved.
 //
 
-#import <ulib/ulib.h>
+#import <ulibpcap/Foundation.h>
 
 typedef struct pcap pcap_t;
 typedef struct pcap_dumper pcap_dumper_t;
@@ -24,7 +24,7 @@ typedef enum UMPCAP_Mode
 
 @class UMPCAPPseudoConnection;
 
-@interface UMPCAPFile : UMObject
+@interface UMPCAPFile : NSObject
 {
     NSString        *_filename;
     pcap_t          *_handle;

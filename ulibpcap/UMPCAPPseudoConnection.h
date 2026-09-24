@@ -6,7 +6,7 @@
 //  Copyright © 2018 Andreas Fink (andreas@fink.org). All rights reserved.
 //
 
-#import <ulib/ulib.h>
+#import <ulibpcap/Foundation.h>
 
 typedef enum UMPCAP_MTP2_AnnexA
 {
@@ -22,7 +22,7 @@ typedef enum UMPCAPPseudoConnection_ip_protocol
     UMPCAPPseudoConnection_ip_protocol_sctp = 132,
 } UMPCAPPseudoConnection_ip_protocol;
 
-@interface UMPCAPPseudoConnection : UMObject
+@interface UMPCAPPseudoConnection : NSObject
 {
     NSData                              *_localMacAddress;
     NSData                              *_remoteMacAddress;

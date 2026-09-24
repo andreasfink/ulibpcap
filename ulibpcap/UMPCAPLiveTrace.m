@@ -11,7 +11,7 @@
 #import <CoreFoundation/CoreFoundation.h>
 #include <netinet/if_ether.h> /* includes net/ethernet.h */
 #include <netinet/ip.h>
-#import <pcap/pcap.h>
+#include <pcap/pcap.h>
 
 static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_char *packet);
 
@@ -69,10 +69,12 @@ static void got_packet(u_char *args, const struct pcap_pkthdr *header,const u_ch
     }
 #else
     pcap_if_t *alldevsp = NULL;
-    pcap_findalldevs(&alldevsp, errbuf);
-    if(alldevsp)
+    if(pcap_findalldevs(&alldevsp, errbuf)==0)
     {
-        _defaultDevice = @(alldevsp->name);
+        if(alldevsp)
+        {
+            _defaultDevice = @(alldevsp->name);
+        }
     }
     pcap_freealldevs(alldevsp);
 #endif
@@ -359,9 +361,11 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
         {            
             pkt.caplen      = header->caplen;
             pkt.len         = header->len;
-        #ifdef __APPLE__
-            pkt.comment     = @(header->comment);
-        #endif
+// doesnt work if you install libpcap from source. only if you use MacOS built int but then you have no multiarch
+// so we cant use it
+//        #ifdef __APPLE__
+//            pkt.comment     = @(header->comment);
+//        #endif
             pkt.data    = [NSData dataWithBytes:(void *)packet length:header->caplen];
             [obj.delegate handleMtp3Packet:pkt];
         }

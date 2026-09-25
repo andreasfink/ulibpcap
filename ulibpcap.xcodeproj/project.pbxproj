@@ -730,6 +730,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NW355JGSH8;
 				EXECUTABLE_PREFIX = lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ulibpcap",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -744,6 +748,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = NW355JGSH8;
 				EXECUTABLE_PREFIX = lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ulibpcap",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = NO;

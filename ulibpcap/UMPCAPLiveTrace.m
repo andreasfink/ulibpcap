@@ -8,7 +8,7 @@
 
 #import "UMPCAPLiveTrace.h"
 #import "UMPCAPLiveTracePacket.h"
-#import <CoreFoundation/CoreFoundation.h>
+//#import <CoreFoundation/CoreFoundation.h>
 #include <netinet/if_ether.h> /* includes net/ethernet.h */
 #include <netinet/ip.h>
 #include <pcap/pcap.h>

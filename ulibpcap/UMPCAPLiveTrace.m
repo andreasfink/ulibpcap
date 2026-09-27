@@ -345,7 +345,7 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
     @autoreleasepool
     {
 
-        UMPCAPLiveTrace *obj = (__bridge UMPCAPLiveTrace *)args;
+        UMPCAPLiveTrace *obj = (__bridge UMPCAPLiveTrace *)(void *)args;
         NSTimeInterval t = header->ts.tv_sec + (header->ts.tv_usec/1000000.0);
 
         UMPCAPLiveTracePacket *pkt = [[UMPCAPLiveTracePacket alloc]init];

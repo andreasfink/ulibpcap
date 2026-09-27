@@ -22,14 +22,14 @@ struct pcap_pkthdr *hdr;
     self = [super init];
     if(self)
     {
-        char tmpfilename[MAXPATHLEN];
-        int f = mkstemp("pcap");
-        fcntl(f,F_GETPATH,tmpfilename);
-        close(f);
-        _filename = @(tmpfilename);
+        NSString *uuidStr = [UMUUID UUID];
+        NSString *prefix = @"pcap";
+        
+        _filename = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-%@", prefix, uuidStr]];
     }
     return self;
 }
+
 
 - (BOOL)openForDLT:(int)dlt
 {

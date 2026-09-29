@@ -6,10 +6,13 @@
 //  Copyright © 2017 Andreas Fink (andreas@fink.org). All rights reserved.
 //
 
-#import "UMPCAPFile.h"
-#import "UMPCAPPseudoConnection.h"
+#import <ulibpcap/UMPCAPFile.h>
+#import <ulibpcap/UMPCAPPseudoConnection.h>
 
 #include <pcap/pcap.h>
+#include <unistd.h>
+#include <fcntl.h>
+    
 struct pcap_pkthdr *hdr;
 
 @implementation UMPCAPFile
@@ -26,6 +29,7 @@ struct pcap_pkthdr *hdr;
     }
     return self;
 }
+
 
 - (BOOL)openForDLT:(int)dlt
 {

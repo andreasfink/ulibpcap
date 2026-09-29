@@ -22,7 +22,7 @@ typedef enum UMPCAPPseudoConnection_ip_protocol
     UMPCAPPseudoConnection_ip_protocol_sctp = 132,
 } UMPCAPPseudoConnection_ip_protocol;
 
-@interface UMPCAPPseudoConnection : UMObject
+@interface UMPCAPPseudoConnection : NSObject
 {
     NSData                              *_localMacAddress;
     NSData                              *_remoteMacAddress;

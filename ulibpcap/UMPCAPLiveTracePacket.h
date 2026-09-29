@@ -15,7 +15,7 @@ typedef enum  UMPCAPLiveTracePacketDirection
     UMPCAPLiveTracePacketDirection_BTOA = 2,
 } UMPCAPLiveTracePacketDirection;
 
-@interface UMPCAPLiveTracePacket : UMObject
+@interface UMPCAPLiveTracePacket : NSObject
 {
     NSDate                          *_timestamp;    /* time stamp */
     uint32_t                        _caplen;    /* length of portion present */

@@ -24,7 +24,7 @@ typedef enum UMPCAP_Mode
 
 @class UMPCAPPseudoConnection;
 
-@interface UMPCAPFile : UMObject
+@interface UMPCAPFile : NSObject
 {
     NSString        *_filename;
     pcap_t          *_handle;

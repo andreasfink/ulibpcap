@@ -3,51 +3,33 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A605335A2386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = A60533582386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A60E40691D3E99D000211137 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A60E40681D3E99D000211137 /* main.m */; };
 		A60E40781D3E9D0C00211137 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A60E40771D3E9D0C00211137 /* main.m */; };
 		A624F4122150D62F0075788B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A624F4112150D62F0075788B /* main.m */; };
-		A624F41A2150E68B0075788B /* ulibpcap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781BA1CF54A3600211137 /* ulibpcap.framework */; };
-		A62E0808215A130700D205F0 /* ulibpcap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781BA1CF54A3600211137 /* ulibpcap.framework */; };
-		A65781BE1CF54A3600211137 /* ulibpcap.h in Headers */ = {isa = PBXBuildFile; fileRef = A65781BD1CF54A3600211137 /* ulibpcap.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A65781C51CF54A3600211137 /* ulibpcap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781BA1CF54A3600211137 /* ulibpcap.framework */; };
+		A643D87330650B2400F9798D /* UMPCAPFile.h in Headers */ = {isa = PBXBuildFile; fileRef = A65781DA1CF54D8E00211137 /* UMPCAPFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A643D87430650B2A00F9798D /* UMPCAPLiveTracePacket.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B3968F236BBAC500C8D33D /* UMPCAPLiveTracePacket.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A643D87530650B2A00F9798D /* UMPCAPLiveTrace.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B3968B236BA7C400C8D33D /* UMPCAPLiveTrace.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A643D87630650B2A00F9798D /* UMPCAPPseudoConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = A688023820443995007192F2 /* UMPCAPPseudoConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A643D87730650B2A00F9798D /* UMPCAPLiveTraceDelegateProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = A60533582386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A643D87830650B2A00F9798D /* UMPCAPMirrorPort.h in Headers */ = {isa = PBXBuildFile; fileRef = A6FD69332828FE78000C0E03 /* UMPCAPMirrorPort.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A643D87930650B2A00F9798D /* UMPCAPLiveTracePacket.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B39690236BBAC500C8D33D /* UMPCAPLiveTracePacket.m */; };
+		A643D87A30650B2A00F9798D /* UMPCAPMirrorPort.m in Sources */ = {isa = PBXBuildFile; fileRef = A6FD69342828FE78000C0E03 /* UMPCAPMirrorPort.m */; };
+		A643D87B30650B2A00F9798D /* UMPCAPFile.m in Sources */ = {isa = PBXBuildFile; fileRef = A65781DB1CF54D8E00211137 /* UMPCAPFile.m */; };
+		A643D87C30650B2A00F9798D /* UMPCAPLiveTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B3968C236BA7C400C8D33D /* UMPCAPLiveTrace.m */; };
+		A643D87D30650B2A00F9798D /* UMPCAPPseudoConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A688023920443995007192F2 /* UMPCAPPseudoConnection.m */; };
+		A643D8A03065161400F9798D /* libulib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A643D89F3065161400F9798D /* libulib.a */; };
+		A643D8A13065161400F9798D /* libulib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A643D89F3065161400F9798D /* libulib.a */; };
+		A643D8A23065161400F9798D /* libulib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A643D89F3065161400F9798D /* libulib.a */; };
+		A643D8A33065161400F9798D /* libulib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A643D89F3065161400F9798D /* libulib.a */; };
+		A643D8A43065161400F9798D /* libulib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A643D89F3065161400F9798D /* libulib.a */; };
+		A643D8A53065161400F9798D /* libulib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A643D89F3065161400F9798D /* libulib.a */; };
 		A65781CA1CF54A3600211137 /* ulibpcapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A65781C91CF54A3600211137 /* ulibpcapTests.m */; };
-		A65781D81CF54D3C00211137 /* libpcap.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781D71CF54D3C00211137 /* libpcap.dylib */; };
-		A65781DC1CF54D8E00211137 /* UMPCAPFile.h in Headers */ = {isa = PBXBuildFile; fileRef = A65781DA1CF54D8E00211137 /* UMPCAPFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A65781DD1CF54D8E00211137 /* UMPCAPFile.m in Sources */ = {isa = PBXBuildFile; fileRef = A65781DB1CF54D8E00211137 /* UMPCAPFile.m */; };
-		A67989FC22BB6EC70019806C /* ulib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A67989FB22BB6EC70019806C /* ulib.framework */; };
-		A67989FD22BB6EC70019806C /* ulib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A67989FB22BB6EC70019806C /* ulib.framework */; };
-		A67989FE22BB6EC70019806C /* ulib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A67989FB22BB6EC70019806C /* ulib.framework */; };
-		A67989FF22BB6EC70019806C /* ulib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A67989FB22BB6EC70019806C /* ulib.framework */; };
-		A6798A0022BB6EC70019806C /* ulib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A67989FB22BB6EC70019806C /* ulib.framework */; };
-		A6798A0122BB6EC70019806C /* ulib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A67989FB22BB6EC70019806C /* ulib.framework */; };
-		A6798AE222BB8CCA0019806C /* ulibpcap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781BA1CF54A3600211137 /* ulibpcap.framework */; };
-		A6798AE322BB8CCA0019806C /* ulibpcap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781BA1CF54A3600211137 /* ulibpcap.framework */; };
-		A688023A20443995007192F2 /* UMPCAPPseudoConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = A688023820443995007192F2 /* UMPCAPPseudoConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A688023B20443995007192F2 /* UMPCAPPseudoConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A688023920443995007192F2 /* UMPCAPPseudoConnection.m */; };
 		A688024320445EBB007192F2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A688024220445EBB007192F2 /* main.m */; };
-		A688024F204461DD007192F2 /* libpcap.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A65781D71CF54D3C00211137 /* libpcap.dylib */; };
-		A6B3968D236BA7C400C8D33D /* UMPCAPLiveTrace.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B3968B236BA7C400C8D33D /* UMPCAPLiveTrace.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A6B3968E236BA7C400C8D33D /* UMPCAPLiveTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B3968C236BA7C400C8D33D /* UMPCAPLiveTrace.m */; };
-		A6B39691236BBAC500C8D33D /* UMPCAPLiveTracePacket.h in Headers */ = {isa = PBXBuildFile; fileRef = A6B3968F236BBAC500C8D33D /* UMPCAPLiveTracePacket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A6B39692236BBAC500C8D33D /* UMPCAPLiveTracePacket.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B39690236BBAC500C8D33D /* UMPCAPLiveTracePacket.m */; };
-		A6FD69352828FE78000C0E03 /* UMPCAPMirrorPort.h in Headers */ = {isa = PBXBuildFile; fileRef = A6FD69332828FE78000C0E03 /* UMPCAPMirrorPort.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A6FD69362828FE78000C0E03 /* UMPCAPMirrorPort.m in Sources */ = {isa = PBXBuildFile; fileRef = A6FD69342828FE78000C0E03 /* UMPCAPMirrorPort.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		A65781C61CF54A3600211137 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A65781B11CF54A3600211137 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A65781B91CF54A3600211137;
-			remoteInfo = ulibpcap;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		A60E40641D3E99CF00211137 /* CopyFiles */ = {
@@ -97,18 +79,19 @@
 		A624F40F2150D62F0075788B /* dump-huawei */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "dump-huawei"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A624F4112150D62F0075788B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A634105924B723310044A2B6 /* VERSION */ = {isa = PBXFileReference; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
-		A65781BA1CF54A3600211137 /* ulibpcap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ulibpcap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A643D81C3065074700F9798D /* configure.ac */ = {isa = PBXFileReference; lastKnownFileType = text; path = configure.ac; sourceTree = "<group>"; };
+		A643D81D3065076B00F9798D /* ulibpcap.pc.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = ulibpcap.pc.in; sourceTree = "<group>"; };
+		A643D81E306507C000F9798D /* libpcap.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpcap.tbd; path = ../../../../Users/afink/development/git/ulibpcap/ulibpcap/libpcap.tbd; sourceTree = DEVELOPER_DIR; };
+		A643D83E30650B0800F9798D /* ulibpcap copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ulibpcap copy-Info.plist"; path = "/Users/afink/development/git/ulibpcap/ulibpcap copy-Info.plist"; sourceTree = "<absolute>"; };
+		A643D84330650B1600F9798D /* libulibpcap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libulibpcap.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A643D89F3065161400F9798D /* libulib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libulib.a; path = /usr/local/lib/libulib.a; sourceTree = "<absolute>"; };
 		A65781BD1CF54A3600211137 /* ulibpcap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ulibpcap.h; sourceTree = "<group>"; };
 		A65781BF1CF54A3600211137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A65781C41CF54A3600211137 /* ulibpcapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ulibpcapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A65781C91CF54A3600211137 /* ulibpcapTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ulibpcapTests.m; sourceTree = "<group>"; };
 		A65781CB1CF54A3600211137 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A65781D71CF54D3C00211137 /* libpcap.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpcap.dylib; path = /usr/lib/libpcap.dylib; sourceTree = "<absolute>"; };
 		A65781DA1CF54D8E00211137 /* UMPCAPFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMPCAPFile.h; sourceTree = "<group>"; };
 		A65781DB1CF54D8E00211137 /* UMPCAPFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMPCAPFile.m; sourceTree = "<group>"; };
-		A66A4248217493CB0083526C /* Makefile.osx.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.osx.in; sourceTree = "<group>"; };
-		A66A4249217493CC0083526C /* Makefile.linux.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.linux.in; sourceTree = "<group>"; };
-		A67989FB22BB6EC70019806C /* ulib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ulib.framework; path = "/Library/Application Support/FinkTelecomServices/frameworks/ulib.framework"; sourceTree = "<absolute>"; };
 		A688023820443995007192F2 /* UMPCAPPseudoConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UMPCAPPseudoConnection.h; sourceTree = "<group>"; };
 		A688023920443995007192F2 /* UMPCAPPseudoConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UMPCAPPseudoConnection.m; sourceTree = "<group>"; };
 		A688024020445EBB007192F2 /* pcap-test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "pcap-test"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,13 +104,46 @@
 		A6FD69342828FE78000C0E03 /* UMPCAPMirrorPort.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UMPCAPMirrorPort.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A643D87E30650BC000F9798D /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ulibpcap_config.h,
+				ulibpcap.m.o,
+				UMPCAPFile.h,
+				UMPCAPFile.m,
+				UMPCAPFile.m.o,
+				UMPCAPLiveTrace.h,
+				UMPCAPLiveTrace.m,
+				UMPCAPLiveTrace.m.o,
+				UMPCAPLiveTraceDelegateProtocol.h,
+				UMPCAPLiveTracePacket.h,
+				UMPCAPLiveTracePacket.m,
+				UMPCAPLiveTracePacket.m.o,
+				UMPCAPMirrorPort.h,
+				UMPCAPMirrorPort.m,
+				UMPCAPMirrorPort.m.o,
+				UMPCAPPseudoConnection.h,
+				UMPCAPPseudoConnection.m,
+				UMPCAPPseudoConnection.m.o,
+			);
+			publicHeaders = (
+				ulibpcap.h,
+			);
+			target = A643D84230650B1600F9798D /* ulibpcap */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		A643D84430650B1600F9798D /* ulibpcap */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A643D87E30650BC000F9798D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ulibpcap; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		A60E40631D3E99CF00211137 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A67989FE22BB6EC70019806C /* ulib.framework in Frameworks */,
-				A62E0808215A130700D205F0 /* ulibpcap.framework in Frameworks */,
+				A643D8A23065161400F9798D /* libulib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,8 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6798AE222BB8CCA0019806C /* ulibpcap.framework in Frameworks */,
-				A67989FF22BB6EC70019806C /* ulib.framework in Frameworks */,
+				A643D8A33065161400F9798D /* libulib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,17 +159,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6798A0122BB6EC70019806C /* ulib.framework in Frameworks */,
-				A624F41A2150E68B0075788B /* ulibpcap.framework in Frameworks */,
+				A643D8A43065161400F9798D /* libulib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A65781B61CF54A3600211137 /* Frameworks */ = {
+		A643D84130650B1600F9798D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A65781D81CF54D3C00211137 /* libpcap.dylib in Frameworks */,
-				A67989FC22BB6EC70019806C /* ulib.framework in Frameworks */,
+				A643D8A03065161400F9798D /* libulib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,8 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A67989FD22BB6EC70019806C /* ulib.framework in Frameworks */,
-				A65781C51CF54A3600211137 /* ulibpcap.framework in Frameworks */,
+				A643D8A53065161400F9798D /* libulib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,9 +183,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6798A0022BB6EC70019806C /* ulib.framework in Frameworks */,
-				A6798AE322BB8CCA0019806C /* ulibpcap.framework in Frameworks */,
-				A688024F204461DD007192F2 /* libpcap.dylib in Frameworks */,
+				A643D8A13065161400F9798D /* libulib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,20 +214,30 @@
 			path = "dump-huawei";
 			sourceTree = "<group>";
 		};
+		A643D89D306515C400F9798D /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				A643D89F3065161400F9798D /* libulib.a */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
 		A65781B01CF54A3600211137 = {
 			isa = PBXGroup;
 			children = (
+				A643D81C3065074700F9798D /* configure.ac */,
+				A643D81D3065076B00F9798D /* ulibpcap.pc.in */,
 				A634105924B723310044A2B6 /* VERSION */,
-				A66A4249217493CC0083526C /* Makefile.linux.in */,
-				A66A4248217493CB0083526C /* Makefile.osx.in */,
 				A65781BC1CF54A3600211137 /* ulibpcap */,
 				A65781D91CF54D4300211137 /* Libraries */,
 				A60E40671D3E99D000211137 /* dump-mtp3 */,
 				A60E40761D3E9D0C00211137 /* dump-sccp */,
 				A688024120445EBB007192F2 /* pcap-test */,
 				A624F4102150D62F0075788B /* dump-huawei */,
-				A65781D61CF54CFE00211137 /* Frameworks */,
+				A643D84430650B1600F9798D /* ulibpcap */,
+				A643D89D306515C400F9798D /* Libraries */,
 				A65781C81CF54A3600211137 /* ulibpcapTests */,
+				A643D83E30650B0800F9798D /* ulibpcap copy-Info.plist */,
 				A65781BB1CF54A3600211137 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -225,12 +245,12 @@
 		A65781BB1CF54A3600211137 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A65781BA1CF54A3600211137 /* ulibpcap.framework */,
 				A65781C41CF54A3600211137 /* ulibpcapTests.xctest */,
 				A60E40661D3E99CF00211137 /* dump-mtp3 */,
 				A60E40751D3E9D0C00211137 /* dump-sccp */,
 				A688024020445EBB007192F2 /* pcap-test */,
 				A624F40F2150D62F0075788B /* dump-huawei */,
+				A643D84330650B1600F9798D /* libulibpcap.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -264,19 +284,10 @@
 			path = ulibpcapTests;
 			sourceTree = "<group>";
 		};
-		A65781D61CF54CFE00211137 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				A67989FB22BB6EC70019806C /* ulib.framework */,
-			);
-			name = Frameworks;
-			path = ulibpcap;
-			sourceTree = "<group>";
-		};
 		A65781D91CF54D4300211137 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				A65781D71CF54D3C00211137 /* libpcap.dylib */,
+				A643D81E306507C000F9798D /* libpcap.tbd */,
 			);
 			name = Libraries;
 			path = ulibpcap;
@@ -293,17 +304,16 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		A65781B71CF54A3600211137 /* Headers */ = {
+		A643D83F30650B1600F9798D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6B3968D236BA7C400C8D33D /* UMPCAPLiveTrace.h in Headers */,
-				A6FD69352828FE78000C0E03 /* UMPCAPMirrorPort.h in Headers */,
-				A605335A2386B55E00BB335C /* UMPCAPLiveTraceDelegateProtocol.h in Headers */,
-				A65781DC1CF54D8E00211137 /* UMPCAPFile.h in Headers */,
-				A688023A20443995007192F2 /* UMPCAPPseudoConnection.h in Headers */,
-				A65781BE1CF54A3600211137 /* ulibpcap.h in Headers */,
-				A6B39691236BBAC500C8D33D /* UMPCAPLiveTracePacket.h in Headers */,
+				A643D87330650B2400F9798D /* UMPCAPFile.h in Headers */,
+				A643D87430650B2A00F9798D /* UMPCAPLiveTracePacket.h in Headers */,
+				A643D87530650B2A00F9798D /* UMPCAPLiveTrace.h in Headers */,
+				A643D87630650B2A00F9798D /* UMPCAPPseudoConnection.h in Headers */,
+				A643D87730650B2A00F9798D /* UMPCAPLiveTraceDelegateProtocol.h in Headers */,
+				A643D87830650B2A00F9798D /* UMPCAPMirrorPort.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,23 +374,27 @@
 			productReference = A624F40F2150D62F0075788B /* dump-huawei */;
 			productType = "com.apple.product-type.tool";
 		};
-		A65781B91CF54A3600211137 /* ulibpcap */ = {
+		A643D84230650B1600F9798D /* ulibpcap */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A65781CE1CF54A3600211137 /* Build configuration list for PBXNativeTarget "ulibpcap" */;
+			buildConfigurationList = A643D84930650B1700F9798D /* Build configuration list for PBXNativeTarget "ulibpcap" */;
 			buildPhases = (
-				A65781B51CF54A3600211137 /* Sources */,
-				A65781B61CF54A3600211137 /* Frameworks */,
-				A65781B71CF54A3600211137 /* Headers */,
-				A65781B81CF54A3600211137 /* Resources */,
+				A643D83F30650B1600F9798D /* Headers */,
+				A643D84030650B1600F9798D /* Sources */,
+				A643D84130650B1600F9798D /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				A643D84430650B1600F9798D /* ulibpcap */,
+			);
 			name = ulibpcap;
+			packageProductDependencies = (
+			);
 			productName = ulibpcap;
-			productReference = A65781BA1CF54A3600211137 /* ulibpcap.framework */;
-			productType = "com.apple.product-type.framework";
+			productReference = A643D84330650B1600F9798D /* libulibpcap.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 		A65781C31CF54A3600211137 /* ulibpcapTests */ = {
 			isa = PBXNativeTarget;
@@ -393,7 +407,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				A65781C71CF54A3600211137 /* PBXTargetDependency */,
 			);
 			name = ulibpcapTests;
 			productName = ulibpcapTests;
@@ -424,7 +437,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 2700;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					A60E40651D3E99CF00211137 = {
@@ -442,9 +455,8 @@
 						DevelopmentTeam = 38L827M334;
 						ProvisioningStyle = Automatic;
 					};
-					A65781B91CF54A3600211137 = {
-						CreatedOnToolsVersion = 7.3.1;
-						ProvisioningStyle = Automatic;
+					A643D84230650B1600F9798D = {
+						CreatedOnToolsVersion = 27.0;
 					};
 					A65781C31CF54A3600211137 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -471,7 +483,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A65781B91CF54A3600211137 /* ulibpcap */,
+				A643D84230650B1600F9798D /* ulibpcap */,
 				A65781C31CF54A3600211137 /* ulibpcapTests */,
 				A60E40651D3E99CF00211137 /* dump-mtp3 */,
 				A60E40741D3E9D0C00211137 /* dump-sccp */,
@@ -482,13 +494,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		A65781B81CF54A3600211137 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A65781C21CF54A3600211137 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -577,15 +582,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A65781B51CF54A3600211137 /* Sources */ = {
+		A643D84030650B1600F9798D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6B3968E236BA7C400C8D33D /* UMPCAPLiveTrace.m in Sources */,
-				A65781DD1CF54D8E00211137 /* UMPCAPFile.m in Sources */,
-				A6FD69362828FE78000C0E03 /* UMPCAPMirrorPort.m in Sources */,
-				A688023B20443995007192F2 /* UMPCAPPseudoConnection.m in Sources */,
-				A6B39692236BBAC500C8D33D /* UMPCAPLiveTracePacket.m in Sources */,
+				A643D87930650B2A00F9798D /* UMPCAPLiveTracePacket.m in Sources */,
+				A643D87A30650B2A00F9798D /* UMPCAPMirrorPort.m in Sources */,
+				A643D87B30650B2A00F9798D /* UMPCAPFile.m in Sources */,
+				A643D87C30650B2A00F9798D /* UMPCAPLiveTrace.m in Sources */,
+				A643D87D30650B2A00F9798D /* UMPCAPPseudoConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,14 +612,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		A65781C71CF54A3600211137 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A65781B91CF54A3600211137 /* ulibpcap */;
-			targetProxy = A65781C61CF54A3600211137 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
 		A60E406A1D3E99D000211137 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -624,13 +621,8 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/FinkTelecomServices/frameworks",
-				);
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -645,13 +637,8 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/FinkTelecomServices/frameworks",
-				);
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -666,13 +653,8 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/FinkTelecomServices/frameworks",
-				);
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -687,13 +669,8 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/FinkTelecomServices/frameworks",
-				);
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -714,14 +691,9 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/FinkTelecomServices/frameworks",
-				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -743,17 +715,46 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/FinkTelecomServices/frameworks",
-				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = Release;
+		};
+		A643D84A30650B1700F9798D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NW355JGSH8;
+				EXECUTABLE_PREFIX = lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ulibpcap",
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = NO;
+			};
+			name = Debug;
+		};
+		A643D84B30650B1700F9798D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = NW355JGSH8;
+				EXECUTABLE_PREFIX = lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ulibpcap",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = NO;
 			};
 			name = Release;
 		};
@@ -796,10 +797,10 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_LOCATION = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				DSTROOT = "/Library/Application Support/";
+				DSTROOT = /;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"/Library/Application Support/FinkTelecomServices/frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -814,13 +815,18 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INSTALL_PATH = /FinkTelecomServices/frameworks;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MARKETING_VERSION = 2.1.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SYSTEM_HEADER_SEARCH_PATHS = /usr/local/include;
+				USER_HEADER_SEARCH_PATHS = /usr/local/include;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_FILE = "";
 				VERSION_INFO_PREFIX = "";
@@ -867,10 +873,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_LOCATION = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				DSTROOT = "/Library/Application Support/";
+				DSTROOT = /;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"/Library/Application Support/FinkTelecomServices/frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -879,85 +885,22 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INSTALL_PATH = /FinkTelecomServices/frameworks;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				MARKETING_VERSION = 2.1.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SYSTEM_HEADER_SEARCH_PATHS = /usr/local/include;
+				USER_HEADER_SEARCH_PATHS = /usr/local/include;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_FILE = "";
 				VERSION_INFO_PREFIX = "";
 				WARNING_CFLAGS = "-Wimplicit-fallthrough";
-			};
-			name = Release;
-		};
-		A65781CF1CF54A3600211137 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEAD_CODE_STRIPPING = YES;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 38L827M334;
-				DSTROOT = "/Library/Application Support";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "$(DSTROOT)/$(INSTALL_PATH)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/FinkTelecomServices/frameworks",
-				);
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = ulibpcap/Info.plist;
-				INSTALL_PATH = FinkTelecomServices/frameworks;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-					"\"/Library/Application Support/\"",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.ulibpcap";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx;
-				SUPPORTS_MACCATALYST = NO;
-			};
-			name = Debug;
-		};
-		A65781D01CF54A3600211137 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEAD_CODE_STRIPPING = YES;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 38L827M334;
-				DSTROOT = "/Library/Application Support";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "$(DSTROOT)/$(INSTALL_PATH)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/FinkTelecomServices/frameworks",
-				);
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = ulibpcap/Info.plist;
-				INSTALL_PATH = FinkTelecomServices/frameworks;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-					"\"/Library/Application Support/\"",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.ulibpcap";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = macosx;
-				SUPPORTS_MACCATALYST = NO;
 			};
 			name = Release;
 		};
@@ -975,13 +918,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/FinkTelecomServices/frameworks",
 				);
 				INFOPLIST_FILE = ulibpcapTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 15.6;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1001,13 +938,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/FinkTelecomServices/frameworks",
 				);
 				INFOPLIST_FILE = ulibpcapTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 15.6;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -1026,14 +957,9 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/FinkTelecomServices/frameworks",
-				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1053,14 +979,9 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 38L827M334;
 				ENABLE_HARDENED_RUNTIME = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-					"$(LOCAL_LIBRARY_DIR)/Application\\ Support/FinkTelecomServices/frameworks",
-				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INSTALL_PATH = "/Library/Application Support/FinkTelecomServices/bin";
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.fink-telecom.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1097,20 +1018,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		A643D84930650B1700F9798D /* Build configuration list for PBXNativeTarget "ulibpcap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A643D84A30650B1700F9798D /* Debug */,
+				A643D84B30650B1700F9798D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A65781B41CF54A3600211137 /* Build configuration list for PBXProject "ulibpcap" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A65781CC1CF54A3600211137 /* Debug */,
 				A65781CD1CF54A3600211137 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A65781CE1CF54A3600211137 /* Build configuration list for PBXNativeTarget "ulibpcap" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A65781CF1CF54A3600211137 /* Debug */,
-				A65781D01CF54A3600211137 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

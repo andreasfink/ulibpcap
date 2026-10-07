@@ -33,12 +33,12 @@ struct pcap_pkthdr *hdr;
 
 - (BOOL)openForDLT:(int)dlt
 {
-    _handle = pcap_open_dead(dlt, 1 << 16);
+    _handle = (void *)pcap_open_dead(dlt, 1 << 16);
     if(_handle==NULL)
     {
         return NO;
     }
-    _dumper = pcap_dump_open(_handle, _filename.UTF8String);
+    _dumper = (void *)pcap_dump_open((pcap_t *)_handle, _filename.UTF8String);
     if(_dumper == NULL)
     {
         return NO;
@@ -81,15 +81,15 @@ struct pcap_pkthdr *hdr;
 
 - (void) close
 {
-    pcap_dump_close(_dumper);
-    pcap_close(_handle);
+    pcap_dump_close((pcap_dumper_t *)_dumper);
+    pcap_close((pcap_t *)_handle);
     _dumper=NULL;
     _handle=NULL;
 }
 
 - (void)flush
 {
-    pcap_dump_flush(_dumper);
+    pcap_dump_flush((pcap_dumper_t *)_dumper);
 }
 
 
@@ -232,9 +232,9 @@ struct pcap_pkthdr *hdr;
 {
     if(_dumper)
     {
-        pcap_dump_flush(_dumper);
-        pcap_dump_close(_dumper);
-        pcap_close(_handle);
+        pcap_dump_flush((pcap_dumper_t *)_dumper);
+        pcap_dump_close((pcap_dumper_t *)_dumper);
+        pcap_close((pcap_t *)_handle);
         _dumper=NULL;
         _handle=NULL;
     }

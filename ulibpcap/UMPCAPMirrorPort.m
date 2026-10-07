@@ -139,7 +139,7 @@ static uint32_t crc32c_sb8_64_bit(uint32_t crc,const unsigned char *p_buf, uint3
 
     char pcap_errbuf[PCAP_ERRBUF_SIZE];
     pcap_errbuf[0]='\0';
-    _pcap = pcap_open_live(_interfaceName.UTF8String, _snaplen,_promisc,_to_ms,pcap_errbuf);
+    _pcap = (void *)pcap_open_live(_interfaceName.UTF8String, _snaplen,_promisc,_to_ms,pcap_errbuf);
     if (pcap_errbuf[0]!='\0')
     {
         fprintf(stderr,"%s",pcap_errbuf);
@@ -171,10 +171,10 @@ static uint32_t crc32c_sb8_64_bit(uint32_t crc,const unsigned char *p_buf, uint3
 
 - (int)writeEthernetPacket:(NSData *)payload
 {
-    int i = pcap_inject(_pcap,payload.bytes,payload.length);
+    int i = pcap_inject((pcap_t *)_pcap,payload.bytes,payload.length);
     if(i==-1)
     {
-        _lastError = @( pcap_geterr(_pcap));
+        _lastError = @( pcap_geterr((pcap_t *)_pcap));
     }
     return i;
 }
@@ -491,7 +491,7 @@ static uint32_t crc32c_sb8_64_bit(uint32_t crc,const unsigned char *p_buf, uint3
 {
     if(_pcap)
     {
-        pcap_close(_pcap);
+        pcap_close((pcap_t *)_pcap);
     }
     _pcap = NULL;
 }

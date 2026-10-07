@@ -32,7 +32,7 @@ typedef enum UMPCAPMirrorPort_error
     int         _snaplen;
     int         _promisc;
     int         _to_ms;
-    pcap_t*     _pcap;
+    void        *_pcap;
     NSString    *_lastError;
 }
 

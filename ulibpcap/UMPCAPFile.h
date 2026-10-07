@@ -8,7 +8,6 @@
 
 #import <ulib/ulib.h>
 
-typedef struct pcap pcap_t;
 typedef struct pcap_dumper pcap_dumper_t;
 
 typedef enum UMPCAP_Mode
@@ -27,8 +26,8 @@ typedef enum UMPCAP_Mode
 @interface UMPCAPFile : NSObject
 {
     NSString        *_filename;
-    pcap_t          *_handle;
-    pcap_dumper_t   *_dumper;
+    void            *_handle; /* pcap_t */
+    void            *_dumper; /* pcap_dumper_t */
     UMPCAP_Mode     _mode;
 }
 
